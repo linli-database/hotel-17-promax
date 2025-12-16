@@ -26,7 +26,7 @@ function fromBase64Url(str: string) {
 }
 
 async function parseSession(token: string) {
-  const secret = process.env.SESSION_SECRET;
+  const secret = process.env.SESSION_SECRET || (process.env.NODE_ENV === 'production' ? '' : 'dev-secret');
   if (!secret) return null;
   const [body, sig] = token.split('.');
   if (!body || !sig) return null;

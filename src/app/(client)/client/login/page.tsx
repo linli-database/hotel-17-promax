@@ -21,7 +21,8 @@ export default function ClientLoginPage() {
     });
     setLoading(false);
     if (res.ok) {
-      router.push('/client');
+      router.replace('/client');
+      router.refresh();
       return;
     }
     const data = await res.json().catch(() => null);

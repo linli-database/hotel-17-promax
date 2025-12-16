@@ -21,7 +21,8 @@ export default function AdminLoginPage() {
     });
     setLoading(false);
     if (res.ok) {
-      router.push('/admin');
+      router.replace('/admin');
+      router.refresh();
       return;
     }
     const data = await res.json().catch(() => null);
