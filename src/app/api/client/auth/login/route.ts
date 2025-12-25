@@ -51,6 +51,8 @@ export async function POST(req: NextRequest) {
         id: customer.id,
         email: customer.email,
         name: customer.name,
+        phone: customer.phone,
+        createdAt: customer.createdAt,
         role: 'CUSTOMER'
       }
     });

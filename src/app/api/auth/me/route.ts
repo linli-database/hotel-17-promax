@@ -14,7 +14,7 @@ export async function GET() {
   // 先尝试从Admin表查找
   user = await prisma.admin.findUnique({
     where: { id: session.userId },
-    select: { id: true, email: true, name: true },
+    select: { id: true, email: true, name: true, createdAt: true },
   });
   
   if (user) {
@@ -26,7 +26,7 @@ export async function GET() {
   // 尝试从Staff表查找
   user = await prisma.staff.findUnique({
     where: { id: session.userId },
-    select: { id: true, email: true, name: true },
+    select: { id: true, email: true, name: true, createdAt: true },
   });
   
   if (user) {
@@ -38,7 +38,7 @@ export async function GET() {
   // 尝试从Customer表查找
   user = await prisma.customer.findUnique({
     where: { id: session.userId },
-    select: { id: true, email: true, name: true },
+    select: { id: true, email: true, name: true, phone: true, createdAt: true },
   });
   
   if (user) {
