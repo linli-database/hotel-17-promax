@@ -41,30 +41,35 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    // 获取指定时间段内已预订的房间
-    const bookedRooms = await prisma.bookingRoom.findMany({
+    // 获取指定时间段内有重叠的订单（排除已完成和已取消的订单）
+    const overlappingBookings = await prisma.booking.findMany({
       where: {
-        booking: {
-          storeId,
-          status: { in: ['PENDING', 'CONFIRMED', 'CHECKED_IN'] },
-          OR: [
-            {
-              checkIn: { lt: checkOutDate },
-              checkOut: { gt: checkInDate },
-            },
-          ],
-        },
+        storeId,
+        status: { notIn: ['CHECKED_OUT', 'CANCELLED'] }, // 排除已完成和取消的订单
+        checkIn: { lt: checkOutDate },
+        checkOut: { gt: checkInDate },
       },
-      select: { roomId: true },
+      select: {
+        roomTypeId: true,
+      },
     });
 
-    const bookedRoomIds = new Set(bookedRooms.map((br) => br.roomId));
+    // 按房型统计重叠订单数量
+    const occupiedCountByRoomType = overlappingBookings.reduce((acc, booking) => {
+      if (booking.roomTypeId) {
+        acc[booking.roomTypeId] = (acc[booking.roomTypeId] || 0) + 1;
+      }
+      return acc;
+    }, {} as Record<string, number>);
 
     // 计算每个房型的可用房间数
     const roomTypesWithAvailability = roomTypes.map((roomType) => {
-      const availableCount = roomType.rooms.filter(
-        (room) => !bookedRoomIds.has(room.id)
-      ).length;
+      // 该房型在该门店的总房间数
+      const totalRooms = roomType.rooms.length;
+      // 该房型被占用的房间数（重叠订单数）
+      const occupiedCount = occupiedCountByRoomType[roomType.id] || 0;
+      // 可用房间数 = 总数 - 占用数
+      const availableCount = Math.max(0, totalRooms - occupiedCount);
 
       return {
         id: roomType.id,
