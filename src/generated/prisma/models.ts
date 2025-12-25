@@ -8,9 +8,11 @@
  *
  * 🟢 You can import this file directly.
  */
-export type * from './models/User'
+export type * from './models/Customer'
+export type * from './models/Admin'
+export type * from './models/Staff'
 export type * from './models/Store'
-export type * from './models/Floor'
+export type * from './models/RoomType'
 export type * from './models/Room'
 export type * from './models/Booking'
 export type * from './models/BookingRoom'

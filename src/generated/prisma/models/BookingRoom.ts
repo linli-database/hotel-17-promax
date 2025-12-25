@@ -27,30 +27,24 @@ export type AggregateBookingRoom = {
 }
 
 export type BookingRoomAvgAggregateOutputType = {
-  id: number | null
-  bookingId: number | null
-  roomId: number | null
   nightlyRate: runtime.Decimal | null
 }
 
 export type BookingRoomSumAggregateOutputType = {
-  id: number | null
-  bookingId: number | null
-  roomId: number | null
   nightlyRate: runtime.Decimal | null
 }
 
 export type BookingRoomMinAggregateOutputType = {
-  id: number | null
-  bookingId: number | null
-  roomId: number | null
+  id: string | null
+  bookingId: string | null
+  roomId: string | null
   nightlyRate: runtime.Decimal | null
 }
 
 export type BookingRoomMaxAggregateOutputType = {
-  id: number | null
-  bookingId: number | null
-  roomId: number | null
+  id: string | null
+  bookingId: string | null
+  roomId: string | null
   nightlyRate: runtime.Decimal | null
 }
 
@@ -64,16 +58,10 @@ export type BookingRoomCountAggregateOutputType = {
 
 
 export type BookingRoomAvgAggregateInputType = {
-  id?: true
-  bookingId?: true
-  roomId?: true
   nightlyRate?: true
 }
 
 export type BookingRoomSumAggregateInputType = {
-  id?: true
-  bookingId?: true
-  roomId?: true
   nightlyRate?: true
 }
 
@@ -186,9 +174,9 @@ export type BookingRoomGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 export type BookingRoomGroupByOutputType = {
-  id: number
-  bookingId: number
-  roomId: number
+  id: string
+  bookingId: string
+  roomId: string
   nightlyRate: runtime.Decimal | null
   _count: BookingRoomCountAggregateOutputType | null
   _avg: BookingRoomAvgAggregateOutputType | null
@@ -216,9 +204,9 @@ export type BookingRoomWhereInput = {
   AND?: Prisma.BookingRoomWhereInput | Prisma.BookingRoomWhereInput[]
   OR?: Prisma.BookingRoomWhereInput[]
   NOT?: Prisma.BookingRoomWhereInput | Prisma.BookingRoomWhereInput[]
-  id?: Prisma.IntFilter<"BookingRoom"> | number
-  bookingId?: Prisma.IntFilter<"BookingRoom"> | number
-  roomId?: Prisma.IntFilter<"BookingRoom"> | number
+  id?: Prisma.StringFilter<"BookingRoom"> | string
+  bookingId?: Prisma.StringFilter<"BookingRoom"> | string
+  roomId?: Prisma.StringFilter<"BookingRoom"> | string
   nightlyRate?: Prisma.DecimalNullableFilter<"BookingRoom"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   booking?: Prisma.XOR<Prisma.BookingScalarRelationFilter, Prisma.BookingWhereInput>
   room?: Prisma.XOR<Prisma.RoomScalarRelationFilter, Prisma.RoomWhereInput>
@@ -234,13 +222,13 @@ export type BookingRoomOrderByWithRelationInput = {
 }
 
 export type BookingRoomWhereUniqueInput = Prisma.AtLeast<{
-  id?: number
+  id?: string
   bookingId_roomId?: Prisma.BookingRoomBookingIdRoomIdCompoundUniqueInput
   AND?: Prisma.BookingRoomWhereInput | Prisma.BookingRoomWhereInput[]
   OR?: Prisma.BookingRoomWhereInput[]
   NOT?: Prisma.BookingRoomWhereInput | Prisma.BookingRoomWhereInput[]
-  bookingId?: Prisma.IntFilter<"BookingRoom"> | number
-  roomId?: Prisma.IntFilter<"BookingRoom"> | number
+  bookingId?: Prisma.StringFilter<"BookingRoom"> | string
+  roomId?: Prisma.StringFilter<"BookingRoom"> | string
   nightlyRate?: Prisma.DecimalNullableFilter<"BookingRoom"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   booking?: Prisma.XOR<Prisma.BookingScalarRelationFilter, Prisma.BookingWhereInput>
   room?: Prisma.XOR<Prisma.RoomScalarRelationFilter, Prisma.RoomWhereInput>
@@ -262,53 +250,56 @@ export type BookingRoomScalarWhereWithAggregatesInput = {
   AND?: Prisma.BookingRoomScalarWhereWithAggregatesInput | Prisma.BookingRoomScalarWhereWithAggregatesInput[]
   OR?: Prisma.BookingRoomScalarWhereWithAggregatesInput[]
   NOT?: Prisma.BookingRoomScalarWhereWithAggregatesInput | Prisma.BookingRoomScalarWhereWithAggregatesInput[]
-  id?: Prisma.IntWithAggregatesFilter<"BookingRoom"> | number
-  bookingId?: Prisma.IntWithAggregatesFilter<"BookingRoom"> | number
-  roomId?: Prisma.IntWithAggregatesFilter<"BookingRoom"> | number
+  id?: Prisma.StringWithAggregatesFilter<"BookingRoom"> | string
+  bookingId?: Prisma.StringWithAggregatesFilter<"BookingRoom"> | string
+  roomId?: Prisma.StringWithAggregatesFilter<"BookingRoom"> | string
   nightlyRate?: Prisma.DecimalNullableWithAggregatesFilter<"BookingRoom"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
 export type BookingRoomCreateInput = {
+  id?: string
   nightlyRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   booking: Prisma.BookingCreateNestedOneWithoutBookingRoomsInput
   room: Prisma.RoomCreateNestedOneWithoutBookingRoomsInput
 }
 
 export type BookingRoomUncheckedCreateInput = {
-  id?: number
-  bookingId: number
-  roomId: number
+  id?: string
+  bookingId: string
+  roomId: string
   nightlyRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
 export type BookingRoomUpdateInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   nightlyRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   booking?: Prisma.BookingUpdateOneRequiredWithoutBookingRoomsNestedInput
   room?: Prisma.RoomUpdateOneRequiredWithoutBookingRoomsNestedInput
 }
 
 export type BookingRoomUncheckedUpdateInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  bookingId?: Prisma.IntFieldUpdateOperationsInput | number
-  roomId?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  bookingId?: Prisma.StringFieldUpdateOperationsInput | string
+  roomId?: Prisma.StringFieldUpdateOperationsInput | string
   nightlyRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
 export type BookingRoomCreateManyInput = {
-  id?: number
-  bookingId: number
-  roomId: number
+  id?: string
+  bookingId: string
+  roomId: string
   nightlyRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
 export type BookingRoomUpdateManyMutationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   nightlyRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
 export type BookingRoomUncheckedUpdateManyInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  bookingId?: Prisma.IntFieldUpdateOperationsInput | number
-  roomId?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  bookingId?: Prisma.StringFieldUpdateOperationsInput | string
+  roomId?: Prisma.StringFieldUpdateOperationsInput | string
   nightlyRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
@@ -323,8 +314,8 @@ export type BookingRoomOrderByRelationAggregateInput = {
 }
 
 export type BookingRoomBookingIdRoomIdCompoundUniqueInput = {
-  bookingId: number
-  roomId: number
+  bookingId: string
+  roomId: string
 }
 
 export type BookingRoomCountOrderByAggregateInput = {
@@ -335,9 +326,6 @@ export type BookingRoomCountOrderByAggregateInput = {
 }
 
 export type BookingRoomAvgOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  bookingId?: Prisma.SortOrder
-  roomId?: Prisma.SortOrder
   nightlyRate?: Prisma.SortOrder
 }
 
@@ -356,9 +344,6 @@ export type BookingRoomMinOrderByAggregateInput = {
 }
 
 export type BookingRoomSumOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  bookingId?: Prisma.SortOrder
-  roomId?: Prisma.SortOrder
   nightlyRate?: Prisma.SortOrder
 }
 
@@ -455,13 +440,14 @@ export type NullableDecimalFieldUpdateOperationsInput = {
 }
 
 export type BookingRoomCreateWithoutRoomInput = {
+  id?: string
   nightlyRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   booking: Prisma.BookingCreateNestedOneWithoutBookingRoomsInput
 }
 
 export type BookingRoomUncheckedCreateWithoutRoomInput = {
-  id?: number
-  bookingId: number
+  id?: string
+  bookingId: string
   nightlyRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
@@ -495,20 +481,21 @@ export type BookingRoomScalarWhereInput = {
   AND?: Prisma.BookingRoomScalarWhereInput | Prisma.BookingRoomScalarWhereInput[]
   OR?: Prisma.BookingRoomScalarWhereInput[]
   NOT?: Prisma.BookingRoomScalarWhereInput | Prisma.BookingRoomScalarWhereInput[]
-  id?: Prisma.IntFilter<"BookingRoom"> | number
-  bookingId?: Prisma.IntFilter<"BookingRoom"> | number
-  roomId?: Prisma.IntFilter<"BookingRoom"> | number
+  id?: Prisma.StringFilter<"BookingRoom"> | string
+  bookingId?: Prisma.StringFilter<"BookingRoom"> | string
+  roomId?: Prisma.StringFilter<"BookingRoom"> | string
   nightlyRate?: Prisma.DecimalNullableFilter<"BookingRoom"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
 export type BookingRoomCreateWithoutBookingInput = {
+  id?: string
   nightlyRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   room: Prisma.RoomCreateNestedOneWithoutBookingRoomsInput
 }
 
 export type BookingRoomUncheckedCreateWithoutBookingInput = {
-  id?: number
-  roomId: number
+  id?: string
+  roomId: string
   nightlyRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
@@ -539,48 +526,50 @@ export type BookingRoomUpdateManyWithWhereWithoutBookingInput = {
 }
 
 export type BookingRoomCreateManyRoomInput = {
-  id?: number
-  bookingId: number
+  id?: string
+  bookingId: string
   nightlyRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
 export type BookingRoomUpdateWithoutRoomInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   nightlyRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   booking?: Prisma.BookingUpdateOneRequiredWithoutBookingRoomsNestedInput
 }
 
 export type BookingRoomUncheckedUpdateWithoutRoomInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  bookingId?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  bookingId?: Prisma.StringFieldUpdateOperationsInput | string
   nightlyRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
 export type BookingRoomUncheckedUpdateManyWithoutRoomInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  bookingId?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  bookingId?: Prisma.StringFieldUpdateOperationsInput | string
   nightlyRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
 export type BookingRoomCreateManyBookingInput = {
-  id?: number
-  roomId: number
+  id?: string
+  roomId: string
   nightlyRate?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
 export type BookingRoomUpdateWithoutBookingInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   nightlyRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   room?: Prisma.RoomUpdateOneRequiredWithoutBookingRoomsNestedInput
 }
 
 export type BookingRoomUncheckedUpdateWithoutBookingInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  roomId?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  roomId?: Prisma.StringFieldUpdateOperationsInput | string
   nightlyRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
 export type BookingRoomUncheckedUpdateManyWithoutBookingInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  roomId?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  roomId?: Prisma.StringFieldUpdateOperationsInput | string
   nightlyRate?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
@@ -641,9 +630,9 @@ export type $BookingRoomPayload<ExtArgs extends runtime.Types.Extensions.Interna
     room: Prisma.$RoomPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: number
-    bookingId: number
-    roomId: number
+    id: string
+    bookingId: string
+    roomId: string
     nightlyRate: runtime.Decimal | null
   }, ExtArgs["result"]["bookingRoom"]>
   composites: {}
@@ -1070,9 +1059,9 @@ export interface Prisma__BookingRoomClient<T, Null = never, ExtArgs extends runt
  * Fields of the BookingRoom model
  */
 export interface BookingRoomFieldRefs {
-  readonly id: Prisma.FieldRef<"BookingRoom", 'Int'>
-  readonly bookingId: Prisma.FieldRef<"BookingRoom", 'Int'>
-  readonly roomId: Prisma.FieldRef<"BookingRoom", 'Int'>
+  readonly id: Prisma.FieldRef<"BookingRoom", 'String'>
+  readonly bookingId: Prisma.FieldRef<"BookingRoom", 'String'>
+  readonly roomId: Prisma.FieldRef<"BookingRoom", 'String'>
   readonly nightlyRate: Prisma.FieldRef<"BookingRoom", 'Decimal'>
 }
     

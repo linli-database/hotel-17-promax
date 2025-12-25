@@ -51,9 +51,11 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  User: 'User',
+  Customer: 'Customer',
+  Admin: 'Admin',
+  Staff: 'Staff',
   Store: 'Store',
-  Floor: 'Floor',
+  RoomType: 'RoomType',
   Room: 'Room',
   Booking: 'Booking',
   BookingRoom: 'BookingRoom',
@@ -76,18 +78,45 @@ export const TransactionIsolationLevel = {
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
-export const UserScalarFieldEnum = {
+export const CustomerScalarFieldEnum = {
   id: 'id',
   email: 'email',
   passwordHash: 'passwordHash',
   name: 'name',
-  role: 'role',
+  phone: 'phone',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
-export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+export type CustomerScalarFieldEnum = (typeof CustomerScalarFieldEnum)[keyof typeof CustomerScalarFieldEnum]
+
+
+export const AdminScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  passwordHash: 'passwordHash',
+  name: 'name',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AdminScalarFieldEnum = (typeof AdminScalarFieldEnum)[keyof typeof AdminScalarFieldEnum]
+
+
+export const StaffScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  passwordHash: 'passwordHash',
+  name: 'name',
+  isActive: 'isActive',
+  assignedStoreId: 'assignedStoreId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type StaffScalarFieldEnum = (typeof StaffScalarFieldEnum)[keyof typeof StaffScalarFieldEnum]
 
 
 export const StoreScalarFieldEnum = {
@@ -102,27 +131,31 @@ export const StoreScalarFieldEnum = {
 export type StoreScalarFieldEnum = (typeof StoreScalarFieldEnum)[keyof typeof StoreScalarFieldEnum]
 
 
-export const FloorScalarFieldEnum = {
+export const RoomTypeScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  level: 'level',
-  storeId: 'storeId',
+  description: 'description',
+  basePrice: 'basePrice',
+  capacity: 'capacity',
+  amenities: 'amenities',
+  isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
-export type FloorScalarFieldEnum = (typeof FloorScalarFieldEnum)[keyof typeof FloorScalarFieldEnum]
+export type RoomTypeScalarFieldEnum = (typeof RoomTypeScalarFieldEnum)[keyof typeof RoomTypeScalarFieldEnum]
 
 
 export const RoomScalarFieldEnum = {
   id: 'id',
   roomNo: 'roomNo',
+  floor: 'floor',
   capacity: 'capacity',
   basePrice: 'basePrice',
   status: 'status',
   isActive: 'isActive',
   storeId: 'storeId',
-  floorId: 'floorId',
+  roomTypeId: 'roomTypeId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -139,12 +172,15 @@ export const BookingScalarFieldEnum = {
   createdByRole: 'createdByRole',
   cancelReason: 'cancelReason',
   cancelledAt: 'cancelledAt',
-  confirmedByUserId: 'confirmedByUserId',
+  confirmedByAdminId: 'confirmedByAdminId',
+  confirmedByStaffId: 'confirmedByStaffId',
   checkedInAt: 'checkedInAt',
   checkedOutAt: 'checkedOutAt',
   customerId: 'customerId',
-  createdByUserId: 'createdByUserId',
+  createdByAdminId: 'createdByAdminId',
+  createdByStaffId: 'createdByStaffId',
   storeId: 'storeId',
+  roomTypeId: 'roomTypeId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

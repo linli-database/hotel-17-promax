@@ -9,22 +9,10 @@
 * 🟢 You can import this file directly.
 */
 
-export const UserRole = {
-  CUSTOMER: 'CUSTOMER',
-  STAFF: 'STAFF',
-  ADMIN: 'ADMIN'
-} as const
-
-export type UserRole = (typeof UserRole)[keyof typeof UserRole]
-
-
 export const RoomOperationalStatus = {
   AVAILABLE: 'AVAILABLE',
   OCCUPIED: 'OCCUPIED',
   DIRTY: 'DIRTY',
-  CLEANING: 'CLEANING',
-  MAINTENANCE: 'MAINTENANCE',
-  LOCKED: 'LOCKED',
   OUT_OF_SERVICE: 'OUT_OF_SERVICE'
 } as const
 

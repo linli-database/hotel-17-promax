@@ -1,10 +1,9 @@
 import { createHmac, randomBytes, scrypt } from 'crypto';
 import { NextRequest, NextResponse } from 'next/server';
-import type { UserRole } from '@/generated/prisma/client';
 
 type SessionPayload = {
-  userId: number;
-  role: UserRole;
+  userId: string;
+  role: 'CUSTOMER' | 'ADMIN' | 'STAFF';
 };
 
 const SESSION_COOKIE = 'hotel_session';
@@ -55,7 +54,7 @@ export function parseSessionToken(token: string): SessionPayload | null {
   try {
     const payload = JSON.parse(Buffer.from(body, 'base64url').toString('utf8')) as SessionPayload;
     return payload;
-  } catch (err) {
+  } catch {
     return null;
   }
 }

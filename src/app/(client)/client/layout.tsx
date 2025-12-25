@@ -1,27 +1,23 @@
+'use client';
+
 import Link from 'next/link';
 import type { ReactNode } from 'react';
-import { cookies } from 'next/headers';
-import { prisma } from '@/lib/prisma';
-import { parseSessionToken } from '@/lib/server/auth';
+import { useEffect, useState } from 'react';
 import UserNav from './_components/UserNav';
+import './globals.css';
 
-export const dynamic = 'force-dynamic';
+export default function ClientLayout({ children }: { children: ReactNode }) {
+  const [user, setUser] = useState<{ id: number; name: string | null; email: string; role: string } | null>(null);
 
-async function getCurrentUser() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get('hotel_session')?.value;
-  if (!token) return null;
-  const payload = parseSessionToken(token);
-  if (!payload) return null;
-  const user = await prisma.user.findUnique({
-    where: { id: payload.userId },
-    select: { id: true, name: true, email: true, role: true },
-  });
-  return user;
-}
-
-export default async function ClientLayout({ children }: { children: ReactNode }) {
-  const user = await getCurrentUser();
+  useEffect(() => {
+    const load = async () => {
+      const res = await fetch('/api/auth/me');
+      if (!res.ok) return;
+      const data = await res.json();
+      setUser(data.user);
+    };
+    load();
+  }, []);
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900">

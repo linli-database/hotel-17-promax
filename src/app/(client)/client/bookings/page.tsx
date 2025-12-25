@@ -1,9 +1,17 @@
-import { prisma } from '@/lib/prisma';
-import { getSession } from '@/lib/server/session';
-import { BookingStatus } from '@/generated/prisma/client';
-import CancelButton from './cancel-button';
+'use client';
 
-export const dynamic = 'force-dynamic';
+import { useEffect, useState, useTransition } from 'react';
+import { BookingStatus } from '@/generated/prisma/client';
+
+type Booking = {
+  id: number;
+  status: BookingStatus;
+  checkIn: string;
+  checkOut: string;
+  totalPrice: string;
+  store?: { name: string | null };
+  bookingRooms: { id: number; room: { roomNo: string } }[];
+};
 
 const statusMap: Record<BookingStatus, string> = {
   PENDING: '待确认',
@@ -29,22 +37,38 @@ function StatusBadge({ status }: { status: BookingStatus }) {
   return <span className={`rounded-full px-2 py-1 text-xs font-semibold ${color}`}>{statusMap[status]}</span>;
 }
 
-async function getBookings() {
-  const session = await getSession();
-  if (!session || session.role !== 'CUSTOMER') return [];
-  const bookings = await prisma.booking.findMany({
-    where: { customerId: session.userId },
-    orderBy: { createdAt: 'desc' },
-    include: {
-      store: { select: { name: true } },
-      bookingRooms: { include: { room: { select: { roomNo: true } } } },
-    },
-  });
-  return bookings;
-}
+export default function BookingsPage() {
+  const [bookings, setBookings] = useState<Booking[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [pending, startTransition] = useTransition();
 
-export default async function BookingsPage() {
-  const bookings = await getBookings();
+  useEffect(() => {
+    const load = async () => {
+      setLoading(true);
+      const res = await fetch('/api/bookings');
+      setLoading(false);
+      if (res.ok) {
+        const data = await res.json();
+        setBookings(data.bookings ?? []);
+        return;
+      }
+      const data = await res.json().catch(() => null);
+      setError(data?.error ?? '加载失败');
+    };
+    load();
+  }, []);
+
+  const cancel = (id: number) => {
+    startTransition(async () => {
+      await fetch(`/api/bookings/${id}/cancel`, { method: 'POST' });
+      const res = await fetch('/api/bookings');
+      if (res.ok) {
+        const data = await res.json();
+        setBookings(data.bookings ?? []);
+      }
+    });
+  };
 
   return (
     <div className="space-y-6">
@@ -52,6 +76,9 @@ export default async function BookingsPage() {
         <h1 className="text-2xl font-semibold">我的订单</h1>
         <p className="text-sm text-slate-600">查看与管理您的预约。</p>
       </div>
+
+      {loading ? <p className="text-sm text-slate-600">加载中...</p> : null}
+      {error ? <p className="text-sm text-red-600">{error}</p> : null}
 
       <div className="space-y-4">
         {bookings.map((booking) => (
@@ -65,11 +92,19 @@ export default async function BookingsPage() {
               </div>
               <div className="flex items-center gap-3">
                 <StatusBadge status={booking.status} />
-                <CancelButton
-                  bookingId={booking.id}
-                  status={booking.status}
-                  disabled={!['PENDING', 'CONFIRMED'].includes(booking.status)}
-                />
+                {['PENDING', 'CONFIRMED'].includes(booking.status) ? (
+                  <button
+                    onClick={() => cancel(booking.id)}
+                    className="rounded border border-red-200 bg-red-50 px-3 py-1 text-xs font-semibold text-red-700 disabled:opacity-60"
+                    disabled={pending}
+                  >
+                    取消预约
+                  </button>
+                ) : (
+                  <button className="rounded border border-slate-200 px-3 py-1 text-xs text-slate-500" disabled>
+                    不可取消
+                  </button>
+                )}
               </div>
             </div>
             <div className="mt-3 flex flex-wrap gap-2 text-sm text-slate-700">
@@ -83,7 +118,9 @@ export default async function BookingsPage() {
           </div>
         ))}
 
-        {bookings.length === 0 ? <p className="text-sm text-slate-600">暂无预约，去预约房间吧。</p> : null}
+        {!loading && bookings.length === 0 ? (
+          <p className="text-sm text-slate-600">暂无预约，去预约房间吧。</p>
+        ) : null}
       </div>
     </div>
   );

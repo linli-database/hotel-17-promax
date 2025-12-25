@@ -13,27 +13,51 @@ datasource db {
   provider = "postgresql"
 }
 
-model User {
-  id                Int                @id @default(autoincrement())
+model Customer {
+  id           String    @id @default(uuid())
+  email        String    @unique
+  passwordHash String
+  name         String?
+  phone        String?
+  isActive     Boolean   @default(true)
+  bookings     Booking[] @relation("BookingCustomer")
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model Admin {
+  id                String    @id @default(uuid())
+  email             String    @unique
+  passwordHash      String
+  name              String?
+  isActive          Boolean   @default(true)
+  createdBookings   Booking[] @relation("BookingCreator")
+  confirmedBookings Booking[] @relation("BookingConfirmer")
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+}
+
+model Staff {
+  id                String             @id @default(uuid())
   email             String             @unique
   passwordHash      String
   name              String?
-  role              UserRole           @default(CUSTOMER)
   isActive          Boolean            @default(true)
-  bookings          Booking[]          @relation("BookingCustomer")
-  createdBookings   Booking[]          @relation("BookingCreator")
-  confirmedBookings Booking[]          @relation("BookingConfirmer")
+  assignedStore     Store              @relation("StaffAssignment", fields: [assignedStoreId], references: [id])
+  assignedStoreId   String
+  createdBookings   Booking[]          @relation("StaffBookingCreator")
+  confirmedBookings Booking[]          @relation("StaffBookingConfirmer")
   housekeepingTasks HousekeepingTask[]
   createdAt         DateTime           @default(now())
   updatedAt         DateTime           @updatedAt
 }
 
 model Store {
-  id                Int                @id @default(autoincrement())
+  id                String             @id @default(uuid())
   name              String
   address           String?
   isActive          Boolean            @default(true)
-  floors            Floor[]
+  assignedStaff     Staff[]            @relation("StaffAssignment")
   rooms             Room[]
   bookings          Booking[]
   housekeepingTasks HousekeepingTask[]
@@ -41,30 +65,32 @@ model Store {
   updatedAt         DateTime           @updatedAt
 }
 
-model Floor {
-  id        Int      @id @default(autoincrement())
-  name      String
-  level     Int?
-  store     Store    @relation(fields: [storeId], references: [id])
-  storeId   Int
-  rooms     Room[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@unique([storeId, name])
+model RoomType {
+  id          String    @id @default(uuid())
+  name        String    @unique // 房型名称全局唯一：标准间、大床房、套房等
+  description String? // 房型描述
+  basePrice   Decimal   @db.Decimal(12, 2) // 建议基础价格（各房间可覆盖）
+  capacity    Int       @default(2) // 建议最大入住人数
+  amenities   String[]  @default([]) // 房型标准设施配置
+  isActive    Boolean   @default(true) // 是否启用
+  rooms       Room[]
+  bookings    Booking[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
 
 model Room {
-  id                Int                   @id @default(autoincrement())
+  id                String                @id @default(uuid())
   roomNo            String
+  floor             Int // 楼层号
   capacity          Int                   @default(1)
   basePrice         Decimal               @db.Decimal(12, 2)
   status            RoomOperationalStatus @default(AVAILABLE)
   isActive          Boolean               @default(true)
   store             Store                 @relation(fields: [storeId], references: [id])
-  storeId           Int
-  floor             Floor                 @relation(fields: [floorId], references: [id])
-  floorId           Int
+  storeId           String
+  roomType          RoomType              @relation(fields: [roomTypeId], references: [id])
+  roomTypeId        String
   bookingRooms      BookingRoom[]
   housekeepingTasks HousekeepingTask[]
   createdAt         DateTime              @default(now())
@@ -74,38 +100,44 @@ model Room {
 }
 
 model Booking {
-  id                Int            @id @default(autoincrement())
-  status            BookingStatus  @default(PENDING)
-  checkIn           DateTime
-  checkOut          DateTime
-  totalPrice        Decimal        @db.Decimal(14, 2)
-  createdByRole     BookingCreator @default(CUSTOMER)
-  cancelReason      String?
-  cancelledAt       DateTime?
-  confirmedByUser   User?          @relation("BookingConfirmer", fields: [confirmedByUserId], references: [id])
-  confirmedByUserId Int?
-  checkedInAt       DateTime?
-  checkedOutAt      DateTime?
-  customer          User?          @relation("BookingCustomer", fields: [customerId], references: [id])
-  customerId        Int?
-  createdByUser     User?          @relation("BookingCreator", fields: [createdByUserId], references: [id])
-  createdByUserId   Int?
-  store             Store          @relation(fields: [storeId], references: [id])
-  storeId           Int
-  bookingRooms      BookingRoom[]
-  createdAt         DateTime       @default(now())
-  updatedAt         DateTime       @updatedAt
+  id                 String         @id @default(uuid())
+  status             BookingStatus  @default(PENDING)
+  checkIn            DateTime
+  checkOut           DateTime
+  totalPrice         Decimal        @db.Decimal(14, 2)
+  createdByRole      BookingCreator @default(CUSTOMER)
+  cancelReason       String?
+  cancelledAt        DateTime?
+  confirmedByAdmin   Admin?         @relation("BookingConfirmer", fields: [confirmedByAdminId], references: [id])
+  confirmedByAdminId String?
+  confirmedByStaff   Staff?         @relation("StaffBookingConfirmer", fields: [confirmedByStaffId], references: [id])
+  confirmedByStaffId String?
+  checkedInAt        DateTime?
+  checkedOutAt       DateTime?
+  customer           Customer?      @relation("BookingCustomer", fields: [customerId], references: [id])
+  customerId         String?
+  createdByAdmin     Admin?         @relation("BookingCreator", fields: [createdByAdminId], references: [id])
+  createdByAdminId   String?
+  createdByStaff     Staff?         @relation("StaffBookingCreator", fields: [createdByStaffId], references: [id])
+  createdByStaffId   String?
+  store              Store          @relation(fields: [storeId], references: [id])
+  storeId            String
+  roomType           RoomType?      @relation(fields: [roomTypeId], references: [id])
+  roomTypeId         String?
+  bookingRooms       BookingRoom[]
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
 
   @@index([storeId, status])
   @@index([checkIn, checkOut])
 }
 
 model BookingRoom {
-  id          Int      @id @default(autoincrement())
+  id          String   @id @default(uuid())
   booking     Booking  @relation(fields: [bookingId], references: [id])
-  bookingId   Int
+  bookingId   String
   room        Room     @relation(fields: [roomId], references: [id])
-  roomId      Int
+  roomId      String
   nightlyRate Decimal? @db.Decimal(12, 2)
 
   @@unique([bookingId, roomId])
@@ -113,34 +145,25 @@ model BookingRoom {
 }
 
 model HousekeepingTask {
-  id           Int                    @id @default(autoincrement())
+  id           String                 @id @default(uuid())
   type         HousekeepingTaskType   @default(CLEANING)
   status       HousekeepingTaskStatus @default(OPEN)
   room         Room                   @relation(fields: [roomId], references: [id])
-  roomId       Int
+  roomId       String
   store        Store?                 @relation(fields: [storeId], references: [id])
-  storeId      Int?
-  assignedTo   User?                  @relation(fields: [assignedToId], references: [id])
-  assignedToId Int?
+  storeId      String?
+  assignedTo   Staff?                 @relation(fields: [assignedToId], references: [id])
+  assignedToId String?
   notes        String?
   createdAt    DateTime               @default(now())
   updatedAt    DateTime               @updatedAt
 }
 
-enum UserRole {
-  CUSTOMER
-  STAFF
-  ADMIN
-}
-
 enum RoomOperationalStatus {
-  AVAILABLE
-  OCCUPIED
-  DIRTY
-  CLEANING
-  MAINTENANCE
-  LOCKED
-  OUT_OF_SERVICE
+  AVAILABLE     // 空闲 - 可以预订
+  OCCUPIED      // 占用 - 已被预订/入住
+  DIRTY         // 待清洁 - 客人离店后需要清洁
+  OUT_OF_SERVICE // 停用 - 管理员手动设置
 }
 
 enum BookingStatus {

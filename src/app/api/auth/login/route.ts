@@ -13,8 +13,36 @@ export async function POST(req: NextRequest) {
   const email = body.email.trim().toLowerCase();
   const password = body.password;
 
-  const user = await prisma.user.findUnique({ where: { email } });
-  if (!user || !user.isActive) {
+  // 尝试在三个表中查找用户
+  let user = null;
+  let role: 'CUSTOMER' | 'ADMIN' | 'STAFF' | null = null;
+
+  // 先检查管理员
+  const admin = await prisma.admin.findUnique({ where: { email } });
+  if (admin && admin.isActive) {
+    user = admin;
+    role = 'ADMIN';
+  }
+
+  // 再检查前台
+  if (!user) {
+    const staff = await prisma.staff.findUnique({ where: { email } });
+    if (staff && staff.isActive) {
+      user = staff;
+      role = 'STAFF';
+    }
+  }
+
+  // 最后检查客户
+  if (!user) {
+    const customer = await prisma.customer.findUnique({ where: { email } });
+    if (customer && customer.isActive) {
+      user = customer;
+      role = 'CUSTOMER';
+    }
+  }
+
+  if (!user || !role) {
     return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
   }
 
@@ -27,10 +55,10 @@ export async function POST(req: NextRequest) {
     user: {
       id: user.id,
       email: user.email,
-      role: user.role,
+      role: role,
       name: user.name,
     },
   });
 
-  return applySession(res, { userId: user.id, role: user.role });
+  return applySession(res, { userId: user.id, role });
 }

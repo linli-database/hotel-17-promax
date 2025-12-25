@@ -20,45 +20,29 @@ export type HousekeepingTaskModel = runtime.Types.Result.DefaultSelection<Prisma
 
 export type AggregateHousekeepingTask = {
   _count: HousekeepingTaskCountAggregateOutputType | null
-  _avg: HousekeepingTaskAvgAggregateOutputType | null
-  _sum: HousekeepingTaskSumAggregateOutputType | null
   _min: HousekeepingTaskMinAggregateOutputType | null
   _max: HousekeepingTaskMaxAggregateOutputType | null
 }
 
-export type HousekeepingTaskAvgAggregateOutputType = {
-  id: number | null
-  roomId: number | null
-  storeId: number | null
-  assignedToId: number | null
-}
-
-export type HousekeepingTaskSumAggregateOutputType = {
-  id: number | null
-  roomId: number | null
-  storeId: number | null
-  assignedToId: number | null
-}
-
 export type HousekeepingTaskMinAggregateOutputType = {
-  id: number | null
+  id: string | null
   type: $Enums.HousekeepingTaskType | null
   status: $Enums.HousekeepingTaskStatus | null
-  roomId: number | null
-  storeId: number | null
-  assignedToId: number | null
+  roomId: string | null
+  storeId: string | null
+  assignedToId: string | null
   notes: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
 
 export type HousekeepingTaskMaxAggregateOutputType = {
-  id: number | null
+  id: string | null
   type: $Enums.HousekeepingTaskType | null
   status: $Enums.HousekeepingTaskStatus | null
-  roomId: number | null
-  storeId: number | null
-  assignedToId: number | null
+  roomId: string | null
+  storeId: string | null
+  assignedToId: string | null
   notes: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -77,20 +61,6 @@ export type HousekeepingTaskCountAggregateOutputType = {
   _all: number
 }
 
-
-export type HousekeepingTaskAvgAggregateInputType = {
-  id?: true
-  roomId?: true
-  storeId?: true
-  assignedToId?: true
-}
-
-export type HousekeepingTaskSumAggregateInputType = {
-  id?: true
-  roomId?: true
-  storeId?: true
-  assignedToId?: true
-}
 
 export type HousekeepingTaskMinAggregateInputType = {
   id?: true
@@ -167,18 +137,6 @@ export type HousekeepingTaskAggregateArgs<ExtArgs extends runtime.Types.Extensio
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
-   * Select which fields to average
-  **/
-  _avg?: HousekeepingTaskAvgAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
-   * Select which fields to sum
-  **/
-  _sum?: HousekeepingTaskSumAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
    * Select which fields to find the minimum value
   **/
   _min?: HousekeepingTaskMinAggregateInputType
@@ -209,25 +167,21 @@ export type HousekeepingTaskGroupByArgs<ExtArgs extends runtime.Types.Extensions
   take?: number
   skip?: number
   _count?: HousekeepingTaskCountAggregateInputType | true
-  _avg?: HousekeepingTaskAvgAggregateInputType
-  _sum?: HousekeepingTaskSumAggregateInputType
   _min?: HousekeepingTaskMinAggregateInputType
   _max?: HousekeepingTaskMaxAggregateInputType
 }
 
 export type HousekeepingTaskGroupByOutputType = {
-  id: number
+  id: string
   type: $Enums.HousekeepingTaskType
   status: $Enums.HousekeepingTaskStatus
-  roomId: number
-  storeId: number | null
-  assignedToId: number | null
+  roomId: string
+  storeId: string | null
+  assignedToId: string | null
   notes: string | null
   createdAt: Date
   updatedAt: Date
   _count: HousekeepingTaskCountAggregateOutputType | null
-  _avg: HousekeepingTaskAvgAggregateOutputType | null
-  _sum: HousekeepingTaskSumAggregateOutputType | null
   _min: HousekeepingTaskMinAggregateOutputType | null
   _max: HousekeepingTaskMaxAggregateOutputType | null
 }
@@ -251,18 +205,18 @@ export type HousekeepingTaskWhereInput = {
   AND?: Prisma.HousekeepingTaskWhereInput | Prisma.HousekeepingTaskWhereInput[]
   OR?: Prisma.HousekeepingTaskWhereInput[]
   NOT?: Prisma.HousekeepingTaskWhereInput | Prisma.HousekeepingTaskWhereInput[]
-  id?: Prisma.IntFilter<"HousekeepingTask"> | number
+  id?: Prisma.StringFilter<"HousekeepingTask"> | string
   type?: Prisma.EnumHousekeepingTaskTypeFilter<"HousekeepingTask"> | $Enums.HousekeepingTaskType
   status?: Prisma.EnumHousekeepingTaskStatusFilter<"HousekeepingTask"> | $Enums.HousekeepingTaskStatus
-  roomId?: Prisma.IntFilter<"HousekeepingTask"> | number
-  storeId?: Prisma.IntNullableFilter<"HousekeepingTask"> | number | null
-  assignedToId?: Prisma.IntNullableFilter<"HousekeepingTask"> | number | null
+  roomId?: Prisma.StringFilter<"HousekeepingTask"> | string
+  storeId?: Prisma.StringNullableFilter<"HousekeepingTask"> | string | null
+  assignedToId?: Prisma.StringNullableFilter<"HousekeepingTask"> | string | null
   notes?: Prisma.StringNullableFilter<"HousekeepingTask"> | string | null
   createdAt?: Prisma.DateTimeFilter<"HousekeepingTask"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"HousekeepingTask"> | Date | string
   room?: Prisma.XOR<Prisma.RoomScalarRelationFilter, Prisma.RoomWhereInput>
   store?: Prisma.XOR<Prisma.StoreNullableScalarRelationFilter, Prisma.StoreWhereInput> | null
-  assignedTo?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  assignedTo?: Prisma.XOR<Prisma.StaffNullableScalarRelationFilter, Prisma.StaffWhereInput> | null
 }
 
 export type HousekeepingTaskOrderByWithRelationInput = {
@@ -277,25 +231,25 @@ export type HousekeepingTaskOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   room?: Prisma.RoomOrderByWithRelationInput
   store?: Prisma.StoreOrderByWithRelationInput
-  assignedTo?: Prisma.UserOrderByWithRelationInput
+  assignedTo?: Prisma.StaffOrderByWithRelationInput
 }
 
 export type HousekeepingTaskWhereUniqueInput = Prisma.AtLeast<{
-  id?: number
+  id?: string
   AND?: Prisma.HousekeepingTaskWhereInput | Prisma.HousekeepingTaskWhereInput[]
   OR?: Prisma.HousekeepingTaskWhereInput[]
   NOT?: Prisma.HousekeepingTaskWhereInput | Prisma.HousekeepingTaskWhereInput[]
   type?: Prisma.EnumHousekeepingTaskTypeFilter<"HousekeepingTask"> | $Enums.HousekeepingTaskType
   status?: Prisma.EnumHousekeepingTaskStatusFilter<"HousekeepingTask"> | $Enums.HousekeepingTaskStatus
-  roomId?: Prisma.IntFilter<"HousekeepingTask"> | number
-  storeId?: Prisma.IntNullableFilter<"HousekeepingTask"> | number | null
-  assignedToId?: Prisma.IntNullableFilter<"HousekeepingTask"> | number | null
+  roomId?: Prisma.StringFilter<"HousekeepingTask"> | string
+  storeId?: Prisma.StringNullableFilter<"HousekeepingTask"> | string | null
+  assignedToId?: Prisma.StringNullableFilter<"HousekeepingTask"> | string | null
   notes?: Prisma.StringNullableFilter<"HousekeepingTask"> | string | null
   createdAt?: Prisma.DateTimeFilter<"HousekeepingTask"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"HousekeepingTask"> | Date | string
   room?: Prisma.XOR<Prisma.RoomScalarRelationFilter, Prisma.RoomWhereInput>
   store?: Prisma.XOR<Prisma.StoreNullableScalarRelationFilter, Prisma.StoreWhereInput> | null
-  assignedTo?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  assignedTo?: Prisma.XOR<Prisma.StaffNullableScalarRelationFilter, Prisma.StaffWhereInput> | null
 }, "id">
 
 export type HousekeepingTaskOrderByWithAggregationInput = {
@@ -309,28 +263,27 @@ export type HousekeepingTaskOrderByWithAggregationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.HousekeepingTaskCountOrderByAggregateInput
-  _avg?: Prisma.HousekeepingTaskAvgOrderByAggregateInput
   _max?: Prisma.HousekeepingTaskMaxOrderByAggregateInput
   _min?: Prisma.HousekeepingTaskMinOrderByAggregateInput
-  _sum?: Prisma.HousekeepingTaskSumOrderByAggregateInput
 }
 
 export type HousekeepingTaskScalarWhereWithAggregatesInput = {
   AND?: Prisma.HousekeepingTaskScalarWhereWithAggregatesInput | Prisma.HousekeepingTaskScalarWhereWithAggregatesInput[]
   OR?: Prisma.HousekeepingTaskScalarWhereWithAggregatesInput[]
   NOT?: Prisma.HousekeepingTaskScalarWhereWithAggregatesInput | Prisma.HousekeepingTaskScalarWhereWithAggregatesInput[]
-  id?: Prisma.IntWithAggregatesFilter<"HousekeepingTask"> | number
+  id?: Prisma.StringWithAggregatesFilter<"HousekeepingTask"> | string
   type?: Prisma.EnumHousekeepingTaskTypeWithAggregatesFilter<"HousekeepingTask"> | $Enums.HousekeepingTaskType
   status?: Prisma.EnumHousekeepingTaskStatusWithAggregatesFilter<"HousekeepingTask"> | $Enums.HousekeepingTaskStatus
-  roomId?: Prisma.IntWithAggregatesFilter<"HousekeepingTask"> | number
-  storeId?: Prisma.IntNullableWithAggregatesFilter<"HousekeepingTask"> | number | null
-  assignedToId?: Prisma.IntNullableWithAggregatesFilter<"HousekeepingTask"> | number | null
+  roomId?: Prisma.StringWithAggregatesFilter<"HousekeepingTask"> | string
+  storeId?: Prisma.StringNullableWithAggregatesFilter<"HousekeepingTask"> | string | null
+  assignedToId?: Prisma.StringNullableWithAggregatesFilter<"HousekeepingTask"> | string | null
   notes?: Prisma.StringNullableWithAggregatesFilter<"HousekeepingTask"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"HousekeepingTask"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"HousekeepingTask"> | Date | string
 }
 
 export type HousekeepingTaskCreateInput = {
+  id?: string
   type?: $Enums.HousekeepingTaskType
   status?: $Enums.HousekeepingTaskStatus
   notes?: string | null
@@ -338,22 +291,23 @@ export type HousekeepingTaskCreateInput = {
   updatedAt?: Date | string
   room: Prisma.RoomCreateNestedOneWithoutHousekeepingTasksInput
   store?: Prisma.StoreCreateNestedOneWithoutHousekeepingTasksInput
-  assignedTo?: Prisma.UserCreateNestedOneWithoutHousekeepingTasksInput
+  assignedTo?: Prisma.StaffCreateNestedOneWithoutHousekeepingTasksInput
 }
 
 export type HousekeepingTaskUncheckedCreateInput = {
-  id?: number
+  id?: string
   type?: $Enums.HousekeepingTaskType
   status?: $Enums.HousekeepingTaskStatus
-  roomId: number
-  storeId?: number | null
-  assignedToId?: number | null
+  roomId: string
+  storeId?: string | null
+  assignedToId?: string | null
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type HousekeepingTaskUpdateInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumHousekeepingTaskTypeFieldUpdateOperationsInput | $Enums.HousekeepingTaskType
   status?: Prisma.EnumHousekeepingTaskStatusFieldUpdateOperationsInput | $Enums.HousekeepingTaskStatus
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -361,34 +315,35 @@ export type HousekeepingTaskUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   room?: Prisma.RoomUpdateOneRequiredWithoutHousekeepingTasksNestedInput
   store?: Prisma.StoreUpdateOneWithoutHousekeepingTasksNestedInput
-  assignedTo?: Prisma.UserUpdateOneWithoutHousekeepingTasksNestedInput
+  assignedTo?: Prisma.StaffUpdateOneWithoutHousekeepingTasksNestedInput
 }
 
 export type HousekeepingTaskUncheckedUpdateInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumHousekeepingTaskTypeFieldUpdateOperationsInput | $Enums.HousekeepingTaskType
   status?: Prisma.EnumHousekeepingTaskStatusFieldUpdateOperationsInput | $Enums.HousekeepingTaskStatus
-  roomId?: Prisma.IntFieldUpdateOperationsInput | number
-  storeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  assignedToId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  roomId?: Prisma.StringFieldUpdateOperationsInput | string
+  storeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  assignedToId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type HousekeepingTaskCreateManyInput = {
-  id?: number
+  id?: string
   type?: $Enums.HousekeepingTaskType
   status?: $Enums.HousekeepingTaskStatus
-  roomId: number
-  storeId?: number | null
-  assignedToId?: number | null
+  roomId: string
+  storeId?: string | null
+  assignedToId?: string | null
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type HousekeepingTaskUpdateManyMutationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumHousekeepingTaskTypeFieldUpdateOperationsInput | $Enums.HousekeepingTaskType
   status?: Prisma.EnumHousekeepingTaskStatusFieldUpdateOperationsInput | $Enums.HousekeepingTaskStatus
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -397,12 +352,12 @@ export type HousekeepingTaskUpdateManyMutationInput = {
 }
 
 export type HousekeepingTaskUncheckedUpdateManyInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumHousekeepingTaskTypeFieldUpdateOperationsInput | $Enums.HousekeepingTaskType
   status?: Prisma.EnumHousekeepingTaskStatusFieldUpdateOperationsInput | $Enums.HousekeepingTaskStatus
-  roomId?: Prisma.IntFieldUpdateOperationsInput | number
-  storeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  assignedToId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  roomId?: Prisma.StringFieldUpdateOperationsInput | string
+  storeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  assignedToId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -430,13 +385,6 @@ export type HousekeepingTaskCountOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
 }
 
-export type HousekeepingTaskAvgOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  roomId?: Prisma.SortOrder
-  storeId?: Prisma.SortOrder
-  assignedToId?: Prisma.SortOrder
-}
-
 export type HousekeepingTaskMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   type?: Prisma.SortOrder
@@ -459,13 +407,6 @@ export type HousekeepingTaskMinOrderByAggregateInput = {
   notes?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-}
-
-export type HousekeepingTaskSumOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-  roomId?: Prisma.SortOrder
-  storeId?: Prisma.SortOrder
-  assignedToId?: Prisma.SortOrder
 }
 
 export type HousekeepingTaskCreateNestedManyWithoutAssignedToInput = {
@@ -603,6 +544,7 @@ export type EnumHousekeepingTaskStatusFieldUpdateOperationsInput = {
 }
 
 export type HousekeepingTaskCreateWithoutAssignedToInput = {
+  id?: string
   type?: $Enums.HousekeepingTaskType
   status?: $Enums.HousekeepingTaskStatus
   notes?: string | null
@@ -613,11 +555,11 @@ export type HousekeepingTaskCreateWithoutAssignedToInput = {
 }
 
 export type HousekeepingTaskUncheckedCreateWithoutAssignedToInput = {
-  id?: number
+  id?: string
   type?: $Enums.HousekeepingTaskType
   status?: $Enums.HousekeepingTaskStatus
-  roomId: number
-  storeId?: number | null
+  roomId: string
+  storeId?: string | null
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -653,33 +595,34 @@ export type HousekeepingTaskScalarWhereInput = {
   AND?: Prisma.HousekeepingTaskScalarWhereInput | Prisma.HousekeepingTaskScalarWhereInput[]
   OR?: Prisma.HousekeepingTaskScalarWhereInput[]
   NOT?: Prisma.HousekeepingTaskScalarWhereInput | Prisma.HousekeepingTaskScalarWhereInput[]
-  id?: Prisma.IntFilter<"HousekeepingTask"> | number
+  id?: Prisma.StringFilter<"HousekeepingTask"> | string
   type?: Prisma.EnumHousekeepingTaskTypeFilter<"HousekeepingTask"> | $Enums.HousekeepingTaskType
   status?: Prisma.EnumHousekeepingTaskStatusFilter<"HousekeepingTask"> | $Enums.HousekeepingTaskStatus
-  roomId?: Prisma.IntFilter<"HousekeepingTask"> | number
-  storeId?: Prisma.IntNullableFilter<"HousekeepingTask"> | number | null
-  assignedToId?: Prisma.IntNullableFilter<"HousekeepingTask"> | number | null
+  roomId?: Prisma.StringFilter<"HousekeepingTask"> | string
+  storeId?: Prisma.StringNullableFilter<"HousekeepingTask"> | string | null
+  assignedToId?: Prisma.StringNullableFilter<"HousekeepingTask"> | string | null
   notes?: Prisma.StringNullableFilter<"HousekeepingTask"> | string | null
   createdAt?: Prisma.DateTimeFilter<"HousekeepingTask"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"HousekeepingTask"> | Date | string
 }
 
 export type HousekeepingTaskCreateWithoutStoreInput = {
+  id?: string
   type?: $Enums.HousekeepingTaskType
   status?: $Enums.HousekeepingTaskStatus
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   room: Prisma.RoomCreateNestedOneWithoutHousekeepingTasksInput
-  assignedTo?: Prisma.UserCreateNestedOneWithoutHousekeepingTasksInput
+  assignedTo?: Prisma.StaffCreateNestedOneWithoutHousekeepingTasksInput
 }
 
 export type HousekeepingTaskUncheckedCreateWithoutStoreInput = {
-  id?: number
+  id?: string
   type?: $Enums.HousekeepingTaskType
   status?: $Enums.HousekeepingTaskStatus
-  roomId: number
-  assignedToId?: number | null
+  roomId: string
+  assignedToId?: string | null
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -712,21 +655,22 @@ export type HousekeepingTaskUpdateManyWithWhereWithoutStoreInput = {
 }
 
 export type HousekeepingTaskCreateWithoutRoomInput = {
+  id?: string
   type?: $Enums.HousekeepingTaskType
   status?: $Enums.HousekeepingTaskStatus
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   store?: Prisma.StoreCreateNestedOneWithoutHousekeepingTasksInput
-  assignedTo?: Prisma.UserCreateNestedOneWithoutHousekeepingTasksInput
+  assignedTo?: Prisma.StaffCreateNestedOneWithoutHousekeepingTasksInput
 }
 
 export type HousekeepingTaskUncheckedCreateWithoutRoomInput = {
-  id?: number
+  id?: string
   type?: $Enums.HousekeepingTaskType
   status?: $Enums.HousekeepingTaskStatus
-  storeId?: number | null
-  assignedToId?: number | null
+  storeId?: string | null
+  assignedToId?: string | null
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -759,17 +703,18 @@ export type HousekeepingTaskUpdateManyWithWhereWithoutRoomInput = {
 }
 
 export type HousekeepingTaskCreateManyAssignedToInput = {
-  id?: number
+  id?: string
   type?: $Enums.HousekeepingTaskType
   status?: $Enums.HousekeepingTaskStatus
-  roomId: number
-  storeId?: number | null
+  roomId: string
+  storeId?: string | null
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type HousekeepingTaskUpdateWithoutAssignedToInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumHousekeepingTaskTypeFieldUpdateOperationsInput | $Enums.HousekeepingTaskType
   status?: Prisma.EnumHousekeepingTaskStatusFieldUpdateOperationsInput | $Enums.HousekeepingTaskStatus
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -780,108 +725,110 @@ export type HousekeepingTaskUpdateWithoutAssignedToInput = {
 }
 
 export type HousekeepingTaskUncheckedUpdateWithoutAssignedToInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumHousekeepingTaskTypeFieldUpdateOperationsInput | $Enums.HousekeepingTaskType
   status?: Prisma.EnumHousekeepingTaskStatusFieldUpdateOperationsInput | $Enums.HousekeepingTaskStatus
-  roomId?: Prisma.IntFieldUpdateOperationsInput | number
-  storeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  roomId?: Prisma.StringFieldUpdateOperationsInput | string
+  storeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type HousekeepingTaskUncheckedUpdateManyWithoutAssignedToInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumHousekeepingTaskTypeFieldUpdateOperationsInput | $Enums.HousekeepingTaskType
   status?: Prisma.EnumHousekeepingTaskStatusFieldUpdateOperationsInput | $Enums.HousekeepingTaskStatus
-  roomId?: Prisma.IntFieldUpdateOperationsInput | number
-  storeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  roomId?: Prisma.StringFieldUpdateOperationsInput | string
+  storeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type HousekeepingTaskCreateManyStoreInput = {
-  id?: number
+  id?: string
   type?: $Enums.HousekeepingTaskType
   status?: $Enums.HousekeepingTaskStatus
-  roomId: number
-  assignedToId?: number | null
+  roomId: string
+  assignedToId?: string | null
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type HousekeepingTaskUpdateWithoutStoreInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumHousekeepingTaskTypeFieldUpdateOperationsInput | $Enums.HousekeepingTaskType
   status?: Prisma.EnumHousekeepingTaskStatusFieldUpdateOperationsInput | $Enums.HousekeepingTaskStatus
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   room?: Prisma.RoomUpdateOneRequiredWithoutHousekeepingTasksNestedInput
-  assignedTo?: Prisma.UserUpdateOneWithoutHousekeepingTasksNestedInput
+  assignedTo?: Prisma.StaffUpdateOneWithoutHousekeepingTasksNestedInput
 }
 
 export type HousekeepingTaskUncheckedUpdateWithoutStoreInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumHousekeepingTaskTypeFieldUpdateOperationsInput | $Enums.HousekeepingTaskType
   status?: Prisma.EnumHousekeepingTaskStatusFieldUpdateOperationsInput | $Enums.HousekeepingTaskStatus
-  roomId?: Prisma.IntFieldUpdateOperationsInput | number
-  assignedToId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  roomId?: Prisma.StringFieldUpdateOperationsInput | string
+  assignedToId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type HousekeepingTaskUncheckedUpdateManyWithoutStoreInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumHousekeepingTaskTypeFieldUpdateOperationsInput | $Enums.HousekeepingTaskType
   status?: Prisma.EnumHousekeepingTaskStatusFieldUpdateOperationsInput | $Enums.HousekeepingTaskStatus
-  roomId?: Prisma.IntFieldUpdateOperationsInput | number
-  assignedToId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  roomId?: Prisma.StringFieldUpdateOperationsInput | string
+  assignedToId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type HousekeepingTaskCreateManyRoomInput = {
-  id?: number
+  id?: string
   type?: $Enums.HousekeepingTaskType
   status?: $Enums.HousekeepingTaskStatus
-  storeId?: number | null
-  assignedToId?: number | null
+  storeId?: string | null
+  assignedToId?: string | null
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type HousekeepingTaskUpdateWithoutRoomInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumHousekeepingTaskTypeFieldUpdateOperationsInput | $Enums.HousekeepingTaskType
   status?: Prisma.EnumHousekeepingTaskStatusFieldUpdateOperationsInput | $Enums.HousekeepingTaskStatus
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   store?: Prisma.StoreUpdateOneWithoutHousekeepingTasksNestedInput
-  assignedTo?: Prisma.UserUpdateOneWithoutHousekeepingTasksNestedInput
+  assignedTo?: Prisma.StaffUpdateOneWithoutHousekeepingTasksNestedInput
 }
 
 export type HousekeepingTaskUncheckedUpdateWithoutRoomInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumHousekeepingTaskTypeFieldUpdateOperationsInput | $Enums.HousekeepingTaskType
   status?: Prisma.EnumHousekeepingTaskStatusFieldUpdateOperationsInput | $Enums.HousekeepingTaskStatus
-  storeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  assignedToId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  storeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  assignedToId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type HousekeepingTaskUncheckedUpdateManyWithoutRoomInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumHousekeepingTaskTypeFieldUpdateOperationsInput | $Enums.HousekeepingTaskType
   status?: Prisma.EnumHousekeepingTaskStatusFieldUpdateOperationsInput | $Enums.HousekeepingTaskStatus
-  storeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  assignedToId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  storeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  assignedToId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -968,15 +915,15 @@ export type $HousekeepingTaskPayload<ExtArgs extends runtime.Types.Extensions.In
   objects: {
     room: Prisma.$RoomPayload<ExtArgs>
     store: Prisma.$StorePayload<ExtArgs> | null
-    assignedTo: Prisma.$UserPayload<ExtArgs> | null
+    assignedTo: Prisma.$StaffPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: number
+    id: string
     type: $Enums.HousekeepingTaskType
     status: $Enums.HousekeepingTaskStatus
-    roomId: number
-    storeId: number | null
-    assignedToId: number | null
+    roomId: string
+    storeId: string | null
+    assignedToId: string | null
     notes: string | null
     createdAt: Date
     updatedAt: Date
@@ -1376,7 +1323,7 @@ export interface Prisma__HousekeepingTaskClient<T, Null = never, ExtArgs extends
   readonly [Symbol.toStringTag]: "PrismaPromise"
   room<T extends Prisma.RoomDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RoomDefaultArgs<ExtArgs>>): Prisma.Prisma__RoomClient<runtime.Types.Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   store<T extends Prisma.HousekeepingTask$storeArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.HousekeepingTask$storeArgs<ExtArgs>>): Prisma.Prisma__StoreClient<runtime.Types.Result.GetResult<Prisma.$StorePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  assignedTo<T extends Prisma.HousekeepingTask$assignedToArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.HousekeepingTask$assignedToArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  assignedTo<T extends Prisma.HousekeepingTask$assignedToArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.HousekeepingTask$assignedToArgs<ExtArgs>>): Prisma.Prisma__StaffClient<runtime.Types.Result.GetResult<Prisma.$StaffPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1406,12 +1353,12 @@ export interface Prisma__HousekeepingTaskClient<T, Null = never, ExtArgs extends
  * Fields of the HousekeepingTask model
  */
 export interface HousekeepingTaskFieldRefs {
-  readonly id: Prisma.FieldRef<"HousekeepingTask", 'Int'>
+  readonly id: Prisma.FieldRef<"HousekeepingTask", 'String'>
   readonly type: Prisma.FieldRef<"HousekeepingTask", 'HousekeepingTaskType'>
   readonly status: Prisma.FieldRef<"HousekeepingTask", 'HousekeepingTaskStatus'>
-  readonly roomId: Prisma.FieldRef<"HousekeepingTask", 'Int'>
-  readonly storeId: Prisma.FieldRef<"HousekeepingTask", 'Int'>
-  readonly assignedToId: Prisma.FieldRef<"HousekeepingTask", 'Int'>
+  readonly roomId: Prisma.FieldRef<"HousekeepingTask", 'String'>
+  readonly storeId: Prisma.FieldRef<"HousekeepingTask", 'String'>
+  readonly assignedToId: Prisma.FieldRef<"HousekeepingTask", 'String'>
   readonly notes: Prisma.FieldRef<"HousekeepingTask", 'String'>
   readonly createdAt: Prisma.FieldRef<"HousekeepingTask", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"HousekeepingTask", 'DateTime'>
@@ -1834,18 +1781,18 @@ export type HousekeepingTask$storeArgs<ExtArgs extends runtime.Types.Extensions.
  */
 export type HousekeepingTask$assignedToArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the User
+   * Select specific fields to fetch from the Staff
    */
-  select?: Prisma.UserSelect<ExtArgs> | null
+  select?: Prisma.StaffSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the User
+   * Omit specific fields from the Staff
    */
-  omit?: Prisma.UserOmit<ExtArgs> | null
+  omit?: Prisma.StaffOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.UserInclude<ExtArgs> | null
-  where?: Prisma.UserWhereInput
+  include?: Prisma.StaffInclude<ExtArgs> | null
+  where?: Prisma.StaffWhereInput
 }
 
 /**
