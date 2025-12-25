@@ -54,20 +54,6 @@ export default function ClientLayout({ children }: { children: ReactNode }) {
             <span className="loading loading-spinner loading-sm"></span>
           ) : user ? (
             <>
-              <div className="dropdown dropdown-end">
-                <label tabIndex={0} className="btn btn-ghost btn-circle avatar placeholder">
-                  <div className="bg-primary text-primary-content rounded-full w-10">
-                    <span className="text-xl">{user.name?.[0] || user.email[0].toUpperCase()}</span>
-                  </div>
-                </label>
-                <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                  <li className="menu-title">
-                    <span>{user.name || user.email}</span>
-                  </li>
-                  <li><Link href="/client/bookings">我的订单</Link></li>
-                  <li><button onClick={handleLogout}>退出登录</button></li>
-                </ul>
-              </div>
             </>
           ) : (
             <>

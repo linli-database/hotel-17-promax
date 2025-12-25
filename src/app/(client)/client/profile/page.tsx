@@ -16,6 +16,9 @@ export default function ProfilePage() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [loggingOut, setLoggingOut] = useState(false);
+  const [editingPhone, setEditingPhone] = useState(false);
+  const [newPhone, setNewPhone] = useState('');
+  const [updating, setUpdating] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -26,6 +29,7 @@ export default function ProfilePage() {
           const data = await res.json();
           if (data.user.role === 'CUSTOMER') {
             setUser(data.user);
+            setNewPhone(data.user.phone || '');
           } else {
             router.push('/client/login');
           }
@@ -58,14 +62,80 @@ export default function ProfilePage() {
     }
   };
 
-  const formatDate = (dateStr: string) => {
-    return new Date(dateStr).toLocaleDateString('zh-CN', {
+  const formatDate = (dateStr: string | Date) => {
+    // 处理注册日期格式，只保留年月日
+    let date: Date;
+    
+    if (dateStr instanceof Date) {
+      // 如果已经是Date对象，直接使用
+      date = dateStr;
+    } else if (typeof dateStr === 'string') {
+      // 如果是字符串，尝试解析
+      // 首先尝试直接创建Date对象（Prisma通常返回ISO格式）
+      date = new Date(dateStr);
+      
+      // 如果解析失败，尝试处理 "YYYY-MM-DD HH:mm:ss.SSS" 格式
+      if (isNaN(date.getTime())) {
+        const isoString = dateStr.replace(' ', 'T');
+        date = new Date(isoString);
+      }
+    } else {
+      console.error('Invalid date value:', dateStr);
+      return '无效日期';
+    }
+    
+    // 检查日期是否有效
+    if (isNaN(date.getTime())) {
+      console.error('Invalid date string:', dateStr);
+      return '无效日期';
+    }
+    
+    return date.toLocaleDateString('zh-CN', {
       year: 'numeric',
       month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
+      day: '2-digit'
     });
+  };
+
+  const handlePhoneEdit = () => {
+    setEditingPhone(true);
+    setNewPhone(user?.phone || '');
+  };
+
+  const handlePhoneSave = async () => {
+    if (!user) return;
+    
+    setUpdating(true);
+    try {
+      const res = await fetch(`/api/client/profile`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          phone: newPhone,
+        }),
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        setUser({ ...user, phone: newPhone });
+        setEditingPhone(false);
+        alert('电话号码更新成功！');
+      } else {
+        alert(data.error || '更新失败');
+      }
+    } catch (err) {
+      console.error('更新电话号码失败:', err);
+      alert('更新失败，请稍后重试');
+    } finally {
+      setUpdating(false);
+    }
+  };
+
+  const handlePhoneCancel = () => {
+    setEditingPhone(false);
+    setNewPhone(user?.phone || '');
   };
 
   if (loading) {
@@ -131,15 +201,46 @@ export default function ProfilePage() {
               </div>
 
               <div className="form-control">
-                <label className="label">
+                <label className="label flex justify-between items-center">
                   <span className="label-text font-semibold">手机号</span>
+                  {!editingPhone && (
+                    <button className="btn btn-xs btn-outline" onClick={handlePhoneEdit}>
+                      修改
+                    </button>
+                  )}
                 </label>
-                <div className="input input-bordered flex items-center bg-base-200">
-                  <svg className="w-5 h-5 mr-2 text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                  </svg>
-                  {user.phone || '未设置'}
-                </div>
+                {editingPhone ? (
+                  <div className="flex gap-2">
+                    <input
+                      type="tel"
+                      value={newPhone}
+                      onChange={(e) => setNewPhone(e.target.value)}
+                      className="input input-bordered flex-1"
+                      placeholder="请输入手机号"
+                    />
+                    <button
+                      className="btn btn-primary btn-sm"
+                      onClick={handlePhoneSave}
+                      disabled={updating}
+                    >
+                      {updating ? '保存中...' : '保存'}
+                    </button>
+                    <button
+                      className="btn btn-sm"
+                      onClick={handlePhoneCancel}
+                      disabled={updating}
+                    >
+                      取消
+                    </button>
+                  </div>
+                ) : (
+                  <div className="input input-bordered flex items-center bg-base-200">
+                    <svg className="w-5 h-5 mr-2 text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                    </svg>
+                    {user.phone || '未设置'}
+                  </div>
+                )}
               </div>
 
               <div className="form-control md:col-span-2">
@@ -190,7 +291,7 @@ export default function ProfilePage() {
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="stroke-current shrink-0 w-6 h-6">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
         </svg>
-        <span>如需修改个人信息，请联系管理员。</span>
+        <span>如需修改其他个人信息，请联系管理员。</span>
       </div>
     </div>
   );

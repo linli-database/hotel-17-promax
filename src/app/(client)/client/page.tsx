@@ -158,8 +158,8 @@ export default function ClientHome() {
       <div className="card bg-base-100 shadow-lg">
         <div className="card-body">
           <h2 className="card-title">选择入住时间</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="form-control">
+          <div className="flex flex-row gap-4">
+            <div className="form-control flex-1">
               <label className="label">
                 <span className="label-text">入住日期</span>
               </label>
@@ -171,7 +171,7 @@ export default function ClientHome() {
                 min={new Date().toISOString().split('T')[0]}
               />
             </div>
-            <div className="form-control">
+            <div className="form-control flex-1">
               <label className="label">
                 <span className="label-text">离店日期</span>
               </label>
