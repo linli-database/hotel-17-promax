@@ -88,7 +88,6 @@ model Room {
   roomType          RoomType              @relation(fields: [roomTypeId], references: [id])
   roomTypeId        String
   bookingRooms      BookingRoom[]
-  housekeepingTasks HousekeepingTask[]
   createdAt         DateTime              @default(now())
   updatedAt         DateTime              @updatedAt
 
@@ -136,23 +135,10 @@ model BookingRoom {
   @@index([roomId])
 }
 
-model HousekeepingTask {
-  id           String                 @id @default(uuid())
-  type         HousekeepingTaskType   @default(CLEANING)
-  status       HousekeepingTaskStatus @default(OPEN)
-  room         Room                   @relation(fields: [roomId], references: [id])
-  roomId       String
-  storeId      String?
-  assignedToId String?
-  notes        String?
-  createdAt    DateTime               @default(now())
-  updatedAt    DateTime               @updatedAt
-}
-
 enum RoomOperationalStatus {
   AVAILABLE     // 空闲 - 可以预订
   OCCUPIED      // 占用 - 已被预订/入住
-  DIRTY         // 待清洁 - 客人离店后需要清洁
+  CLEANING         // 待清洁 - 客人离店后需要清洁
   OUT_OF_SERVICE // 停用 - 管理员手动设置
 }
 
@@ -161,7 +147,6 @@ enum BookingStatus {
   CONFIRMED
   CHECKED_IN
   CHECKED_OUT
-  COMPLETED
   CANCELLED
 }
 
@@ -170,13 +155,3 @@ enum BookingCreator {
   STAFF
 }
 
-enum HousekeepingTaskType {
-  CLEANING
-  INSPECTION
-}
-
-enum HousekeepingTaskStatus {
-  OPEN
-  IN_PROGRESS
-  DONE
-}
