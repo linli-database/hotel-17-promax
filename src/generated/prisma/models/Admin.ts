@@ -198,8 +198,6 @@ export type AdminWhereInput = {
   isActive?: Prisma.BoolFilter<"Admin"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Admin"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Admin"> | Date | string
-  createdBookings?: Prisma.BookingListRelationFilter
-  confirmedBookings?: Prisma.BookingListRelationFilter
 }
 
 export type AdminOrderByWithRelationInput = {
@@ -210,8 +208,6 @@ export type AdminOrderByWithRelationInput = {
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  createdBookings?: Prisma.BookingOrderByRelationAggregateInput
-  confirmedBookings?: Prisma.BookingOrderByRelationAggregateInput
 }
 
 export type AdminWhereUniqueInput = Prisma.AtLeast<{
@@ -225,8 +221,6 @@ export type AdminWhereUniqueInput = Prisma.AtLeast<{
   isActive?: Prisma.BoolFilter<"Admin"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Admin"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Admin"> | Date | string
-  createdBookings?: Prisma.BookingListRelationFilter
-  confirmedBookings?: Prisma.BookingListRelationFilter
 }, "id" | "email">
 
 export type AdminOrderByWithAggregationInput = {
@@ -263,8 +257,6 @@ export type AdminCreateInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  createdBookings?: Prisma.BookingCreateNestedManyWithoutCreatedByAdminInput
-  confirmedBookings?: Prisma.BookingCreateNestedManyWithoutConfirmedByAdminInput
 }
 
 export type AdminUncheckedCreateInput = {
@@ -275,8 +267,6 @@ export type AdminUncheckedCreateInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  createdBookings?: Prisma.BookingUncheckedCreateNestedManyWithoutCreatedByAdminInput
-  confirmedBookings?: Prisma.BookingUncheckedCreateNestedManyWithoutConfirmedByAdminInput
 }
 
 export type AdminUpdateInput = {
@@ -287,8 +277,6 @@ export type AdminUpdateInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  createdBookings?: Prisma.BookingUpdateManyWithoutCreatedByAdminNestedInput
-  confirmedBookings?: Prisma.BookingUpdateManyWithoutConfirmedByAdminNestedInput
 }
 
 export type AdminUncheckedUpdateInput = {
@@ -299,8 +287,6 @@ export type AdminUncheckedUpdateInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  createdBookings?: Prisma.BookingUncheckedUpdateManyWithoutCreatedByAdminNestedInput
-  confirmedBookings?: Prisma.BookingUncheckedUpdateManyWithoutConfirmedByAdminNestedInput
 }
 
 export type AdminCreateManyInput = {
@@ -363,201 +349,6 @@ export type AdminMinOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
 }
 
-export type AdminNullableScalarRelationFilter = {
-  is?: Prisma.AdminWhereInput | null
-  isNot?: Prisma.AdminWhereInput | null
-}
-
-export type AdminCreateNestedOneWithoutConfirmedBookingsInput = {
-  create?: Prisma.XOR<Prisma.AdminCreateWithoutConfirmedBookingsInput, Prisma.AdminUncheckedCreateWithoutConfirmedBookingsInput>
-  connectOrCreate?: Prisma.AdminCreateOrConnectWithoutConfirmedBookingsInput
-  connect?: Prisma.AdminWhereUniqueInput
-}
-
-export type AdminCreateNestedOneWithoutCreatedBookingsInput = {
-  create?: Prisma.XOR<Prisma.AdminCreateWithoutCreatedBookingsInput, Prisma.AdminUncheckedCreateWithoutCreatedBookingsInput>
-  connectOrCreate?: Prisma.AdminCreateOrConnectWithoutCreatedBookingsInput
-  connect?: Prisma.AdminWhereUniqueInput
-}
-
-export type AdminUpdateOneWithoutConfirmedBookingsNestedInput = {
-  create?: Prisma.XOR<Prisma.AdminCreateWithoutConfirmedBookingsInput, Prisma.AdminUncheckedCreateWithoutConfirmedBookingsInput>
-  connectOrCreate?: Prisma.AdminCreateOrConnectWithoutConfirmedBookingsInput
-  upsert?: Prisma.AdminUpsertWithoutConfirmedBookingsInput
-  disconnect?: Prisma.AdminWhereInput | boolean
-  delete?: Prisma.AdminWhereInput | boolean
-  connect?: Prisma.AdminWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.AdminUpdateToOneWithWhereWithoutConfirmedBookingsInput, Prisma.AdminUpdateWithoutConfirmedBookingsInput>, Prisma.AdminUncheckedUpdateWithoutConfirmedBookingsInput>
-}
-
-export type AdminUpdateOneWithoutCreatedBookingsNestedInput = {
-  create?: Prisma.XOR<Prisma.AdminCreateWithoutCreatedBookingsInput, Prisma.AdminUncheckedCreateWithoutCreatedBookingsInput>
-  connectOrCreate?: Prisma.AdminCreateOrConnectWithoutCreatedBookingsInput
-  upsert?: Prisma.AdminUpsertWithoutCreatedBookingsInput
-  disconnect?: Prisma.AdminWhereInput | boolean
-  delete?: Prisma.AdminWhereInput | boolean
-  connect?: Prisma.AdminWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.AdminUpdateToOneWithWhereWithoutCreatedBookingsInput, Prisma.AdminUpdateWithoutCreatedBookingsInput>, Prisma.AdminUncheckedUpdateWithoutCreatedBookingsInput>
-}
-
-export type AdminCreateWithoutConfirmedBookingsInput = {
-  id?: string
-  email: string
-  passwordHash: string
-  name?: string | null
-  isActive?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  createdBookings?: Prisma.BookingCreateNestedManyWithoutCreatedByAdminInput
-}
-
-export type AdminUncheckedCreateWithoutConfirmedBookingsInput = {
-  id?: string
-  email: string
-  passwordHash: string
-  name?: string | null
-  isActive?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  createdBookings?: Prisma.BookingUncheckedCreateNestedManyWithoutCreatedByAdminInput
-}
-
-export type AdminCreateOrConnectWithoutConfirmedBookingsInput = {
-  where: Prisma.AdminWhereUniqueInput
-  create: Prisma.XOR<Prisma.AdminCreateWithoutConfirmedBookingsInput, Prisma.AdminUncheckedCreateWithoutConfirmedBookingsInput>
-}
-
-export type AdminCreateWithoutCreatedBookingsInput = {
-  id?: string
-  email: string
-  passwordHash: string
-  name?: string | null
-  isActive?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  confirmedBookings?: Prisma.BookingCreateNestedManyWithoutConfirmedByAdminInput
-}
-
-export type AdminUncheckedCreateWithoutCreatedBookingsInput = {
-  id?: string
-  email: string
-  passwordHash: string
-  name?: string | null
-  isActive?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  confirmedBookings?: Prisma.BookingUncheckedCreateNestedManyWithoutConfirmedByAdminInput
-}
-
-export type AdminCreateOrConnectWithoutCreatedBookingsInput = {
-  where: Prisma.AdminWhereUniqueInput
-  create: Prisma.XOR<Prisma.AdminCreateWithoutCreatedBookingsInput, Prisma.AdminUncheckedCreateWithoutCreatedBookingsInput>
-}
-
-export type AdminUpsertWithoutConfirmedBookingsInput = {
-  update: Prisma.XOR<Prisma.AdminUpdateWithoutConfirmedBookingsInput, Prisma.AdminUncheckedUpdateWithoutConfirmedBookingsInput>
-  create: Prisma.XOR<Prisma.AdminCreateWithoutConfirmedBookingsInput, Prisma.AdminUncheckedCreateWithoutConfirmedBookingsInput>
-  where?: Prisma.AdminWhereInput
-}
-
-export type AdminUpdateToOneWithWhereWithoutConfirmedBookingsInput = {
-  where?: Prisma.AdminWhereInput
-  data: Prisma.XOR<Prisma.AdminUpdateWithoutConfirmedBookingsInput, Prisma.AdminUncheckedUpdateWithoutConfirmedBookingsInput>
-}
-
-export type AdminUpdateWithoutConfirmedBookingsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  createdBookings?: Prisma.BookingUpdateManyWithoutCreatedByAdminNestedInput
-}
-
-export type AdminUncheckedUpdateWithoutConfirmedBookingsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  createdBookings?: Prisma.BookingUncheckedUpdateManyWithoutCreatedByAdminNestedInput
-}
-
-export type AdminUpsertWithoutCreatedBookingsInput = {
-  update: Prisma.XOR<Prisma.AdminUpdateWithoutCreatedBookingsInput, Prisma.AdminUncheckedUpdateWithoutCreatedBookingsInput>
-  create: Prisma.XOR<Prisma.AdminCreateWithoutCreatedBookingsInput, Prisma.AdminUncheckedCreateWithoutCreatedBookingsInput>
-  where?: Prisma.AdminWhereInput
-}
-
-export type AdminUpdateToOneWithWhereWithoutCreatedBookingsInput = {
-  where?: Prisma.AdminWhereInput
-  data: Prisma.XOR<Prisma.AdminUpdateWithoutCreatedBookingsInput, Prisma.AdminUncheckedUpdateWithoutCreatedBookingsInput>
-}
-
-export type AdminUpdateWithoutCreatedBookingsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  confirmedBookings?: Prisma.BookingUpdateManyWithoutConfirmedByAdminNestedInput
-}
-
-export type AdminUncheckedUpdateWithoutCreatedBookingsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  confirmedBookings?: Prisma.BookingUncheckedUpdateManyWithoutConfirmedByAdminNestedInput
-}
-
-
-/**
- * Count Type AdminCountOutputType
- */
-
-export type AdminCountOutputType = {
-  createdBookings: number
-  confirmedBookings: number
-}
-
-export type AdminCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  createdBookings?: boolean | AdminCountOutputTypeCountCreatedBookingsArgs
-  confirmedBookings?: boolean | AdminCountOutputTypeCountConfirmedBookingsArgs
-}
-
-/**
- * AdminCountOutputType without action
- */
-export type AdminCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the AdminCountOutputType
-   */
-  select?: Prisma.AdminCountOutputTypeSelect<ExtArgs> | null
-}
-
-/**
- * AdminCountOutputType without action
- */
-export type AdminCountOutputTypeCountCreatedBookingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.BookingWhereInput
-}
-
-/**
- * AdminCountOutputType without action
- */
-export type AdminCountOutputTypeCountConfirmedBookingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.BookingWhereInput
-}
 
 
 export type AdminSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -568,9 +359,6 @@ export type AdminSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  createdBookings?: boolean | Prisma.Admin$createdBookingsArgs<ExtArgs>
-  confirmedBookings?: boolean | Prisma.Admin$confirmedBookingsArgs<ExtArgs>
-  _count?: boolean | Prisma.AdminCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["admin"]>
 
 export type AdminSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -604,20 +392,10 @@ export type AdminSelectScalar = {
 }
 
 export type AdminOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "passwordHash" | "name" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["admin"]>
-export type AdminInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  createdBookings?: boolean | Prisma.Admin$createdBookingsArgs<ExtArgs>
-  confirmedBookings?: boolean | Prisma.Admin$confirmedBookingsArgs<ExtArgs>
-  _count?: boolean | Prisma.AdminCountOutputTypeDefaultArgs<ExtArgs>
-}
-export type AdminIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type AdminIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $AdminPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Admin"
-  objects: {
-    createdBookings: Prisma.$BookingPayload<ExtArgs>[]
-    confirmedBookings: Prisma.$BookingPayload<ExtArgs>[]
-  }
+  objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     email: string
@@ -1020,8 +798,6 @@ readonly fields: AdminFieldRefs;
  */
 export interface Prisma__AdminClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  createdBookings<T extends Prisma.Admin$createdBookingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Admin$createdBookingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  confirmedBookings<T extends Prisma.Admin$confirmedBookingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Admin$confirmedBookingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1075,10 +851,6 @@ export type AdminFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.Interna
    */
   omit?: Prisma.AdminOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.AdminInclude<ExtArgs> | null
-  /**
    * Filter, which Admin to fetch.
    */
   where: Prisma.AdminWhereUniqueInput
@@ -1097,10 +869,6 @@ export type AdminFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensions.
    */
   omit?: Prisma.AdminOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.AdminInclude<ExtArgs> | null
-  /**
    * Filter, which Admin to fetch.
    */
   where: Prisma.AdminWhereUniqueInput
@@ -1118,10 +886,6 @@ export type AdminFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Omit specific fields from the Admin
    */
   omit?: Prisma.AdminOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.AdminInclude<ExtArgs> | null
   /**
    * Filter, which Admin to fetch.
    */
@@ -1171,10 +935,6 @@ export type AdminFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   omit?: Prisma.AdminOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.AdminInclude<ExtArgs> | null
-  /**
    * Filter, which Admin to fetch.
    */
   where?: Prisma.AdminWhereInput
@@ -1223,10 +983,6 @@ export type AdminFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    */
   omit?: Prisma.AdminOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.AdminInclude<ExtArgs> | null
-  /**
    * Filter, which Admins to fetch.
    */
   where?: Prisma.AdminWhereInput
@@ -1269,10 +1025,6 @@ export type AdminCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    * Omit specific fields from the Admin
    */
   omit?: Prisma.AdminOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.AdminInclude<ExtArgs> | null
   /**
    * The data needed to create a Admin.
    */
@@ -1321,10 +1073,6 @@ export type AdminUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    * Omit specific fields from the Admin
    */
   omit?: Prisma.AdminOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.AdminInclude<ExtArgs> | null
   /**
    * The data needed to update a Admin.
    */
@@ -1392,10 +1140,6 @@ export type AdminUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    */
   omit?: Prisma.AdminOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.AdminInclude<ExtArgs> | null
-  /**
    * The filter to search for the Admin to update in case it exists.
    */
   where: Prisma.AdminWhereUniqueInput
@@ -1422,10 +1166,6 @@ export type AdminDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    */
   omit?: Prisma.AdminOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.AdminInclude<ExtArgs> | null
-  /**
    * Filter which Admin to delete.
    */
   where: Prisma.AdminWhereUniqueInput
@@ -1446,54 +1186,6 @@ export type AdminDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 /**
- * Admin.createdBookings
- */
-export type Admin$createdBookingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Booking
-   */
-  select?: Prisma.BookingSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Booking
-   */
-  omit?: Prisma.BookingOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.BookingInclude<ExtArgs> | null
-  where?: Prisma.BookingWhereInput
-  orderBy?: Prisma.BookingOrderByWithRelationInput | Prisma.BookingOrderByWithRelationInput[]
-  cursor?: Prisma.BookingWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.BookingScalarFieldEnum | Prisma.BookingScalarFieldEnum[]
-}
-
-/**
- * Admin.confirmedBookings
- */
-export type Admin$confirmedBookingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Booking
-   */
-  select?: Prisma.BookingSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Booking
-   */
-  omit?: Prisma.BookingOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.BookingInclude<ExtArgs> | null
-  where?: Prisma.BookingWhereInput
-  orderBy?: Prisma.BookingOrderByWithRelationInput | Prisma.BookingOrderByWithRelationInput[]
-  cursor?: Prisma.BookingWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.BookingScalarFieldEnum | Prisma.BookingScalarFieldEnum[]
-}
-
-/**
  * Admin without action
  */
 export type AdminDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1505,8 +1197,4 @@ export type AdminDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    * Omit specific fields from the Admin
    */
   omit?: Prisma.AdminOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.AdminInclude<ExtArgs> | null
 }

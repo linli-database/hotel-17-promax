@@ -12,7 +12,7 @@
 export const RoomOperationalStatus = {
   AVAILABLE: 'AVAILABLE',
   OCCUPIED: 'OCCUPIED',
-  DIRTY: 'DIRTY',
+  CLEANING: 'CLEANING',
   OUT_OF_SERVICE: 'OUT_OF_SERVICE'
 } as const
 
@@ -24,7 +24,7 @@ export const BookingStatus = {
   CONFIRMED: 'CONFIRMED',
   CHECKED_IN: 'CHECKED_IN',
   CHECKED_OUT: 'CHECKED_OUT',
-  CANCELLED: 'CANCELLED',
+  CANCELLED: 'CANCELLED'
 } as const
 
 export type BookingStatus = (typeof BookingStatus)[keyof typeof BookingStatus]
@@ -32,25 +32,7 @@ export type BookingStatus = (typeof BookingStatus)[keyof typeof BookingStatus]
 
 export const BookingCreator = {
   CUSTOMER: 'CUSTOMER',
-  STAFF: 'STAFF',
-  ADMIN: 'ADMIN'
+  STAFF: 'STAFF'
 } as const
 
 export type BookingCreator = (typeof BookingCreator)[keyof typeof BookingCreator]
-
-
-export const HousekeepingTaskType = {
-  CLEANING: 'CLEANING',
-  INSPECTION: 'INSPECTION'
-} as const
-
-export type HousekeepingTaskType = (typeof HousekeepingTaskType)[keyof typeof HousekeepingTaskType]
-
-
-export const HousekeepingTaskStatus = {
-  OPEN: 'OPEN',
-  IN_PROGRESS: 'IN_PROGRESS',
-  DONE: 'DONE'
-} as const
-
-export type HousekeepingTaskStatus = (typeof HousekeepingTaskStatus)[keyof typeof HousekeepingTaskStatus]

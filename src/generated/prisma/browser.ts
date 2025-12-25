@@ -57,8 +57,3 @@ export type Booking = Prisma.BookingModel
  * 
  */
 export type BookingRoom = Prisma.BookingRoomModel
-/**
- * Model HousekeepingTask
- * 
- */
-export type HousekeepingTask = Prisma.HousekeepingTaskModel

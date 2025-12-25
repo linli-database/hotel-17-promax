@@ -280,40 +280,6 @@ export type DecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedDecimalNullableFilter<$PrismaModel>
 }
 
-export type EnumHousekeepingTaskTypeFilter<$PrismaModel = never> = {
-  equals?: $Enums.HousekeepingTaskType | Prisma.EnumHousekeepingTaskTypeFieldRefInput<$PrismaModel>
-  in?: $Enums.HousekeepingTaskType[] | Prisma.ListEnumHousekeepingTaskTypeFieldRefInput<$PrismaModel>
-  notIn?: $Enums.HousekeepingTaskType[] | Prisma.ListEnumHousekeepingTaskTypeFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumHousekeepingTaskTypeFilter<$PrismaModel> | $Enums.HousekeepingTaskType
-}
-
-export type EnumHousekeepingTaskStatusFilter<$PrismaModel = never> = {
-  equals?: $Enums.HousekeepingTaskStatus | Prisma.EnumHousekeepingTaskStatusFieldRefInput<$PrismaModel>
-  in?: $Enums.HousekeepingTaskStatus[] | Prisma.ListEnumHousekeepingTaskStatusFieldRefInput<$PrismaModel>
-  notIn?: $Enums.HousekeepingTaskStatus[] | Prisma.ListEnumHousekeepingTaskStatusFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumHousekeepingTaskStatusFilter<$PrismaModel> | $Enums.HousekeepingTaskStatus
-}
-
-export type EnumHousekeepingTaskTypeWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.HousekeepingTaskType | Prisma.EnumHousekeepingTaskTypeFieldRefInput<$PrismaModel>
-  in?: $Enums.HousekeepingTaskType[] | Prisma.ListEnumHousekeepingTaskTypeFieldRefInput<$PrismaModel>
-  notIn?: $Enums.HousekeepingTaskType[] | Prisma.ListEnumHousekeepingTaskTypeFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumHousekeepingTaskTypeWithAggregatesFilter<$PrismaModel> | $Enums.HousekeepingTaskType
-  _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumHousekeepingTaskTypeFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumHousekeepingTaskTypeFilter<$PrismaModel>
-}
-
-export type EnumHousekeepingTaskStatusWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.HousekeepingTaskStatus | Prisma.EnumHousekeepingTaskStatusFieldRefInput<$PrismaModel>
-  in?: $Enums.HousekeepingTaskStatus[] | Prisma.ListEnumHousekeepingTaskStatusFieldRefInput<$PrismaModel>
-  notIn?: $Enums.HousekeepingTaskStatus[] | Prisma.ListEnumHousekeepingTaskStatusFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumHousekeepingTaskStatusWithAggregatesFilter<$PrismaModel> | $Enums.HousekeepingTaskStatus
-  _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumHousekeepingTaskStatusFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumHousekeepingTaskStatusFilter<$PrismaModel>
-}
-
 export type NestedStringFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel>
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
@@ -591,40 +557,6 @@ export type NestedDecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
   _sum?: Prisma.NestedDecimalNullableFilter<$PrismaModel>
   _min?: Prisma.NestedDecimalNullableFilter<$PrismaModel>
   _max?: Prisma.NestedDecimalNullableFilter<$PrismaModel>
-}
-
-export type NestedEnumHousekeepingTaskTypeFilter<$PrismaModel = never> = {
-  equals?: $Enums.HousekeepingTaskType | Prisma.EnumHousekeepingTaskTypeFieldRefInput<$PrismaModel>
-  in?: $Enums.HousekeepingTaskType[] | Prisma.ListEnumHousekeepingTaskTypeFieldRefInput<$PrismaModel>
-  notIn?: $Enums.HousekeepingTaskType[] | Prisma.ListEnumHousekeepingTaskTypeFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumHousekeepingTaskTypeFilter<$PrismaModel> | $Enums.HousekeepingTaskType
-}
-
-export type NestedEnumHousekeepingTaskStatusFilter<$PrismaModel = never> = {
-  equals?: $Enums.HousekeepingTaskStatus | Prisma.EnumHousekeepingTaskStatusFieldRefInput<$PrismaModel>
-  in?: $Enums.HousekeepingTaskStatus[] | Prisma.ListEnumHousekeepingTaskStatusFieldRefInput<$PrismaModel>
-  notIn?: $Enums.HousekeepingTaskStatus[] | Prisma.ListEnumHousekeepingTaskStatusFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumHousekeepingTaskStatusFilter<$PrismaModel> | $Enums.HousekeepingTaskStatus
-}
-
-export type NestedEnumHousekeepingTaskTypeWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.HousekeepingTaskType | Prisma.EnumHousekeepingTaskTypeFieldRefInput<$PrismaModel>
-  in?: $Enums.HousekeepingTaskType[] | Prisma.ListEnumHousekeepingTaskTypeFieldRefInput<$PrismaModel>
-  notIn?: $Enums.HousekeepingTaskType[] | Prisma.ListEnumHousekeepingTaskTypeFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumHousekeepingTaskTypeWithAggregatesFilter<$PrismaModel> | $Enums.HousekeepingTaskType
-  _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumHousekeepingTaskTypeFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumHousekeepingTaskTypeFilter<$PrismaModel>
-}
-
-export type NestedEnumHousekeepingTaskStatusWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.HousekeepingTaskStatus | Prisma.EnumHousekeepingTaskStatusFieldRefInput<$PrismaModel>
-  in?: $Enums.HousekeepingTaskStatus[] | Prisma.ListEnumHousekeepingTaskStatusFieldRefInput<$PrismaModel>
-  notIn?: $Enums.HousekeepingTaskStatus[] | Prisma.ListEnumHousekeepingTaskStatusFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumHousekeepingTaskStatusWithAggregatesFilter<$PrismaModel> | $Enums.HousekeepingTaskStatus
-  _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumHousekeepingTaskStatusFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumHousekeepingTaskStatusFilter<$PrismaModel>
 }
 
 

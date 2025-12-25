@@ -58,8 +58,7 @@ export const ModelName = {
   RoomType: 'RoomType',
   Room: 'Room',
   Booking: 'Booking',
-  BookingRoom: 'BookingRoom',
-  HousekeepingTask: 'HousekeepingTask'
+  BookingRoom: 'BookingRoom'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -172,12 +171,10 @@ export const BookingScalarFieldEnum = {
   createdByRole: 'createdByRole',
   cancelReason: 'cancelReason',
   cancelledAt: 'cancelledAt',
-  confirmedByAdminId: 'confirmedByAdminId',
   confirmedByStaffId: 'confirmedByStaffId',
   checkedInAt: 'checkedInAt',
   checkedOutAt: 'checkedOutAt',
   customerId: 'customerId',
-  createdByAdminId: 'createdByAdminId',
   createdByStaffId: 'createdByStaffId',
   storeId: 'storeId',
   roomTypeId: 'roomTypeId',
@@ -196,21 +193,6 @@ export const BookingRoomScalarFieldEnum = {
 } as const
 
 export type BookingRoomScalarFieldEnum = (typeof BookingRoomScalarFieldEnum)[keyof typeof BookingRoomScalarFieldEnum]
-
-
-export const HousekeepingTaskScalarFieldEnum = {
-  id: 'id',
-  type: 'type',
-  status: 'status',
-  roomId: 'roomId',
-  storeId: 'storeId',
-  assignedToId: 'assignedToId',
-  notes: 'notes',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type HousekeepingTaskScalarFieldEnum = (typeof HousekeepingTaskScalarFieldEnum)[keyof typeof HousekeepingTaskScalarFieldEnum]
 
 
 export const SortOrder = {

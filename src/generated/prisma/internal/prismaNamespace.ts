@@ -391,8 +391,7 @@ export const ModelName = {
   RoomType: 'RoomType',
   Room: 'Room',
   Booking: 'Booking',
-  BookingRoom: 'BookingRoom',
-  HousekeepingTask: 'HousekeepingTask'
+  BookingRoom: 'BookingRoom'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -408,7 +407,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "customer" | "admin" | "staff" | "store" | "roomType" | "room" | "booking" | "bookingRoom" | "housekeepingTask"
+    modelProps: "customer" | "admin" | "staff" | "store" | "roomType" | "room" | "booking" | "bookingRoom"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1004,80 +1003,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    HousekeepingTask: {
-      payload: Prisma.$HousekeepingTaskPayload<ExtArgs>
-      fields: Prisma.HousekeepingTaskFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.HousekeepingTaskFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$HousekeepingTaskPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.HousekeepingTaskFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$HousekeepingTaskPayload>
-        }
-        findFirst: {
-          args: Prisma.HousekeepingTaskFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$HousekeepingTaskPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.HousekeepingTaskFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$HousekeepingTaskPayload>
-        }
-        findMany: {
-          args: Prisma.HousekeepingTaskFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$HousekeepingTaskPayload>[]
-        }
-        create: {
-          args: Prisma.HousekeepingTaskCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$HousekeepingTaskPayload>
-        }
-        createMany: {
-          args: Prisma.HousekeepingTaskCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.HousekeepingTaskCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$HousekeepingTaskPayload>[]
-        }
-        delete: {
-          args: Prisma.HousekeepingTaskDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$HousekeepingTaskPayload>
-        }
-        update: {
-          args: Prisma.HousekeepingTaskUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$HousekeepingTaskPayload>
-        }
-        deleteMany: {
-          args: Prisma.HousekeepingTaskDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.HousekeepingTaskUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.HousekeepingTaskUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$HousekeepingTaskPayload>[]
-        }
-        upsert: {
-          args: Prisma.HousekeepingTaskUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$HousekeepingTaskPayload>
-        }
-        aggregate: {
-          args: Prisma.HousekeepingTaskAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateHousekeepingTask>
-        }
-        groupBy: {
-          args: Prisma.HousekeepingTaskGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.HousekeepingTaskGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.HousekeepingTaskCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.HousekeepingTaskCountAggregateOutputType> | number
-        }
-      }
-    }
   }
 } & {
   other: {
@@ -1211,12 +1136,10 @@ export const BookingScalarFieldEnum = {
   createdByRole: 'createdByRole',
   cancelReason: 'cancelReason',
   cancelledAt: 'cancelledAt',
-  confirmedByAdminId: 'confirmedByAdminId',
   confirmedByStaffId: 'confirmedByStaffId',
   checkedInAt: 'checkedInAt',
   checkedOutAt: 'checkedOutAt',
   customerId: 'customerId',
-  createdByAdminId: 'createdByAdminId',
   createdByStaffId: 'createdByStaffId',
   storeId: 'storeId',
   roomTypeId: 'roomTypeId',
@@ -1235,21 +1158,6 @@ export const BookingRoomScalarFieldEnum = {
 } as const
 
 export type BookingRoomScalarFieldEnum = (typeof BookingRoomScalarFieldEnum)[keyof typeof BookingRoomScalarFieldEnum]
-
-
-export const HousekeepingTaskScalarFieldEnum = {
-  id: 'id',
-  type: 'type',
-  status: 'status',
-  roomId: 'roomId',
-  storeId: 'storeId',
-  assignedToId: 'assignedToId',
-  notes: 'notes',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type HousekeepingTaskScalarFieldEnum = (typeof HousekeepingTaskScalarFieldEnum)[keyof typeof HousekeepingTaskScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1388,34 +1296,6 @@ export type ListEnumBookingCreatorFieldRefInput<$PrismaModel> = FieldRefInputTyp
 
 
 /**
- * Reference to a field of type 'HousekeepingTaskType'
- */
-export type EnumHousekeepingTaskTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'HousekeepingTaskType'>
-    
-
-
-/**
- * Reference to a field of type 'HousekeepingTaskType[]'
- */
-export type ListEnumHousekeepingTaskTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'HousekeepingTaskType[]'>
-    
-
-
-/**
- * Reference to a field of type 'HousekeepingTaskStatus'
- */
-export type EnumHousekeepingTaskStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'HousekeepingTaskStatus'>
-    
-
-
-/**
- * Reference to a field of type 'HousekeepingTaskStatus[]'
- */
-export type ListEnumHousekeepingTaskStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'HousekeepingTaskStatus[]'>
-    
-
-
-/**
  * Reference to a field of type 'Float'
  */
 export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -1531,7 +1411,6 @@ export type GlobalOmitConfig = {
   room?: Prisma.RoomOmit
   booking?: Prisma.BookingOmit
   bookingRoom?: Prisma.BookingRoomOmit
-  housekeepingTask?: Prisma.HousekeepingTaskOmit
 }
 
 /* Types for Logging */

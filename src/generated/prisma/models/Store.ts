@@ -193,7 +193,6 @@ export type StoreWhereInput = {
   assignedStaff?: Prisma.StaffListRelationFilter
   rooms?: Prisma.RoomListRelationFilter
   bookings?: Prisma.BookingListRelationFilter
-  housekeepingTasks?: Prisma.HousekeepingTaskListRelationFilter
 }
 
 export type StoreOrderByWithRelationInput = {
@@ -206,7 +205,6 @@ export type StoreOrderByWithRelationInput = {
   assignedStaff?: Prisma.StaffOrderByRelationAggregateInput
   rooms?: Prisma.RoomOrderByRelationAggregateInput
   bookings?: Prisma.BookingOrderByRelationAggregateInput
-  housekeepingTasks?: Prisma.HousekeepingTaskOrderByRelationAggregateInput
 }
 
 export type StoreWhereUniqueInput = Prisma.AtLeast<{
@@ -222,7 +220,6 @@ export type StoreWhereUniqueInput = Prisma.AtLeast<{
   assignedStaff?: Prisma.StaffListRelationFilter
   rooms?: Prisma.RoomListRelationFilter
   bookings?: Prisma.BookingListRelationFilter
-  housekeepingTasks?: Prisma.HousekeepingTaskListRelationFilter
 }, "id">
 
 export type StoreOrderByWithAggregationInput = {
@@ -259,7 +256,6 @@ export type StoreCreateInput = {
   assignedStaff?: Prisma.StaffCreateNestedManyWithoutAssignedStoreInput
   rooms?: Prisma.RoomCreateNestedManyWithoutStoreInput
   bookings?: Prisma.BookingCreateNestedManyWithoutStoreInput
-  housekeepingTasks?: Prisma.HousekeepingTaskCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUncheckedCreateInput = {
@@ -272,7 +268,6 @@ export type StoreUncheckedCreateInput = {
   assignedStaff?: Prisma.StaffUncheckedCreateNestedManyWithoutAssignedStoreInput
   rooms?: Prisma.RoomUncheckedCreateNestedManyWithoutStoreInput
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutStoreInput
-  housekeepingTasks?: Prisma.HousekeepingTaskUncheckedCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUpdateInput = {
@@ -285,7 +280,6 @@ export type StoreUpdateInput = {
   assignedStaff?: Prisma.StaffUpdateManyWithoutAssignedStoreNestedInput
   rooms?: Prisma.RoomUpdateManyWithoutStoreNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutStoreNestedInput
-  housekeepingTasks?: Prisma.HousekeepingTaskUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreUncheckedUpdateInput = {
@@ -298,7 +292,6 @@ export type StoreUncheckedUpdateInput = {
   assignedStaff?: Prisma.StaffUncheckedUpdateManyWithoutAssignedStoreNestedInput
   rooms?: Prisma.RoomUncheckedUpdateManyWithoutStoreNestedInput
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutStoreNestedInput
-  housekeepingTasks?: Prisma.HousekeepingTaskUncheckedUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreCreateManyInput = {
@@ -360,11 +353,6 @@ export type StoreMinOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
 }
 
-export type StoreNullableScalarRelationFilter = {
-  is?: Prisma.StoreWhereInput | null
-  isNot?: Prisma.StoreWhereInput | null
-}
-
 export type StoreCreateNestedOneWithoutAssignedStaffInput = {
   create?: Prisma.XOR<Prisma.StoreCreateWithoutAssignedStaffInput, Prisma.StoreUncheckedCreateWithoutAssignedStaffInput>
   connectOrCreate?: Prisma.StoreCreateOrConnectWithoutAssignedStaffInput
@@ -407,22 +395,6 @@ export type StoreUpdateOneRequiredWithoutBookingsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.StoreUpdateToOneWithWhereWithoutBookingsInput, Prisma.StoreUpdateWithoutBookingsInput>, Prisma.StoreUncheckedUpdateWithoutBookingsInput>
 }
 
-export type StoreCreateNestedOneWithoutHousekeepingTasksInput = {
-  create?: Prisma.XOR<Prisma.StoreCreateWithoutHousekeepingTasksInput, Prisma.StoreUncheckedCreateWithoutHousekeepingTasksInput>
-  connectOrCreate?: Prisma.StoreCreateOrConnectWithoutHousekeepingTasksInput
-  connect?: Prisma.StoreWhereUniqueInput
-}
-
-export type StoreUpdateOneWithoutHousekeepingTasksNestedInput = {
-  create?: Prisma.XOR<Prisma.StoreCreateWithoutHousekeepingTasksInput, Prisma.StoreUncheckedCreateWithoutHousekeepingTasksInput>
-  connectOrCreate?: Prisma.StoreCreateOrConnectWithoutHousekeepingTasksInput
-  upsert?: Prisma.StoreUpsertWithoutHousekeepingTasksInput
-  disconnect?: Prisma.StoreWhereInput | boolean
-  delete?: Prisma.StoreWhereInput | boolean
-  connect?: Prisma.StoreWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.StoreUpdateToOneWithWhereWithoutHousekeepingTasksInput, Prisma.StoreUpdateWithoutHousekeepingTasksInput>, Prisma.StoreUncheckedUpdateWithoutHousekeepingTasksInput>
-}
-
 export type StoreCreateWithoutAssignedStaffInput = {
   id?: string
   name: string
@@ -432,7 +404,6 @@ export type StoreCreateWithoutAssignedStaffInput = {
   updatedAt?: Date | string
   rooms?: Prisma.RoomCreateNestedManyWithoutStoreInput
   bookings?: Prisma.BookingCreateNestedManyWithoutStoreInput
-  housekeepingTasks?: Prisma.HousekeepingTaskCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUncheckedCreateWithoutAssignedStaffInput = {
@@ -444,7 +415,6 @@ export type StoreUncheckedCreateWithoutAssignedStaffInput = {
   updatedAt?: Date | string
   rooms?: Prisma.RoomUncheckedCreateNestedManyWithoutStoreInput
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutStoreInput
-  housekeepingTasks?: Prisma.HousekeepingTaskUncheckedCreateNestedManyWithoutStoreInput
 }
 
 export type StoreCreateOrConnectWithoutAssignedStaffInput = {
@@ -472,7 +442,6 @@ export type StoreUpdateWithoutAssignedStaffInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   rooms?: Prisma.RoomUpdateManyWithoutStoreNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutStoreNestedInput
-  housekeepingTasks?: Prisma.HousekeepingTaskUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreUncheckedUpdateWithoutAssignedStaffInput = {
@@ -484,7 +453,6 @@ export type StoreUncheckedUpdateWithoutAssignedStaffInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   rooms?: Prisma.RoomUncheckedUpdateManyWithoutStoreNestedInput
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutStoreNestedInput
-  housekeepingTasks?: Prisma.HousekeepingTaskUncheckedUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreCreateWithoutRoomsInput = {
@@ -496,7 +464,6 @@ export type StoreCreateWithoutRoomsInput = {
   updatedAt?: Date | string
   assignedStaff?: Prisma.StaffCreateNestedManyWithoutAssignedStoreInput
   bookings?: Prisma.BookingCreateNestedManyWithoutStoreInput
-  housekeepingTasks?: Prisma.HousekeepingTaskCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUncheckedCreateWithoutRoomsInput = {
@@ -508,7 +475,6 @@ export type StoreUncheckedCreateWithoutRoomsInput = {
   updatedAt?: Date | string
   assignedStaff?: Prisma.StaffUncheckedCreateNestedManyWithoutAssignedStoreInput
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutStoreInput
-  housekeepingTasks?: Prisma.HousekeepingTaskUncheckedCreateNestedManyWithoutStoreInput
 }
 
 export type StoreCreateOrConnectWithoutRoomsInput = {
@@ -536,7 +502,6 @@ export type StoreUpdateWithoutRoomsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assignedStaff?: Prisma.StaffUpdateManyWithoutAssignedStoreNestedInput
   bookings?: Prisma.BookingUpdateManyWithoutStoreNestedInput
-  housekeepingTasks?: Prisma.HousekeepingTaskUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreUncheckedUpdateWithoutRoomsInput = {
@@ -548,7 +513,6 @@ export type StoreUncheckedUpdateWithoutRoomsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assignedStaff?: Prisma.StaffUncheckedUpdateManyWithoutAssignedStoreNestedInput
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutStoreNestedInput
-  housekeepingTasks?: Prisma.HousekeepingTaskUncheckedUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreCreateWithoutBookingsInput = {
@@ -560,7 +524,6 @@ export type StoreCreateWithoutBookingsInput = {
   updatedAt?: Date | string
   assignedStaff?: Prisma.StaffCreateNestedManyWithoutAssignedStoreInput
   rooms?: Prisma.RoomCreateNestedManyWithoutStoreInput
-  housekeepingTasks?: Prisma.HousekeepingTaskCreateNestedManyWithoutStoreInput
 }
 
 export type StoreUncheckedCreateWithoutBookingsInput = {
@@ -572,7 +535,6 @@ export type StoreUncheckedCreateWithoutBookingsInput = {
   updatedAt?: Date | string
   assignedStaff?: Prisma.StaffUncheckedCreateNestedManyWithoutAssignedStoreInput
   rooms?: Prisma.RoomUncheckedCreateNestedManyWithoutStoreInput
-  housekeepingTasks?: Prisma.HousekeepingTaskUncheckedCreateNestedManyWithoutStoreInput
 }
 
 export type StoreCreateOrConnectWithoutBookingsInput = {
@@ -600,7 +562,6 @@ export type StoreUpdateWithoutBookingsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assignedStaff?: Prisma.StaffUpdateManyWithoutAssignedStoreNestedInput
   rooms?: Prisma.RoomUpdateManyWithoutStoreNestedInput
-  housekeepingTasks?: Prisma.HousekeepingTaskUpdateManyWithoutStoreNestedInput
 }
 
 export type StoreUncheckedUpdateWithoutBookingsInput = {
@@ -612,71 +573,6 @@ export type StoreUncheckedUpdateWithoutBookingsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assignedStaff?: Prisma.StaffUncheckedUpdateManyWithoutAssignedStoreNestedInput
   rooms?: Prisma.RoomUncheckedUpdateManyWithoutStoreNestedInput
-  housekeepingTasks?: Prisma.HousekeepingTaskUncheckedUpdateManyWithoutStoreNestedInput
-}
-
-export type StoreCreateWithoutHousekeepingTasksInput = {
-  id?: string
-  name: string
-  address?: string | null
-  isActive?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  assignedStaff?: Prisma.StaffCreateNestedManyWithoutAssignedStoreInput
-  rooms?: Prisma.RoomCreateNestedManyWithoutStoreInput
-  bookings?: Prisma.BookingCreateNestedManyWithoutStoreInput
-}
-
-export type StoreUncheckedCreateWithoutHousekeepingTasksInput = {
-  id?: string
-  name: string
-  address?: string | null
-  isActive?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  assignedStaff?: Prisma.StaffUncheckedCreateNestedManyWithoutAssignedStoreInput
-  rooms?: Prisma.RoomUncheckedCreateNestedManyWithoutStoreInput
-  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutStoreInput
-}
-
-export type StoreCreateOrConnectWithoutHousekeepingTasksInput = {
-  where: Prisma.StoreWhereUniqueInput
-  create: Prisma.XOR<Prisma.StoreCreateWithoutHousekeepingTasksInput, Prisma.StoreUncheckedCreateWithoutHousekeepingTasksInput>
-}
-
-export type StoreUpsertWithoutHousekeepingTasksInput = {
-  update: Prisma.XOR<Prisma.StoreUpdateWithoutHousekeepingTasksInput, Prisma.StoreUncheckedUpdateWithoutHousekeepingTasksInput>
-  create: Prisma.XOR<Prisma.StoreCreateWithoutHousekeepingTasksInput, Prisma.StoreUncheckedCreateWithoutHousekeepingTasksInput>
-  where?: Prisma.StoreWhereInput
-}
-
-export type StoreUpdateToOneWithWhereWithoutHousekeepingTasksInput = {
-  where?: Prisma.StoreWhereInput
-  data: Prisma.XOR<Prisma.StoreUpdateWithoutHousekeepingTasksInput, Prisma.StoreUncheckedUpdateWithoutHousekeepingTasksInput>
-}
-
-export type StoreUpdateWithoutHousekeepingTasksInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  assignedStaff?: Prisma.StaffUpdateManyWithoutAssignedStoreNestedInput
-  rooms?: Prisma.RoomUpdateManyWithoutStoreNestedInput
-  bookings?: Prisma.BookingUpdateManyWithoutStoreNestedInput
-}
-
-export type StoreUncheckedUpdateWithoutHousekeepingTasksInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  assignedStaff?: Prisma.StaffUncheckedUpdateManyWithoutAssignedStoreNestedInput
-  rooms?: Prisma.RoomUncheckedUpdateManyWithoutStoreNestedInput
-  bookings?: Prisma.BookingUncheckedUpdateManyWithoutStoreNestedInput
 }
 
 
@@ -688,14 +584,12 @@ export type StoreCountOutputType = {
   assignedStaff: number
   rooms: number
   bookings: number
-  housekeepingTasks: number
 }
 
 export type StoreCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   assignedStaff?: boolean | StoreCountOutputTypeCountAssignedStaffArgs
   rooms?: boolean | StoreCountOutputTypeCountRoomsArgs
   bookings?: boolean | StoreCountOutputTypeCountBookingsArgs
-  housekeepingTasks?: boolean | StoreCountOutputTypeCountHousekeepingTasksArgs
 }
 
 /**
@@ -729,13 +623,6 @@ export type StoreCountOutputTypeCountBookingsArgs<ExtArgs extends runtime.Types.
   where?: Prisma.BookingWhereInput
 }
 
-/**
- * StoreCountOutputType without action
- */
-export type StoreCountOutputTypeCountHousekeepingTasksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.HousekeepingTaskWhereInput
-}
-
 
 export type StoreSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -747,7 +634,6 @@ export type StoreSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   assignedStaff?: boolean | Prisma.Store$assignedStaffArgs<ExtArgs>
   rooms?: boolean | Prisma.Store$roomsArgs<ExtArgs>
   bookings?: boolean | Prisma.Store$bookingsArgs<ExtArgs>
-  housekeepingTasks?: boolean | Prisma.Store$housekeepingTasksArgs<ExtArgs>
   _count?: boolean | Prisma.StoreCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["store"]>
 
@@ -783,7 +669,6 @@ export type StoreInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   assignedStaff?: boolean | Prisma.Store$assignedStaffArgs<ExtArgs>
   rooms?: boolean | Prisma.Store$roomsArgs<ExtArgs>
   bookings?: boolean | Prisma.Store$bookingsArgs<ExtArgs>
-  housekeepingTasks?: boolean | Prisma.Store$housekeepingTasksArgs<ExtArgs>
   _count?: boolean | Prisma.StoreCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type StoreIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -795,7 +680,6 @@ export type $StorePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     assignedStaff: Prisma.$StaffPayload<ExtArgs>[]
     rooms: Prisma.$RoomPayload<ExtArgs>[]
     bookings: Prisma.$BookingPayload<ExtArgs>[]
-    housekeepingTasks: Prisma.$HousekeepingTaskPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1201,7 +1085,6 @@ export interface Prisma__StoreClient<T, Null = never, ExtArgs extends runtime.Ty
   assignedStaff<T extends Prisma.Store$assignedStaffArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Store$assignedStaffArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StaffPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   rooms<T extends Prisma.Store$roomsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Store$roomsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   bookings<T extends Prisma.Store$bookingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Store$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  housekeepingTasks<T extends Prisma.Store$housekeepingTasksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Store$housekeepingTasksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$HousekeepingTaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1694,30 +1577,6 @@ export type Store$bookingsArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   distinct?: Prisma.BookingScalarFieldEnum | Prisma.BookingScalarFieldEnum[]
-}
-
-/**
- * Store.housekeepingTasks
- */
-export type Store$housekeepingTasksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the HousekeepingTask
-   */
-  select?: Prisma.HousekeepingTaskSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the HousekeepingTask
-   */
-  omit?: Prisma.HousekeepingTaskOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.HousekeepingTaskInclude<ExtArgs> | null
-  where?: Prisma.HousekeepingTaskWhereInput
-  orderBy?: Prisma.HousekeepingTaskOrderByWithRelationInput | Prisma.HousekeepingTaskOrderByWithRelationInput[]
-  cursor?: Prisma.HousekeepingTaskWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.HousekeepingTaskScalarFieldEnum | Prisma.HousekeepingTaskScalarFieldEnum[]
 }
 
 /**

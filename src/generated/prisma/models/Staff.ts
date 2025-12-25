@@ -209,7 +209,6 @@ export type StaffWhereInput = {
   assignedStore?: Prisma.XOR<Prisma.StoreScalarRelationFilter, Prisma.StoreWhereInput>
   createdBookings?: Prisma.BookingListRelationFilter
   confirmedBookings?: Prisma.BookingListRelationFilter
-  housekeepingTasks?: Prisma.HousekeepingTaskListRelationFilter
 }
 
 export type StaffOrderByWithRelationInput = {
@@ -224,7 +223,6 @@ export type StaffOrderByWithRelationInput = {
   assignedStore?: Prisma.StoreOrderByWithRelationInput
   createdBookings?: Prisma.BookingOrderByRelationAggregateInput
   confirmedBookings?: Prisma.BookingOrderByRelationAggregateInput
-  housekeepingTasks?: Prisma.HousekeepingTaskOrderByRelationAggregateInput
 }
 
 export type StaffWhereUniqueInput = Prisma.AtLeast<{
@@ -242,7 +240,6 @@ export type StaffWhereUniqueInput = Prisma.AtLeast<{
   assignedStore?: Prisma.XOR<Prisma.StoreScalarRelationFilter, Prisma.StoreWhereInput>
   createdBookings?: Prisma.BookingListRelationFilter
   confirmedBookings?: Prisma.BookingListRelationFilter
-  housekeepingTasks?: Prisma.HousekeepingTaskListRelationFilter
 }, "id" | "email">
 
 export type StaffOrderByWithAggregationInput = {
@@ -284,7 +281,6 @@ export type StaffCreateInput = {
   assignedStore: Prisma.StoreCreateNestedOneWithoutAssignedStaffInput
   createdBookings?: Prisma.BookingCreateNestedManyWithoutCreatedByStaffInput
   confirmedBookings?: Prisma.BookingCreateNestedManyWithoutConfirmedByStaffInput
-  housekeepingTasks?: Prisma.HousekeepingTaskCreateNestedManyWithoutAssignedToInput
 }
 
 export type StaffUncheckedCreateInput = {
@@ -298,7 +294,6 @@ export type StaffUncheckedCreateInput = {
   updatedAt?: Date | string
   createdBookings?: Prisma.BookingUncheckedCreateNestedManyWithoutCreatedByStaffInput
   confirmedBookings?: Prisma.BookingUncheckedCreateNestedManyWithoutConfirmedByStaffInput
-  housekeepingTasks?: Prisma.HousekeepingTaskUncheckedCreateNestedManyWithoutAssignedToInput
 }
 
 export type StaffUpdateInput = {
@@ -312,7 +307,6 @@ export type StaffUpdateInput = {
   assignedStore?: Prisma.StoreUpdateOneRequiredWithoutAssignedStaffNestedInput
   createdBookings?: Prisma.BookingUpdateManyWithoutCreatedByStaffNestedInput
   confirmedBookings?: Prisma.BookingUpdateManyWithoutConfirmedByStaffNestedInput
-  housekeepingTasks?: Prisma.HousekeepingTaskUpdateManyWithoutAssignedToNestedInput
 }
 
 export type StaffUncheckedUpdateInput = {
@@ -326,7 +320,6 @@ export type StaffUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBookings?: Prisma.BookingUncheckedUpdateManyWithoutCreatedByStaffNestedInput
   confirmedBookings?: Prisma.BookingUncheckedUpdateManyWithoutConfirmedByStaffNestedInput
-  housekeepingTasks?: Prisma.HousekeepingTaskUncheckedUpdateManyWithoutAssignedToNestedInput
 }
 
 export type StaffCreateManyInput = {
@@ -483,22 +476,6 @@ export type StaffUpdateOneWithoutCreatedBookingsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.StaffUpdateToOneWithWhereWithoutCreatedBookingsInput, Prisma.StaffUpdateWithoutCreatedBookingsInput>, Prisma.StaffUncheckedUpdateWithoutCreatedBookingsInput>
 }
 
-export type StaffCreateNestedOneWithoutHousekeepingTasksInput = {
-  create?: Prisma.XOR<Prisma.StaffCreateWithoutHousekeepingTasksInput, Prisma.StaffUncheckedCreateWithoutHousekeepingTasksInput>
-  connectOrCreate?: Prisma.StaffCreateOrConnectWithoutHousekeepingTasksInput
-  connect?: Prisma.StaffWhereUniqueInput
-}
-
-export type StaffUpdateOneWithoutHousekeepingTasksNestedInput = {
-  create?: Prisma.XOR<Prisma.StaffCreateWithoutHousekeepingTasksInput, Prisma.StaffUncheckedCreateWithoutHousekeepingTasksInput>
-  connectOrCreate?: Prisma.StaffCreateOrConnectWithoutHousekeepingTasksInput
-  upsert?: Prisma.StaffUpsertWithoutHousekeepingTasksInput
-  disconnect?: Prisma.StaffWhereInput | boolean
-  delete?: Prisma.StaffWhereInput | boolean
-  connect?: Prisma.StaffWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.StaffUpdateToOneWithWhereWithoutHousekeepingTasksInput, Prisma.StaffUpdateWithoutHousekeepingTasksInput>, Prisma.StaffUncheckedUpdateWithoutHousekeepingTasksInput>
-}
-
 export type StaffCreateWithoutAssignedStoreInput = {
   id?: string
   email: string
@@ -509,7 +486,6 @@ export type StaffCreateWithoutAssignedStoreInput = {
   updatedAt?: Date | string
   createdBookings?: Prisma.BookingCreateNestedManyWithoutCreatedByStaffInput
   confirmedBookings?: Prisma.BookingCreateNestedManyWithoutConfirmedByStaffInput
-  housekeepingTasks?: Prisma.HousekeepingTaskCreateNestedManyWithoutAssignedToInput
 }
 
 export type StaffUncheckedCreateWithoutAssignedStoreInput = {
@@ -522,7 +498,6 @@ export type StaffUncheckedCreateWithoutAssignedStoreInput = {
   updatedAt?: Date | string
   createdBookings?: Prisma.BookingUncheckedCreateNestedManyWithoutCreatedByStaffInput
   confirmedBookings?: Prisma.BookingUncheckedCreateNestedManyWithoutConfirmedByStaffInput
-  housekeepingTasks?: Prisma.HousekeepingTaskUncheckedCreateNestedManyWithoutAssignedToInput
 }
 
 export type StaffCreateOrConnectWithoutAssignedStoreInput = {
@@ -575,7 +550,6 @@ export type StaffCreateWithoutConfirmedBookingsInput = {
   updatedAt?: Date | string
   assignedStore: Prisma.StoreCreateNestedOneWithoutAssignedStaffInput
   createdBookings?: Prisma.BookingCreateNestedManyWithoutCreatedByStaffInput
-  housekeepingTasks?: Prisma.HousekeepingTaskCreateNestedManyWithoutAssignedToInput
 }
 
 export type StaffUncheckedCreateWithoutConfirmedBookingsInput = {
@@ -588,7 +562,6 @@ export type StaffUncheckedCreateWithoutConfirmedBookingsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBookings?: Prisma.BookingUncheckedCreateNestedManyWithoutCreatedByStaffInput
-  housekeepingTasks?: Prisma.HousekeepingTaskUncheckedCreateNestedManyWithoutAssignedToInput
 }
 
 export type StaffCreateOrConnectWithoutConfirmedBookingsInput = {
@@ -606,7 +579,6 @@ export type StaffCreateWithoutCreatedBookingsInput = {
   updatedAt?: Date | string
   assignedStore: Prisma.StoreCreateNestedOneWithoutAssignedStaffInput
   confirmedBookings?: Prisma.BookingCreateNestedManyWithoutConfirmedByStaffInput
-  housekeepingTasks?: Prisma.HousekeepingTaskCreateNestedManyWithoutAssignedToInput
 }
 
 export type StaffUncheckedCreateWithoutCreatedBookingsInput = {
@@ -619,7 +591,6 @@ export type StaffUncheckedCreateWithoutCreatedBookingsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   confirmedBookings?: Prisma.BookingUncheckedCreateNestedManyWithoutConfirmedByStaffInput
-  housekeepingTasks?: Prisma.HousekeepingTaskUncheckedCreateNestedManyWithoutAssignedToInput
 }
 
 export type StaffCreateOrConnectWithoutCreatedBookingsInput = {
@@ -648,7 +619,6 @@ export type StaffUpdateWithoutConfirmedBookingsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assignedStore?: Prisma.StoreUpdateOneRequiredWithoutAssignedStaffNestedInput
   createdBookings?: Prisma.BookingUpdateManyWithoutCreatedByStaffNestedInput
-  housekeepingTasks?: Prisma.HousekeepingTaskUpdateManyWithoutAssignedToNestedInput
 }
 
 export type StaffUncheckedUpdateWithoutConfirmedBookingsInput = {
@@ -661,7 +631,6 @@ export type StaffUncheckedUpdateWithoutConfirmedBookingsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBookings?: Prisma.BookingUncheckedUpdateManyWithoutCreatedByStaffNestedInput
-  housekeepingTasks?: Prisma.HousekeepingTaskUncheckedUpdateManyWithoutAssignedToNestedInput
 }
 
 export type StaffUpsertWithoutCreatedBookingsInput = {
@@ -685,7 +654,6 @@ export type StaffUpdateWithoutCreatedBookingsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assignedStore?: Prisma.StoreUpdateOneRequiredWithoutAssignedStaffNestedInput
   confirmedBookings?: Prisma.BookingUpdateManyWithoutConfirmedByStaffNestedInput
-  housekeepingTasks?: Prisma.HousekeepingTaskUpdateManyWithoutAssignedToNestedInput
 }
 
 export type StaffUncheckedUpdateWithoutCreatedBookingsInput = {
@@ -697,75 +665,6 @@ export type StaffUncheckedUpdateWithoutCreatedBookingsInput = {
   assignedStoreId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  confirmedBookings?: Prisma.BookingUncheckedUpdateManyWithoutConfirmedByStaffNestedInput
-  housekeepingTasks?: Prisma.HousekeepingTaskUncheckedUpdateManyWithoutAssignedToNestedInput
-}
-
-export type StaffCreateWithoutHousekeepingTasksInput = {
-  id?: string
-  email: string
-  passwordHash: string
-  name?: string | null
-  isActive?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  assignedStore: Prisma.StoreCreateNestedOneWithoutAssignedStaffInput
-  createdBookings?: Prisma.BookingCreateNestedManyWithoutCreatedByStaffInput
-  confirmedBookings?: Prisma.BookingCreateNestedManyWithoutConfirmedByStaffInput
-}
-
-export type StaffUncheckedCreateWithoutHousekeepingTasksInput = {
-  id?: string
-  email: string
-  passwordHash: string
-  name?: string | null
-  isActive?: boolean
-  assignedStoreId: string
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  createdBookings?: Prisma.BookingUncheckedCreateNestedManyWithoutCreatedByStaffInput
-  confirmedBookings?: Prisma.BookingUncheckedCreateNestedManyWithoutConfirmedByStaffInput
-}
-
-export type StaffCreateOrConnectWithoutHousekeepingTasksInput = {
-  where: Prisma.StaffWhereUniqueInput
-  create: Prisma.XOR<Prisma.StaffCreateWithoutHousekeepingTasksInput, Prisma.StaffUncheckedCreateWithoutHousekeepingTasksInput>
-}
-
-export type StaffUpsertWithoutHousekeepingTasksInput = {
-  update: Prisma.XOR<Prisma.StaffUpdateWithoutHousekeepingTasksInput, Prisma.StaffUncheckedUpdateWithoutHousekeepingTasksInput>
-  create: Prisma.XOR<Prisma.StaffCreateWithoutHousekeepingTasksInput, Prisma.StaffUncheckedCreateWithoutHousekeepingTasksInput>
-  where?: Prisma.StaffWhereInput
-}
-
-export type StaffUpdateToOneWithWhereWithoutHousekeepingTasksInput = {
-  where?: Prisma.StaffWhereInput
-  data: Prisma.XOR<Prisma.StaffUpdateWithoutHousekeepingTasksInput, Prisma.StaffUncheckedUpdateWithoutHousekeepingTasksInput>
-}
-
-export type StaffUpdateWithoutHousekeepingTasksInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  assignedStore?: Prisma.StoreUpdateOneRequiredWithoutAssignedStaffNestedInput
-  createdBookings?: Prisma.BookingUpdateManyWithoutCreatedByStaffNestedInput
-  confirmedBookings?: Prisma.BookingUpdateManyWithoutConfirmedByStaffNestedInput
-}
-
-export type StaffUncheckedUpdateWithoutHousekeepingTasksInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  assignedStoreId?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  createdBookings?: Prisma.BookingUncheckedUpdateManyWithoutCreatedByStaffNestedInput
   confirmedBookings?: Prisma.BookingUncheckedUpdateManyWithoutConfirmedByStaffNestedInput
 }
 
@@ -789,7 +688,6 @@ export type StaffUpdateWithoutAssignedStoreInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBookings?: Prisma.BookingUpdateManyWithoutCreatedByStaffNestedInput
   confirmedBookings?: Prisma.BookingUpdateManyWithoutConfirmedByStaffNestedInput
-  housekeepingTasks?: Prisma.HousekeepingTaskUpdateManyWithoutAssignedToNestedInput
 }
 
 export type StaffUncheckedUpdateWithoutAssignedStoreInput = {
@@ -802,7 +700,6 @@ export type StaffUncheckedUpdateWithoutAssignedStoreInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBookings?: Prisma.BookingUncheckedUpdateManyWithoutCreatedByStaffNestedInput
   confirmedBookings?: Prisma.BookingUncheckedUpdateManyWithoutConfirmedByStaffNestedInput
-  housekeepingTasks?: Prisma.HousekeepingTaskUncheckedUpdateManyWithoutAssignedToNestedInput
 }
 
 export type StaffUncheckedUpdateManyWithoutAssignedStoreInput = {
@@ -823,13 +720,11 @@ export type StaffUncheckedUpdateManyWithoutAssignedStoreInput = {
 export type StaffCountOutputType = {
   createdBookings: number
   confirmedBookings: number
-  housekeepingTasks: number
 }
 
 export type StaffCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   createdBookings?: boolean | StaffCountOutputTypeCountCreatedBookingsArgs
   confirmedBookings?: boolean | StaffCountOutputTypeCountConfirmedBookingsArgs
-  housekeepingTasks?: boolean | StaffCountOutputTypeCountHousekeepingTasksArgs
 }
 
 /**
@@ -856,13 +751,6 @@ export type StaffCountOutputTypeCountConfirmedBookingsArgs<ExtArgs extends runti
   where?: Prisma.BookingWhereInput
 }
 
-/**
- * StaffCountOutputType without action
- */
-export type StaffCountOutputTypeCountHousekeepingTasksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.HousekeepingTaskWhereInput
-}
-
 
 export type StaffSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -876,7 +764,6 @@ export type StaffSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   assignedStore?: boolean | Prisma.StoreDefaultArgs<ExtArgs>
   createdBookings?: boolean | Prisma.Staff$createdBookingsArgs<ExtArgs>
   confirmedBookings?: boolean | Prisma.Staff$confirmedBookingsArgs<ExtArgs>
-  housekeepingTasks?: boolean | Prisma.Staff$housekeepingTasksArgs<ExtArgs>
   _count?: boolean | Prisma.StaffCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["staff"]>
 
@@ -920,7 +807,6 @@ export type StaffInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   assignedStore?: boolean | Prisma.StoreDefaultArgs<ExtArgs>
   createdBookings?: boolean | Prisma.Staff$createdBookingsArgs<ExtArgs>
   confirmedBookings?: boolean | Prisma.Staff$confirmedBookingsArgs<ExtArgs>
-  housekeepingTasks?: boolean | Prisma.Staff$housekeepingTasksArgs<ExtArgs>
   _count?: boolean | Prisma.StaffCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type StaffIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -936,7 +822,6 @@ export type $StaffPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     assignedStore: Prisma.$StorePayload<ExtArgs>
     createdBookings: Prisma.$BookingPayload<ExtArgs>[]
     confirmedBookings: Prisma.$BookingPayload<ExtArgs>[]
-    housekeepingTasks: Prisma.$HousekeepingTaskPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1344,7 +1229,6 @@ export interface Prisma__StaffClient<T, Null = never, ExtArgs extends runtime.Ty
   assignedStore<T extends Prisma.StoreDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StoreDefaultArgs<ExtArgs>>): Prisma.Prisma__StoreClient<runtime.Types.Result.GetResult<Prisma.$StorePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   createdBookings<T extends Prisma.Staff$createdBookingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Staff$createdBookingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   confirmedBookings<T extends Prisma.Staff$confirmedBookingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Staff$confirmedBookingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  housekeepingTasks<T extends Prisma.Staff$housekeepingTasksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Staff$housekeepingTasksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$HousekeepingTaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1823,30 +1707,6 @@ export type Staff$confirmedBookingsArgs<ExtArgs extends runtime.Types.Extensions
   take?: number
   skip?: number
   distinct?: Prisma.BookingScalarFieldEnum | Prisma.BookingScalarFieldEnum[]
-}
-
-/**
- * Staff.housekeepingTasks
- */
-export type Staff$housekeepingTasksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the HousekeepingTask
-   */
-  select?: Prisma.HousekeepingTaskSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the HousekeepingTask
-   */
-  omit?: Prisma.HousekeepingTaskOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.HousekeepingTaskInclude<ExtArgs> | null
-  where?: Prisma.HousekeepingTaskWhereInput
-  orderBy?: Prisma.HousekeepingTaskOrderByWithRelationInput | Prisma.HousekeepingTaskOrderByWithRelationInput[]
-  cursor?: Prisma.HousekeepingTaskWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.HousekeepingTaskScalarFieldEnum | Prisma.HousekeepingTaskScalarFieldEnum[]
 }
 
 /**

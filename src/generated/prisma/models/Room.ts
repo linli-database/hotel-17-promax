@@ -275,7 +275,6 @@ export type RoomWhereInput = {
   store?: Prisma.XOR<Prisma.StoreScalarRelationFilter, Prisma.StoreWhereInput>
   roomType?: Prisma.XOR<Prisma.RoomTypeScalarRelationFilter, Prisma.RoomTypeWhereInput>
   bookingRooms?: Prisma.BookingRoomListRelationFilter
-  housekeepingTasks?: Prisma.HousekeepingTaskListRelationFilter
 }
 
 export type RoomOrderByWithRelationInput = {
@@ -293,7 +292,6 @@ export type RoomOrderByWithRelationInput = {
   store?: Prisma.StoreOrderByWithRelationInput
   roomType?: Prisma.RoomTypeOrderByWithRelationInput
   bookingRooms?: Prisma.BookingRoomOrderByRelationAggregateInput
-  housekeepingTasks?: Prisma.HousekeepingTaskOrderByRelationAggregateInput
 }
 
 export type RoomWhereUniqueInput = Prisma.AtLeast<{
@@ -315,7 +313,6 @@ export type RoomWhereUniqueInput = Prisma.AtLeast<{
   store?: Prisma.XOR<Prisma.StoreScalarRelationFilter, Prisma.StoreWhereInput>
   roomType?: Prisma.XOR<Prisma.RoomTypeScalarRelationFilter, Prisma.RoomTypeWhereInput>
   bookingRooms?: Prisma.BookingRoomListRelationFilter
-  housekeepingTasks?: Prisma.HousekeepingTaskListRelationFilter
 }, "id" | "storeId_roomNo">
 
 export type RoomOrderByWithAggregationInput = {
@@ -367,7 +364,6 @@ export type RoomCreateInput = {
   store: Prisma.StoreCreateNestedOneWithoutRoomsInput
   roomType: Prisma.RoomTypeCreateNestedOneWithoutRoomsInput
   bookingRooms?: Prisma.BookingRoomCreateNestedManyWithoutRoomInput
-  housekeepingTasks?: Prisma.HousekeepingTaskCreateNestedManyWithoutRoomInput
 }
 
 export type RoomUncheckedCreateInput = {
@@ -383,7 +379,6 @@ export type RoomUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   bookingRooms?: Prisma.BookingRoomUncheckedCreateNestedManyWithoutRoomInput
-  housekeepingTasks?: Prisma.HousekeepingTaskUncheckedCreateNestedManyWithoutRoomInput
 }
 
 export type RoomUpdateInput = {
@@ -399,7 +394,6 @@ export type RoomUpdateInput = {
   store?: Prisma.StoreUpdateOneRequiredWithoutRoomsNestedInput
   roomType?: Prisma.RoomTypeUpdateOneRequiredWithoutRoomsNestedInput
   bookingRooms?: Prisma.BookingRoomUpdateManyWithoutRoomNestedInput
-  housekeepingTasks?: Prisma.HousekeepingTaskUpdateManyWithoutRoomNestedInput
 }
 
 export type RoomUncheckedUpdateInput = {
@@ -415,7 +409,6 @@ export type RoomUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bookingRooms?: Prisma.BookingRoomUncheckedUpdateManyWithoutRoomNestedInput
-  housekeepingTasks?: Prisma.HousekeepingTaskUncheckedUpdateManyWithoutRoomNestedInput
 }
 
 export type RoomCreateManyInput = {
@@ -634,20 +627,6 @@ export type RoomUpdateOneRequiredWithoutBookingRoomsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.RoomUpdateToOneWithWhereWithoutBookingRoomsInput, Prisma.RoomUpdateWithoutBookingRoomsInput>, Prisma.RoomUncheckedUpdateWithoutBookingRoomsInput>
 }
 
-export type RoomCreateNestedOneWithoutHousekeepingTasksInput = {
-  create?: Prisma.XOR<Prisma.RoomCreateWithoutHousekeepingTasksInput, Prisma.RoomUncheckedCreateWithoutHousekeepingTasksInput>
-  connectOrCreate?: Prisma.RoomCreateOrConnectWithoutHousekeepingTasksInput
-  connect?: Prisma.RoomWhereUniqueInput
-}
-
-export type RoomUpdateOneRequiredWithoutHousekeepingTasksNestedInput = {
-  create?: Prisma.XOR<Prisma.RoomCreateWithoutHousekeepingTasksInput, Prisma.RoomUncheckedCreateWithoutHousekeepingTasksInput>
-  connectOrCreate?: Prisma.RoomCreateOrConnectWithoutHousekeepingTasksInput
-  upsert?: Prisma.RoomUpsertWithoutHousekeepingTasksInput
-  connect?: Prisma.RoomWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.RoomUpdateToOneWithWhereWithoutHousekeepingTasksInput, Prisma.RoomUpdateWithoutHousekeepingTasksInput>, Prisma.RoomUncheckedUpdateWithoutHousekeepingTasksInput>
-}
-
 export type RoomCreateWithoutStoreInput = {
   id?: string
   roomNo: string
@@ -660,7 +639,6 @@ export type RoomCreateWithoutStoreInput = {
   updatedAt?: Date | string
   roomType: Prisma.RoomTypeCreateNestedOneWithoutRoomsInput
   bookingRooms?: Prisma.BookingRoomCreateNestedManyWithoutRoomInput
-  housekeepingTasks?: Prisma.HousekeepingTaskCreateNestedManyWithoutRoomInput
 }
 
 export type RoomUncheckedCreateWithoutStoreInput = {
@@ -675,7 +653,6 @@ export type RoomUncheckedCreateWithoutStoreInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   bookingRooms?: Prisma.BookingRoomUncheckedCreateNestedManyWithoutRoomInput
-  housekeepingTasks?: Prisma.HousekeepingTaskUncheckedCreateNestedManyWithoutRoomInput
 }
 
 export type RoomCreateOrConnectWithoutStoreInput = {
@@ -733,7 +710,6 @@ export type RoomCreateWithoutRoomTypeInput = {
   updatedAt?: Date | string
   store: Prisma.StoreCreateNestedOneWithoutRoomsInput
   bookingRooms?: Prisma.BookingRoomCreateNestedManyWithoutRoomInput
-  housekeepingTasks?: Prisma.HousekeepingTaskCreateNestedManyWithoutRoomInput
 }
 
 export type RoomUncheckedCreateWithoutRoomTypeInput = {
@@ -748,7 +724,6 @@ export type RoomUncheckedCreateWithoutRoomTypeInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   bookingRooms?: Prisma.BookingRoomUncheckedCreateNestedManyWithoutRoomInput
-  housekeepingTasks?: Prisma.HousekeepingTaskUncheckedCreateNestedManyWithoutRoomInput
 }
 
 export type RoomCreateOrConnectWithoutRoomTypeInput = {
@@ -789,7 +764,6 @@ export type RoomCreateWithoutBookingRoomsInput = {
   updatedAt?: Date | string
   store: Prisma.StoreCreateNestedOneWithoutRoomsInput
   roomType: Prisma.RoomTypeCreateNestedOneWithoutRoomsInput
-  housekeepingTasks?: Prisma.HousekeepingTaskCreateNestedManyWithoutRoomInput
 }
 
 export type RoomUncheckedCreateWithoutBookingRoomsInput = {
@@ -804,7 +778,6 @@ export type RoomUncheckedCreateWithoutBookingRoomsInput = {
   roomTypeId: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  housekeepingTasks?: Prisma.HousekeepingTaskUncheckedCreateNestedManyWithoutRoomInput
 }
 
 export type RoomCreateOrConnectWithoutBookingRoomsInput = {
@@ -835,7 +808,6 @@ export type RoomUpdateWithoutBookingRoomsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   store?: Prisma.StoreUpdateOneRequiredWithoutRoomsNestedInput
   roomType?: Prisma.RoomTypeUpdateOneRequiredWithoutRoomsNestedInput
-  housekeepingTasks?: Prisma.HousekeepingTaskUpdateManyWithoutRoomNestedInput
 }
 
 export type RoomUncheckedUpdateWithoutBookingRoomsInput = {
@@ -850,83 +822,6 @@ export type RoomUncheckedUpdateWithoutBookingRoomsInput = {
   roomTypeId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  housekeepingTasks?: Prisma.HousekeepingTaskUncheckedUpdateManyWithoutRoomNestedInput
-}
-
-export type RoomCreateWithoutHousekeepingTasksInput = {
-  id?: string
-  roomNo: string
-  floor: number
-  capacity?: number
-  basePrice: runtime.Decimal | runtime.DecimalJsLike | number | string
-  status?: $Enums.RoomOperationalStatus
-  isActive?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  store: Prisma.StoreCreateNestedOneWithoutRoomsInput
-  roomType: Prisma.RoomTypeCreateNestedOneWithoutRoomsInput
-  bookingRooms?: Prisma.BookingRoomCreateNestedManyWithoutRoomInput
-}
-
-export type RoomUncheckedCreateWithoutHousekeepingTasksInput = {
-  id?: string
-  roomNo: string
-  floor: number
-  capacity?: number
-  basePrice: runtime.Decimal | runtime.DecimalJsLike | number | string
-  status?: $Enums.RoomOperationalStatus
-  isActive?: boolean
-  storeId: string
-  roomTypeId: string
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  bookingRooms?: Prisma.BookingRoomUncheckedCreateNestedManyWithoutRoomInput
-}
-
-export type RoomCreateOrConnectWithoutHousekeepingTasksInput = {
-  where: Prisma.RoomWhereUniqueInput
-  create: Prisma.XOR<Prisma.RoomCreateWithoutHousekeepingTasksInput, Prisma.RoomUncheckedCreateWithoutHousekeepingTasksInput>
-}
-
-export type RoomUpsertWithoutHousekeepingTasksInput = {
-  update: Prisma.XOR<Prisma.RoomUpdateWithoutHousekeepingTasksInput, Prisma.RoomUncheckedUpdateWithoutHousekeepingTasksInput>
-  create: Prisma.XOR<Prisma.RoomCreateWithoutHousekeepingTasksInput, Prisma.RoomUncheckedCreateWithoutHousekeepingTasksInput>
-  where?: Prisma.RoomWhereInput
-}
-
-export type RoomUpdateToOneWithWhereWithoutHousekeepingTasksInput = {
-  where?: Prisma.RoomWhereInput
-  data: Prisma.XOR<Prisma.RoomUpdateWithoutHousekeepingTasksInput, Prisma.RoomUncheckedUpdateWithoutHousekeepingTasksInput>
-}
-
-export type RoomUpdateWithoutHousekeepingTasksInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  roomNo?: Prisma.StringFieldUpdateOperationsInput | string
-  floor?: Prisma.IntFieldUpdateOperationsInput | number
-  capacity?: Prisma.IntFieldUpdateOperationsInput | number
-  basePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  status?: Prisma.EnumRoomOperationalStatusFieldUpdateOperationsInput | $Enums.RoomOperationalStatus
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  store?: Prisma.StoreUpdateOneRequiredWithoutRoomsNestedInput
-  roomType?: Prisma.RoomTypeUpdateOneRequiredWithoutRoomsNestedInput
-  bookingRooms?: Prisma.BookingRoomUpdateManyWithoutRoomNestedInput
-}
-
-export type RoomUncheckedUpdateWithoutHousekeepingTasksInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  roomNo?: Prisma.StringFieldUpdateOperationsInput | string
-  floor?: Prisma.IntFieldUpdateOperationsInput | number
-  capacity?: Prisma.IntFieldUpdateOperationsInput | number
-  basePrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  status?: Prisma.EnumRoomOperationalStatusFieldUpdateOperationsInput | $Enums.RoomOperationalStatus
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  storeId?: Prisma.StringFieldUpdateOperationsInput | string
-  roomTypeId?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  bookingRooms?: Prisma.BookingRoomUncheckedUpdateManyWithoutRoomNestedInput
 }
 
 export type RoomCreateManyStoreInput = {
@@ -954,7 +849,6 @@ export type RoomUpdateWithoutStoreInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   roomType?: Prisma.RoomTypeUpdateOneRequiredWithoutRoomsNestedInput
   bookingRooms?: Prisma.BookingRoomUpdateManyWithoutRoomNestedInput
-  housekeepingTasks?: Prisma.HousekeepingTaskUpdateManyWithoutRoomNestedInput
 }
 
 export type RoomUncheckedUpdateWithoutStoreInput = {
@@ -969,7 +863,6 @@ export type RoomUncheckedUpdateWithoutStoreInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bookingRooms?: Prisma.BookingRoomUncheckedUpdateManyWithoutRoomNestedInput
-  housekeepingTasks?: Prisma.HousekeepingTaskUncheckedUpdateManyWithoutRoomNestedInput
 }
 
 export type RoomUncheckedUpdateManyWithoutStoreInput = {
@@ -1010,7 +903,6 @@ export type RoomUpdateWithoutRoomTypeInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   store?: Prisma.StoreUpdateOneRequiredWithoutRoomsNestedInput
   bookingRooms?: Prisma.BookingRoomUpdateManyWithoutRoomNestedInput
-  housekeepingTasks?: Prisma.HousekeepingTaskUpdateManyWithoutRoomNestedInput
 }
 
 export type RoomUncheckedUpdateWithoutRoomTypeInput = {
@@ -1025,7 +917,6 @@ export type RoomUncheckedUpdateWithoutRoomTypeInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bookingRooms?: Prisma.BookingRoomUncheckedUpdateManyWithoutRoomNestedInput
-  housekeepingTasks?: Prisma.HousekeepingTaskUncheckedUpdateManyWithoutRoomNestedInput
 }
 
 export type RoomUncheckedUpdateManyWithoutRoomTypeInput = {
@@ -1048,12 +939,10 @@ export type RoomUncheckedUpdateManyWithoutRoomTypeInput = {
 
 export type RoomCountOutputType = {
   bookingRooms: number
-  housekeepingTasks: number
 }
 
 export type RoomCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   bookingRooms?: boolean | RoomCountOutputTypeCountBookingRoomsArgs
-  housekeepingTasks?: boolean | RoomCountOutputTypeCountHousekeepingTasksArgs
 }
 
 /**
@@ -1073,13 +962,6 @@ export type RoomCountOutputTypeCountBookingRoomsArgs<ExtArgs extends runtime.Typ
   where?: Prisma.BookingRoomWhereInput
 }
 
-/**
- * RoomCountOutputType without action
- */
-export type RoomCountOutputTypeCountHousekeepingTasksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.HousekeepingTaskWhereInput
-}
-
 
 export type RoomSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1096,7 +978,6 @@ export type RoomSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   store?: boolean | Prisma.StoreDefaultArgs<ExtArgs>
   roomType?: boolean | Prisma.RoomTypeDefaultArgs<ExtArgs>
   bookingRooms?: boolean | Prisma.Room$bookingRoomsArgs<ExtArgs>
-  housekeepingTasks?: boolean | Prisma.Room$housekeepingTasksArgs<ExtArgs>
   _count?: boolean | Prisma.RoomCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["room"]>
 
@@ -1151,7 +1032,6 @@ export type RoomInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   store?: boolean | Prisma.StoreDefaultArgs<ExtArgs>
   roomType?: boolean | Prisma.RoomTypeDefaultArgs<ExtArgs>
   bookingRooms?: boolean | Prisma.Room$bookingRoomsArgs<ExtArgs>
-  housekeepingTasks?: boolean | Prisma.Room$housekeepingTasksArgs<ExtArgs>
   _count?: boolean | Prisma.RoomCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type RoomIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1169,7 +1049,6 @@ export type $RoomPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     store: Prisma.$StorePayload<ExtArgs>
     roomType: Prisma.$RoomTypePayload<ExtArgs>
     bookingRooms: Prisma.$BookingRoomPayload<ExtArgs>[]
-    housekeepingTasks: Prisma.$HousekeepingTaskPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1580,7 +1459,6 @@ export interface Prisma__RoomClient<T, Null = never, ExtArgs extends runtime.Typ
   store<T extends Prisma.StoreDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StoreDefaultArgs<ExtArgs>>): Prisma.Prisma__StoreClient<runtime.Types.Result.GetResult<Prisma.$StorePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   roomType<T extends Prisma.RoomTypeDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RoomTypeDefaultArgs<ExtArgs>>): Prisma.Prisma__RoomTypeClient<runtime.Types.Result.GetResult<Prisma.$RoomTypePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   bookingRooms<T extends Prisma.Room$bookingRoomsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Room$bookingRoomsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookingRoomPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  housekeepingTasks<T extends Prisma.Room$housekeepingTasksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Room$housekeepingTasksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$HousekeepingTaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2038,30 +1916,6 @@ export type Room$bookingRoomsArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.BookingRoomScalarFieldEnum | Prisma.BookingRoomScalarFieldEnum[]
-}
-
-/**
- * Room.housekeepingTasks
- */
-export type Room$housekeepingTasksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the HousekeepingTask
-   */
-  select?: Prisma.HousekeepingTaskSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the HousekeepingTask
-   */
-  omit?: Prisma.HousekeepingTaskOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.HousekeepingTaskInclude<ExtArgs> | null
-  where?: Prisma.HousekeepingTaskWhereInput
-  orderBy?: Prisma.HousekeepingTaskOrderByWithRelationInput | Prisma.HousekeepingTaskOrderByWithRelationInput[]
-  cursor?: Prisma.HousekeepingTaskWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.HousekeepingTaskScalarFieldEnum | Prisma.HousekeepingTaskScalarFieldEnum[]
 }
 
 /**
