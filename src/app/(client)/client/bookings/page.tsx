@@ -4,37 +4,50 @@ import { useEffect, useState, useTransition } from 'react';
 import { BookingStatus } from '@/generated/prisma/client';
 
 type Booking = {
-  id: number;
+  id: string;
   status: BookingStatus;
   checkIn: string;
   checkOut: string;
   totalPrice: string;
-  store?: { name: string | null };
-  bookingRooms: { id: number; room: { roomNo: string } }[];
+  cancelReason?: string | null;
+  store?: { name: string };
+  roomType?: { name: string };
+  bookingRooms: { room: { roomNo: string } }[];
+  createdAt: string;
 };
 
 const statusMap: Record<BookingStatus, string> = {
-  PENDING: '待确认',
+  PENDING: '待入住',
   CONFIRMED: '已确认',
   CHECKED_IN: '已入住',
   CHECKED_OUT: '已离店',
-  COMPLETED: '已完成',
   CANCELLED: '已取消',
-  NO_SHOW: '未到店',
 };
 
 function StatusBadge({ status }: { status: BookingStatus }) {
-  const color =
-    status === 'CANCELLED'
-      ? 'bg-slate-100 text-slate-700'
-      : status === 'PENDING'
-        ? 'bg-amber-100 text-amber-700'
-        : status === 'CONFIRMED'
-          ? 'bg-blue-100 text-blue-700'
-          : status === 'CHECKED_IN'
-            ? 'bg-green-100 text-green-700'
-            : 'bg-slate-100 text-slate-700';
-  return <span className={`rounded-full px-2 py-1 text-xs font-semibold ${color}`}>{statusMap[status]}</span>;
+  let badgeClass = 'badge';
+  
+  switch (status) {
+    case 'PENDING':
+      badgeClass += ' badge-warning';
+      break;
+    case 'CONFIRMED':
+      badgeClass += ' badge-info';
+      break;
+    case 'CHECKED_IN':
+      badgeClass += ' badge-success';
+      break;
+    case 'CHECKED_OUT':
+      badgeClass += ' badge-neutral';
+      break;
+    case 'CANCELLED':
+      badgeClass += ' badge-error';
+      break;
+    default:
+      badgeClass += ' badge-ghost';
+  }
+  
+  return <span className={badgeClass}>{statusMap[status]}</span>;
 }
 
 export default function BookingsPage() {
@@ -42,86 +55,224 @@ export default function BookingsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
+  const [cancelReason, setCancelReason] = useState('');
+  const [cancelingId, setCancelingId] = useState<string | null>(null);
 
   useEffect(() => {
-    const load = async () => {
-      setLoading(true);
-      const res = await fetch('/api/bookings');
-      setLoading(false);
-      if (res.ok) {
-        const data = await res.json();
-        setBookings(data.bookings ?? []);
-        return;
-      }
-      const data = await res.json().catch(() => null);
-      setError(data?.error ?? '加载失败');
-    };
-    load();
+    loadBookings();
   }, []);
 
-  const cancel = (id: number) => {
-    startTransition(async () => {
-      await fetch(`/api/bookings/${id}/cancel`, { method: 'POST' });
-      const res = await fetch('/api/bookings');
+  const loadBookings = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch('/api/client/bookings');
       if (res.ok) {
         const data = await res.json();
         setBookings(data.bookings ?? []);
+      } else {
+        const data = await res.json().catch(() => null);
+        setError(data?.error ?? '加载失败');
+      }
+    } catch (err) {
+      setError('加载失败');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCancelBooking = (id: string) => {
+    setCancelingId(id);
+    setCancelReason('');
+  };
+
+  const confirmCancel = async () => {
+    if (!cancelingId) return;
+
+    startTransition(async () => {
+      try {
+        const res = await fetch(`/api/client/bookings/${cancelingId}/cancel`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ reason: cancelReason || '用户取消' }),
+        });
+
+        if (res.ok) {
+          alert('订单已取消');
+          loadBookings();
+        } else {
+          const data = await res.json();
+          alert(data.error || '取消失败');
+        }
+      } catch (err) {
+        alert('取消失败');
+      } finally {
+        setCancelingId(null);
+        setCancelReason('');
       }
     });
   };
 
+  const formatDate = (dateStr: string) => {
+    return new Date(dateStr).toLocaleDateString('zh-CN', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    });
+  };
+
+  const calculateNights = (checkIn: string, checkOut: string) => {
+    const nights = Math.ceil(
+      (new Date(checkOut).getTime() - new Date(checkIn).getTime()) / (1000 * 60 * 60 * 24)
+    );
+    return nights;
+  };
+
   return (
     <div className="space-y-6">
-      <div className="space-y-2">
-        <h1 className="text-2xl font-semibold">我的订单</h1>
-        <p className="text-sm text-slate-600">查看与管理您的预约。</p>
+      <div>
+        <h1 className="text-3xl font-bold text-primary mb-2">我的订单</h1>
+        <p className="text-base-content/70">查看与管理您的预约</p>
       </div>
 
-      {loading ? <p className="text-sm text-slate-600">加载中...</p> : null}
-      {error ? <p className="text-sm text-red-600">{error}</p> : null}
+      {loading ? (
+        <div className="flex justify-center py-12">
+          <span className="loading loading-spinner loading-lg"></span>
+        </div>
+      ) : null}
 
-      <div className="space-y-4">
-        {bookings.map((booking) => (
-          <div key={booking.id} className="rounded-lg border bg-white p-4 shadow-sm">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <div className="space-y-1">
-                <p className="text-sm font-semibold">{booking.store?.name ?? '门店'}</p>
-                <p className="text-sm text-slate-600">
-                  {new Date(booking.checkIn).toLocaleDateString()} - {new Date(booking.checkOut).toLocaleDateString()}
-                </p>
-              </div>
-              <div className="flex items-center gap-3">
-                <StatusBadge status={booking.status} />
-                {['PENDING', 'CONFIRMED'].includes(booking.status) ? (
-                  <button
-                    onClick={() => cancel(booking.id)}
-                    className="rounded border border-red-200 bg-red-50 px-3 py-1 text-xs font-semibold text-red-700 disabled:opacity-60"
-                    disabled={pending}
-                  >
-                    取消预约
-                  </button>
-                ) : (
-                  <button className="rounded border border-slate-200 px-3 py-1 text-xs text-slate-500" disabled>
-                    不可取消
-                  </button>
-                )}
-              </div>
-            </div>
-            <div className="mt-3 flex flex-wrap gap-2 text-sm text-slate-700">
-              {booking.bookingRooms.map((br) => (
-                <span key={br.id} className="rounded border border-slate-200 px-2 py-1">
-                  房号 {br.room.roomNo}
-                </span>
-              ))}
-            </div>
-            <div className="mt-3 text-sm text-slate-600">总价 ¥{booking.totalPrice}</div>
+      {error && !loading ? (
+        <div className="alert alert-error">
+          <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span>{error}</span>
+        </div>
+      ) : null}
+
+      {!loading && bookings.length === 0 ? (
+        <div className="card bg-base-100 shadow-lg">
+          <div className="card-body text-center py-12">
+            <svg className="w-16 h-16 mx-auto text-base-content/30 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            <p className="text-lg text-base-content/70">暂无订单</p>
+            <p className="text-sm text-base-content/50">开始预订您的第一间客房吧！</p>
           </div>
-        ))}
+        </div>
+      ) : null}
 
-        {!loading && bookings.length === 0 ? (
-          <p className="text-sm text-slate-600">暂无预约，去预约房间吧。</p>
-        ) : null}
-      </div>
+      {!loading && bookings.length > 0 ? (
+        <div className="space-y-4">
+          {bookings.map((booking) => (
+            <div key={booking.id} className="card bg-base-100 shadow-lg hover:shadow-xl transition-shadow">
+              <div className="card-body">
+                <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+                  <div className="flex-1 space-y-3">
+                    <div className="flex items-center gap-3">
+                      <h3 className="card-title">{booking.store?.name}</h3>
+                      <StatusBadge status={booking.status} />
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+                      <div className="flex items-center gap-2">
+                        <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z" />
+                        </svg>
+                        <span>房型：{booking.roomType?.name || '未指定'}</span>
+                      </div>
+                      
+                      <div className="flex items-center gap-2">
+                        <svg className="w-5 h-5 text-info" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        <span>
+                          {formatDate(booking.checkIn)} 至 {formatDate(booking.checkOut)}
+                          （{calculateNights(booking.checkIn, booking.checkOut)} 晚）
+                        </span>
+                      </div>
+
+                      {booking.bookingRooms.length > 0 && (
+                        <div className="flex items-center gap-2">
+                          <svg className="w-5 h-5 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                          <span>
+                            房间号：{booking.bookingRooms.map((br) => br.room.roomNo).join(', ')}
+                          </span>
+                        </div>
+                      )}
+
+                      <div className="flex items-center gap-2">
+                        <svg className="w-5 h-5 text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span className="font-semibold">总价：¥{booking.totalPrice}</span>
+                      </div>
+                    </div>
+
+                    {booking.cancelReason && (
+                      <div className="alert alert-error alert-sm">
+                        <span>取消原因：{booking.cancelReason}</span>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="flex flex-col gap-2">
+                    {booking.status === 'PENDING' && (
+                      <button
+                        className="btn btn-error btn-sm"
+                        onClick={() => handleCancelBooking(booking.id)}
+                        disabled={pending}
+                      >
+                        取消订单
+                      </button>
+                    )}
+                    <div className="text-xs text-base-content/50 text-right">
+                      创建时间：{formatDate(booking.createdAt)}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : null}
+
+      {/* 取消订单对话框 */}
+      {cancelingId && (
+        <div className="modal modal-open">
+          <div className="modal-box">
+            <h3 className="font-bold text-lg mb-4">取消订单</h3>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">取消原因（可选）</span>
+              </label>
+              <textarea
+                className="textarea textarea-bordered h-24"
+                placeholder="请输入取消原因..."
+                value={cancelReason}
+                onChange={(e) => setCancelReason(e.target.value)}
+              ></textarea>
+            </div>
+            <div className="modal-action">
+              <button
+                className="btn btn-ghost"
+                onClick={() => setCancelingId(null)}
+                disabled={pending}
+              >
+                返回
+              </button>
+              <button
+                className="btn btn-error"
+                onClick={confirmCancel}
+                disabled={pending}
+              >
+                {pending ? <span className="loading loading-spinner"></span> : '确认取消'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
