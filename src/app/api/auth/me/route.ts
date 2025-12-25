@@ -3,49 +3,39 @@ import { prisma } from '@/lib/prisma';
 import { getSession } from '@/lib/server/session';
 
 export async function GET() {
-  const session = await getSession();
-  if (!session) {
-    return NextResponse.json({ user: null });
+  const adminSession = await getSession('admin');
+  if (adminSession) {
+    if (adminSession.role === 'ADMIN') {
+      const user = await prisma.admin.findUnique({
+        where: { id: adminSession.userId },
+        select: { id: true, email: true, name: true, createdAt: true },
+      });
+      if (user) {
+        return NextResponse.json({ user: { ...user, role: 'ADMIN' } });
+      }
+    }
+
+    if (adminSession.role === 'STAFF') {
+      const user = await prisma.staff.findUnique({
+        where: { id: adminSession.userId },
+        select: { id: true, email: true, name: true, createdAt: true },
+      });
+      if (user) {
+        return NextResponse.json({ user: { ...user, role: 'STAFF' } });
+      }
+    }
   }
-  
-  // 从三张表中查找用户
-  let user = null;
-  
-  // 先尝试从Admin表查找
-  user = await prisma.admin.findUnique({
-    where: { id: session.userId },
-    select: { id: true, email: true, name: true, createdAt: true },
-  });
-  
-  if (user) {
-    return NextResponse.json({ 
-      user: { ...user, role: 'ADMIN' }
+
+  const clientSession = await getSession('client');
+  if (clientSession?.role === 'CUSTOMER') {
+    const user = await prisma.customer.findUnique({
+      where: { id: clientSession.userId },
+      select: { id: true, email: true, name: true, phone: true, createdAt: true },
     });
+    if (user) {
+      return NextResponse.json({ user: { ...user, role: 'CUSTOMER' } });
+    }
   }
-  
-  // 尝试从Staff表查找
-  user = await prisma.staff.findUnique({
-    where: { id: session.userId },
-    select: { id: true, email: true, name: true, createdAt: true },
-  });
-  
-  if (user) {
-    return NextResponse.json({ 
-      user: { ...user, role: 'STAFF' }
-    });
-  }
-  
-  // 尝试从Customer表查找
-  user = await prisma.customer.findUnique({
-    where: { id: session.userId },
-    select: { id: true, email: true, name: true, phone: true, createdAt: true },
-  });
-  
-  if (user) {
-    return NextResponse.json({ 
-      user: { ...user, role: 'CUSTOMER' }
-    });
-  }
-  
+
   return NextResponse.json({ user: null });
 }

@@ -42,5 +42,5 @@ export async function POST(req: NextRequest) {
     },
   });
 
-  return applySession(res, { userId: customer.id, role: 'CUSTOMER' });
+  return applySession(res, { userId: customer.id, role: 'CUSTOMER' }, 'client');
 }

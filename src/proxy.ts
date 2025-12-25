@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { ADMIN_SESSION_COOKIE, CLIENT_SESSION_COOKIE } from '@/lib/auth/constants';
 
 const PUBLIC_CLIENT_PATHS = new Set(['/client/login', '/client/register']);
 const PUBLIC_ADMIN_PATHS = new Set(['/admin/login']);
@@ -59,11 +60,12 @@ export async function proxy(req: NextRequest) {
     return NextResponse.next();
   }
 
-  const token = req.cookies.get('hotel_session')?.value;
+  const adminToken = req.cookies.get(ADMIN_SESSION_COOKIE)?.value;
+  const clientToken = req.cookies.get(CLIENT_SESSION_COOKIE)?.value;
 
   if (pathname.startsWith('/admin')) {
     if (PUBLIC_ADMIN_PATHS.has(pathname)) return NextResponse.next();
-    const session = token ? await parseSession(token) : null;
+    const session = adminToken ? await parseSession(adminToken) : null;
     if (!session || (session.role !== 'STAFF' && session.role !== 'ADMIN')) {
       return NextResponse.redirect(new URL('/admin/login', req.url));
     }
@@ -72,7 +74,7 @@ export async function proxy(req: NextRequest) {
 
   if (pathname.startsWith('/client')) {
     if (PUBLIC_CLIENT_PATHS.has(pathname)) return NextResponse.next();
-    const session = token ? await parseSession(token) : null;
+    const session = clientToken ? await parseSession(clientToken) : null;
     if (!session || session.role !== 'CUSTOMER') {
       return NextResponse.redirect(new URL('/client/login', req.url));
     }

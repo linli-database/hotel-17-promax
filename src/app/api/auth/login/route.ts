@@ -60,5 +60,6 @@ export async function POST(req: NextRequest) {
     },
   });
 
-  return applySession(res, { userId: user.id, role });
+  const scope = role === 'CUSTOMER' ? 'client' : 'admin';
+  return applySession(res, { userId: user.id, role }, scope);
 }

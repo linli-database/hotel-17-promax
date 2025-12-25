@@ -1,12 +1,12 @@
 import { createHmac, randomBytes, scrypt } from 'crypto';
 import { NextRequest, NextResponse } from 'next/server';
+import { getSessionCookieName, SessionScope } from '@/lib/auth/constants';
 
 type SessionPayload = {
   userId: string;
   role: 'CUSTOMER' | 'ADMIN' | 'STAFF';
 };
 
-const SESSION_COOKIE = 'hotel_session';
 const SESSION_MAX_AGE = 60 * 60 * 24 * 7; // 7 days
 
 const scryptAsync = (password: string, salt: string, keylen: number) =>
@@ -59,16 +59,16 @@ export function parseSessionToken(token: string): SessionPayload | null {
   }
 }
 
-export function getSessionFromRequest(req: NextRequest): SessionPayload | null {
-  const token = req.cookies.get(SESSION_COOKIE)?.value;
+export function getSessionFromRequest(req: NextRequest, scope: SessionScope): SessionPayload | null {
+  const token = req.cookies.get(getSessionCookieName(scope))?.value;
   if (!token) return null;
   return parseSessionToken(token);
 }
 
-export function applySession(res: NextResponse, payload: SessionPayload) {
+export function applySession(res: NextResponse, payload: SessionPayload, scope: SessionScope) {
   const token = createSessionToken(payload);
   res.cookies.set({
-    name: SESSION_COOKIE,
+    name: getSessionCookieName(scope),
     value: token,
     httpOnly: true,
     sameSite: 'lax',
@@ -79,9 +79,9 @@ export function applySession(res: NextResponse, payload: SessionPayload) {
   return res;
 }
 
-export function clearSession(res: NextResponse) {
+export function clearSession(res: NextResponse, scope: SessionScope) {
   res.cookies.set({
-    name: SESSION_COOKIE,
+    name: getSessionCookieName(scope),
     value: '',
     httpOnly: true,
     sameSite: 'lax',

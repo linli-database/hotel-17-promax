@@ -1,4 +1,5 @@
 import { NextRequest } from 'next/server';
+import { CLIENT_SESSION_COOKIE, ADMIN_SESSION_COOKIE, SessionScope } from '@/lib/auth/constants';
 import { parseSessionToken } from './auth';
 import { prisma } from '../prisma';
 
@@ -10,11 +11,25 @@ export interface SessionUser {
   assignedStoreId?: string | null;
 }
 
-export async function getSessionUser(req: NextRequest): Promise<SessionUser | null> {
-  const token = req.cookies.get('hotel_session')?.value;
-  if (!token) return null;
+export async function getSessionUser(
+  req: NextRequest,
+  scope: SessionScope | 'any' = 'any'
+): Promise<SessionUser | null> {
+  const cookieNames =
+    scope === 'any' ? [ADMIN_SESSION_COOKIE, CLIENT_SESSION_COOKIE] : [scope === 'admin' ? ADMIN_SESSION_COOKIE : CLIENT_SESSION_COOKIE];
 
-  const session = parseSessionToken(token);
+  let session: { userId: string; role: UserRole } | null = null;
+  for (const name of cookieNames) {
+    const token = req.cookies.get(name)?.value;
+    if (!token) continue;
+    const parsed = parseSessionToken(token);
+    if (!parsed) continue;
+    if (scope === 'admin' && parsed.role === 'CUSTOMER') continue;
+    if (scope === 'client' && parsed.role !== 'CUSTOMER') continue;
+    session = parsed;
+    break;
+  }
+
   if (!session) return null;
 
   // 根据role查询对应的表

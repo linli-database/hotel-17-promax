@@ -3,7 +3,5 @@ import { clearSession } from '@/lib/server/auth';
 
 export async function POST() {
   const res = NextResponse.json({ ok: true });
-  clearSession(res, 'admin');
-  clearSession(res, 'client');
-  return res;
+  return clearSession(res, 'admin');
 }

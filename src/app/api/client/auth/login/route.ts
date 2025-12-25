@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { createSessionToken, verifyPassword } from '@/lib/server/auth';
+import { applySession, verifyPassword } from '@/lib/server/auth';
 
 interface LoginRequest {
   email: string;
@@ -39,12 +39,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // 创建会话 token
-    const token = createSessionToken({
-      userId: customer.id,
-      role: 'CUSTOMER'
-    });
-
     const response = NextResponse.json({
       message: '登录成功',
       user: {
@@ -56,16 +50,7 @@ export async function POST(req: NextRequest) {
         role: 'CUSTOMER'
       }
     });
-
-    response.cookies.set('hotel_session', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      path: '/',
-      maxAge: 60 * 60 * 24 * 7, // 7天
-    });
-
-    return response;
+    return applySession(response, { userId: customer.id, role: 'CUSTOMER' }, 'client');
   } catch (error) {
     console.error('客户端登录错误:', error);
     return NextResponse.json(
