@@ -64,6 +64,14 @@ export default function ClientHome() {
 
   // 获取指定门店的房型信息
   const handleStoreSelect = async (store: Store) => {
+    // 如果当前点击的门店与已选门店相同，则取消选择
+    if (selectedStore && selectedStore.id === store.id) {
+      setSelectedStore(null);
+      setRoomTypes([]);
+      setError(null);
+      return;
+    }
+
     setSelectedStore(store);
     setRoomTypes([]);
     setError(null);

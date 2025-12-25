@@ -5,6 +5,7 @@ import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import './globals.css';
+import BottomNav from './_components/BottomNav';
 
 export default function ClientLayout({ children }: { children: ReactNode }) {
   const router = useRouter();
@@ -37,35 +38,15 @@ export default function ClientLayout({ children }: { children: ReactNode }) {
   };
 
   return (
-    <div className="min-h-screen bg-base-200">
+    <div className="min-h-screen bg-base-200 pb-20 lg:pb-0"> {/* 为底部导航留出空间 */}
       <header className="navbar bg-base-100 shadow-md sticky top-0 z-50">
         <div className="navbar-start">
-          <div className="dropdown">
-            <label tabIndex={0} className="btn btn-ghost lg:hidden">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" />
-              </svg>
-            </label>
-            <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-              <li><Link href="/client">首页</Link></li>
-              <li><Link href="/client/bookings">我的订单</Link></li>
-              {user && <li><Link href="/client/profile">个人中心</Link></li>}
-            </ul>
-          </div>
           <Link href="/client" className="btn btn-ghost normal-case text-xl">
             <svg className="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
             </svg>
             酒店预订系统
           </Link>
-        </div>
-        
-        <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1">
-            <li><Link href="/client">首页</Link></li>
-            <li><Link href="/client/bookings">我的订单</Link></li>
-            {user && <li><Link href="/client/profile">个人中心</Link></li>}
-          </ul>
         </div>
         
         <div className="navbar-end gap-2">
@@ -83,7 +64,6 @@ export default function ClientLayout({ children }: { children: ReactNode }) {
                   <li className="menu-title">
                     <span>{user.name || user.email}</span>
                   </li>
-                  <li><Link href="/client/profile">个人中心</Link></li>
                   <li><Link href="/client/bookings">我的订单</Link></li>
                   <li><button onClick={handleLogout}>退出登录</button></li>
                 </ul>
@@ -104,7 +84,11 @@ export default function ClientLayout({ children }: { children: ReactNode }) {
       
       <main className="container mx-auto px-4 py-8 max-w-7xl">{children}</main>
       
-      <footer className="footer footer-center p-10 bg-base-100 text-base-content mt-12">
+      {/* 仅在移动设备上显示底部导航 */}
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 h-20"></div> {/* 为底部导航预留空间 */}
+      <BottomNav />
+      
+      <footer className="footer footer-center p-10 bg-base-100 text-base-content mt-12 hidden lg:block">
         <aside>
           <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
