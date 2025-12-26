@@ -6,7 +6,7 @@ interface Room {
   id: string;
   roomNo: string;
   floor: number;
-  status: 'AVAILABLE' | 'OCCUPIED' | 'DIRTY' | 'OUT_OF_SERVICE';
+  status: 'AVAILABLE' | 'OCCUPIED' | 'CLEANING' | 'OUT_OF_SERVICE';
   roomType: {
     name: string;
     basePrice: number;
@@ -49,12 +49,12 @@ interface Store {
 const statusMap = {
   AVAILABLE: { label: '空闲', color: 'badge-success' },
   OCCUPIED: { label: '占用', color: 'badge-warning' },
-  DIRTY: { label: '待清洁', color: 'badge-info' },
+  CLEANING: { label: '待清洁', color: 'badge-info' },
   OUT_OF_SERVICE: { label: '停用', color: 'badge-error' },
 };
 
 const bookingStatusMap = {
-  PENDING: { label: '待确认', color: 'badge-warning' },
+  PENDING: { label: '待入住', color: 'badge-warning' },
   CONFIRMED: { label: '已确认', color: 'badge-info' },
   CHECKED_IN: { label: '已入住', color: 'badge-success' },
   CHECKED_OUT: { label: '已离店', color: 'badge-secondary' },
@@ -135,14 +135,17 @@ export default function StoreManagementPage() {
 
   const updateRoomStatus = async (roomId: string, status: string) => {
     try {
-      const res = await fetch(`/api/staff/rooms/${roomId}/status`, {
-        method: 'PUT',
+      const res = await fetch(`/api/staff/store/rooms`, {
+        method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status }),
+        body: JSON.stringify({ roomId, status }),
       });
 
       if (res.ok) {
         await fetchStoreData(); // 刷新数据
+      } else {
+        const data = await res.json();
+        alert(data.error || '更新房间状态失败');
       }
     } catch (error) {
       console.error('更新房间状态失败:', error);
@@ -151,32 +154,38 @@ export default function StoreManagementPage() {
 
   const assignRoom = async (bookingId: string, roomId: string) => {
     try {
-      const res = await fetch(`/api/staff/bookings/${bookingId}/assign-room`, {
-        method: 'PUT',
+      const res = await fetch(`/api/staff/store/bookings/${bookingId}`, {
+        method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ roomId }),
+        body: JSON.stringify({ action: 'assign', roomId }),
       });
 
       if (res.ok) {
         await fetchStoreData(); // 刷新数据
         setAssigningBooking(null);
         setSelectedRoom('');
+      } else {
+        const data = await res.json();
+        alert(data.error || '分配房间失败');
       }
     } catch (error) {
       console.error('分配房间失败:', error);
     }
   };
 
-  const updateBookingStatus = async (bookingId: string, status: string) => {
+  const updateBookingStatus = async (bookingId: string, action: string) => {
     try {
-      const res = await fetch(`/api/staff/bookings/${bookingId}/status`, {
-        method: 'PUT',
+      const res = await fetch(`/api/staff/store/bookings/${bookingId}`, {
+        method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status }),
+        body: JSON.stringify({ action }),
       });
 
       if (res.ok) {
         await fetchStoreData(); // 刷新数据
+      } else {
+        const data = await res.json();
+        alert(data.error || '操作失败');
       }
     } catch (error) {
       console.error('更新订单状态失败:', error);
@@ -257,7 +266,7 @@ export default function StoreManagementPage() {
               </div>
               <div className="flex items-center gap-1">
                 <div className="w-3 h-3 bg-info rounded"></div>
-                <span>待清洁 ({rooms.filter(r => r.status === 'DIRTY').length})</span>
+                <span>待清洁 ({rooms.filter(r => r.status === 'CLEANING').length})</span>
               </div>
               <div className="flex items-center gap-1">
                 <div className="w-3 h-3 bg-error rounded"></div>
@@ -291,7 +300,7 @@ export default function StoreManagementPage() {
                             ? 'bg-success text-success-content border-success'
                             : room.status === 'OCCUPIED'
                             ? 'bg-warning text-warning-content border-warning'  
-                            : room.status === 'DIRTY'
+                            : room.status === 'CLEANING'
                             ? 'bg-info text-info-content border-info'
                             : 'bg-error text-error-content border-error'
                         }`}
@@ -307,7 +316,7 @@ export default function StoreManagementPage() {
                             </div>
                           )}
                           
-                          {room.status === 'DIRTY' && (
+                          {room.status === 'CLEANING' && (
                             <button
                               className="btn btn-xs mt-1 bg-base-100 text-base-content border-base-300 hover:bg-base-200"
                               onClick={(e) => {
@@ -458,7 +467,8 @@ export default function StoreManagementPage() {
                     </td>
                     <td>
                       <div className="flex gap-1">
-                        {booking.status === 'CONFIRMED' && !booking.assignedRoom && (
+                        {/* PENDING 状态：显示分配房间按钮 */}
+                        {booking.status === 'PENDING' && (
                           <button
                             className="btn btn-xs btn-primary"
                             onClick={() => setAssigningBooking(booking.id)}
@@ -467,28 +477,21 @@ export default function StoreManagementPage() {
                           </button>
                         )}
                         
-                        {booking.status === 'CONFIRMED' && booking.assignedRoom && (
-                          <button
-                            className="btn btn-xs btn-success"
-                            onClick={() => updateBookingStatus(booking.id, 'CHECKED_IN')}
-                          >
-                            确认入住
-                          </button>
-                        )}
-                        
+                        {/* CHECKED_IN 状态：显示办理离店按钮 */}
                         {booking.status === 'CHECKED_IN' && (
                           <button
                             className="btn btn-xs btn-warning"
-                            onClick={() => updateBookingStatus(booking.id, 'CHECKED_OUT')}
+                            onClick={() => updateBookingStatus(booking.id, 'checkout')}
                           >
                             办理离店
                           </button>
                         )}
                         
-                        {['PENDING', 'CONFIRMED'].includes(booking.status) && (
+                        {/* PENDING 状态：显示取消按钮 */}
+                        {booking.status === 'PENDING' && (
                           <button
                             className="btn btn-xs btn-error btn-outline"
-                            onClick={() => updateBookingStatus(booking.id, 'CANCELLED')}
+                            onClick={() => updateBookingStatus(booking.id, 'cancel')}
                           >
                             取消
                           </button>

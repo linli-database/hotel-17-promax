@@ -39,7 +39,7 @@ interface RoomType {
 }
 
 const statusMap = {
-  PENDING: { label: '待确认', color: 'badge-warning' },
+  PENDING: { label: '待入住', color: 'badge-warning' },
   CONFIRMED: { label: '已确认', color: 'badge-info' },
   CHECKED_IN: { label: '已入住', color: 'badge-success' },
   CHECKED_OUT: { label: '已离店', color: 'badge-secondary' },
@@ -92,12 +92,12 @@ export default function BookingsPage() {
 
       if (storesRes.ok) {
         const storesData = await storesRes.json();
-        setStores(storesData);
+        setStores(storesData.stores || []);
       }
 
       if (roomTypesRes.ok) {
         const roomTypesData = await roomTypesRes.json();
-        setRoomTypes(roomTypesData);
+        setRoomTypes(roomTypesData.roomTypes || []);
       }
     } catch (error) {
       console.error('获取初始数据失败:', error);
@@ -425,15 +425,6 @@ export default function BookingsPage() {
                           </button>
                           
                           {booking.status === 'PENDING' && (
-                            <button 
-                              className="btn btn-xs btn-success"
-                              onClick={() => updateBookingStatus(booking.id, 'CONFIRMED')}
-                            >
-                              确认
-                            </button>
-                          )}
-                          
-                          {(['PENDING', 'CONFIRMED'] as const).includes(booking.status) && (
                             <button 
                               className="btn btn-xs btn-error"
                               onClick={() => {

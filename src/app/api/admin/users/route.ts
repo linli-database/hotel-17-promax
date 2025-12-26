@@ -6,7 +6,7 @@ import { hashPassword } from '@/lib/server/auth';
 // 获取用户列表
 export async function GET() {
   try {
-    const session = await getSession();
+    const session = await getSession('admin');
     if (!session) {
       return NextResponse.json({ error: '未登录' }, { status: 401 });
     }
@@ -70,7 +70,7 @@ export async function GET() {
 // 创建用户
 export async function POST(req: NextRequest) {
   try {
-    const session = await getSession();
+    const session = await getSession('admin');
     if (!session) {
       return NextResponse.json({ error: '未登录' }, { status: 401 });
     }

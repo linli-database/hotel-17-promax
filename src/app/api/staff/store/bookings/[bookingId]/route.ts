@@ -4,17 +4,17 @@ import { prisma } from '@/lib/prisma';
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { bookingId: string } }
+  { params }: { params: Promise<{ bookingId: string }> }
 ) {
   try {
-    const session = await getSession();
+    const session = await getSession('admin');
     
     if (!session?.userId) {
       return NextResponse.json({ error: '未授权' }, { status: 401 });
     }
 
     const { roomId, action } = await request.json();
-    const { bookingId } = params;
+    const { bookingId } = await params;
 
     // 检查员工权限
     const staff = await prisma.staff.findUnique({
@@ -78,11 +78,12 @@ export async function PATCH(
             }
           });
 
-          // 更新订单状态
+          // 更新订单状态为已入住（分配房间即入住）
           const booking = await tx.booking.update({
             where: { id: bookingId },
             data: { 
-              status: 'CONFIRMED'
+              status: 'CHECKED_IN',
+              checkedInAt: new Date()
             },
             include: {
               customer: {
@@ -197,13 +198,99 @@ export async function PATCH(
               await tx.room.update({
                 where: { id: bookingRoom.roomId },
                 data: { 
-                  status: 'DIRTY'
+                  status: 'CLEANING'
                 }
               });
             }
           }
 
           return booking;
+        });
+        break;
+
+      case 'confirm':
+        // 确认订单
+        updatedBooking = await prisma.booking.update({
+          where: { id: bookingId },
+          data: { 
+            status: 'CONFIRMED',
+            confirmedByStaffId: session.userId
+          },
+          include: {
+            customer: {
+              select: {
+                name: true,
+                phone: true,
+                email: true
+              }
+            },
+            roomType: {
+              select: {
+                name: true
+              }
+            },
+            bookingRooms: {
+              include: {
+                room: {
+                  select: {
+                    roomNo: true
+                  }
+                }
+              }
+            }
+          }
+        });
+        break;
+
+      case 'cancel':
+        // 取消订单
+        updatedBooking = await prisma.$transaction(async (tx) => {
+          // 更新订单状态
+          const cancelledBooking = await tx.booking.update({
+            where: { id: bookingId },
+            data: { 
+              status: 'CANCELLED',
+              cancelledAt: new Date(),
+              cancelReason: '前台取消'
+            },
+            include: {
+              customer: {
+                select: {
+                  name: true,
+                  phone: true,
+                  email: true
+                }
+              },
+              roomType: {
+                select: {
+                  name: true
+                }
+              },
+              bookingRooms: {
+                include: {
+                  room: {
+                    select: {
+                      roomNo: true
+                    }
+                  }
+                }
+              }
+            }
+          });
+
+          // 如果有分配的房间，释放房间
+          if (cancelledBooking.bookingRooms.length > 0) {
+            for (const bookingRoom of cancelledBooking.bookingRooms) {
+              await tx.room.update({
+                where: { id: bookingRoom.roomId },
+                data: { 
+                  status: 'AVAILABLE'
+                }
+              });
+            }
+          }
+
+          return cancelledBooking;
         });
         break;
 

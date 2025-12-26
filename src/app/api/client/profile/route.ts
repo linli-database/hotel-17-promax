@@ -4,7 +4,7 @@ import { prisma } from '@/lib/prisma';
 
 export async function PATCH(req: NextRequest) {
   try {
-    const session = await getSession();
+    const session = await getSession('client');
     
     if (!session || session.role !== 'CUSTOMER') {
       return NextResponse.json(

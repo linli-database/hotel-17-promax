@@ -4,10 +4,10 @@ import { prisma } from '@/lib/prisma';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await getSession();
+    const session = await getSession('admin');
     
     if (!session?.userId) {
       return NextResponse.json({ error: '未授权' }, { status: 401 });
@@ -22,7 +22,7 @@ export async function GET(
       return NextResponse.json({ error: '您没有权限访问订单信息' }, { status: 403 });
     }
 
-    const { id } = params;
+    const { id } = await params;
 
     // 获取订单详情
     const booking = await prisma.booking.findUnique({
@@ -99,10 +99,10 @@ export async function GET(
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await getSession();
+    const session = await getSession('admin');
     
     if (!session?.userId) {
       return NextResponse.json({ error: '未授权' }, { status: 401 });
@@ -117,7 +117,7 @@ export async function PATCH(
       return NextResponse.json({ error: '您没有权限修改订单' }, { status: 403 });
     }
 
-    const { id } = params;
+    const { id } = await params;
     const updateData = await request.json();
 
     // 获取当前订单
@@ -223,7 +223,7 @@ export async function PATCH(
         for (const bookingRoom of currentBooking.bookingRooms) {
           await tx.room.update({
             where: { id: bookingRoom.roomId },
-            data: { status: 'DIRTY' }
+            data: { status: 'CLEANING' }
           });
         }
       }
@@ -241,10 +241,10 @@ export async function PATCH(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await getSession();
+    const session = await getSession('admin');
     
     if (!session?.userId) {
       return NextResponse.json({ error: '未授权' }, { status: 401 });
@@ -259,7 +259,7 @@ export async function DELETE(
       return NextResponse.json({ error: '您没有权限删除订单' }, { status: 403 });
     }
 
-    const { id } = params;
+    const { id } = await params;
 
     // 获取订单信息
     const booking = await prisma.booking.findUnique({

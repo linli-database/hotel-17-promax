@@ -4,10 +4,10 @@ import { prisma } from '@/lib/prisma';
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await getSession();
+    const session = await getSession('admin');
     
     if (!session?.userId) {
       return NextResponse.json({ error: '未授权' }, { status: 401 });
@@ -22,7 +22,7 @@ export async function POST(
       return NextResponse.json({ error: '您没有权限分配房间' }, { status: 403 });
     }
 
-    const { id } = params;
+    const { id } = await params;
     const { roomIds } = await request.json();
 
     if (!roomIds || !Array.isArray(roomIds) || roomIds.length === 0) {

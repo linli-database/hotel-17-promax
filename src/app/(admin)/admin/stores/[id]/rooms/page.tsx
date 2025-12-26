@@ -18,7 +18,7 @@ interface Room {
   floor: number;
   capacity: number;
   basePrice: number;
-  status: 'AVAILABLE' | 'OCCUPIED' | 'DIRTY' | 'OUT_OF_SERVICE';
+  status: 'AVAILABLE' | 'OCCUPIED' | 'CLEANING' | 'OUT_OF_SERVICE';
   isActive: boolean;
   roomType: RoomType;
   _count: {
@@ -53,7 +53,7 @@ const emptyForm: RoomForm = {
 const statusMap = {
   AVAILABLE: { label: '空闲', color: 'badge-success' },
   OCCUPIED: { label: '占用', color: 'badge-warning' },
-  DIRTY: { label: '待清洁', color: 'badge-info' },
+  CLEANING: { label: '待清洁', color: 'badge-info' },
   OUT_OF_SERVICE: { label: '停用', color: 'badge-error' },
 };
 
@@ -335,7 +335,7 @@ export default function RoomsManagementPage() {
             </div>
             <div className="stat-title">待清洁</div>
             <div className="stat-value text-info">
-              {rooms.filter(room => room.status === 'DIRTY').length}
+              {rooms.filter(room => room.status === 'CLEANING').length}
             </div>
           </div>
         </div>
@@ -554,7 +554,7 @@ export default function RoomsManagementPage() {
                   >
                     <option value="AVAILABLE">空闲</option>
                     <option value="OCCUPIED">占用</option>
-                    <option value="DIRTY">待清洁</option>
+                    <option value="CLEANING">待清洁</option>
                     <option value="OUT_OF_SERVICE">停用</option>
                   </select>
                   <label className="label">

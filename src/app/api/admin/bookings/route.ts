@@ -4,19 +4,33 @@ import { prisma } from '@/lib/prisma';
 
 export async function GET(request: NextRequest) {
   try {
-    const session = await getSession();
+    const session = await getSession('admin');
     
     if (!session?.userId) {
       return NextResponse.json({ error: '未授权' }, { status: 401 });
     }
 
-    // 验证管理员权限
+    // 验证用户权限（支持 Admin 和 Staff）
+    let userRole: 'ADMIN' | 'STAFF' = 'ADMIN';
+    let staffStoreId: string | null = null;
+
     const admin = await prisma.admin.findUnique({
       where: { id: session.userId }
     });
 
     if (!admin) {
-      return NextResponse.json({ error: '您没有权限访问订单信息' }, { status: 403 });
+      // 如果不是 Admin，检查是否是 Staff
+      const staff = await prisma.staff.findUnique({
+        where: { id: session.userId },
+        include: { assignedStore: true }
+      });
+
+      if (!staff || !staff.assignedStore) {
+        return NextResponse.json({ error: '您没有权限访问订单信息' }, { status: 403 });
+      }
+
+      userRole = 'STAFF';
+      staffStoreId = staff.assignedStore.id;
     }
 
     const { searchParams } = new URL(request.url);
@@ -35,7 +49,10 @@ export async function GET(request: NextRequest) {
     // 构建查询条件
     const whereConditions: any = {};
 
-    if (storeId) {
+    // Staff 只能查看自己门店的订单
+    if (userRole === 'STAFF' && staffStoreId) {
+      whereConditions.storeId = staffStoreId;
+    } else if (storeId) {
       whereConditions.storeId = storeId;
     }
 
@@ -133,7 +150,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await getSession();
+    const session = await getSession('admin');
     
     if (!session?.userId) {
       return NextResponse.json({ error: '未授权' }, { status: 401 });

@@ -4,7 +4,7 @@ import { prisma } from '@/lib/prisma';
 
 export async function GET(request: NextRequest) {
   try {
-    const session = await getSession();
+    const session = await getSession('admin');
     
     if (!session?.userId) {
       return NextResponse.json({ error: '未授权' }, { status: 401 });
@@ -72,7 +72,7 @@ export async function GET(request: NextRequest) {
 
 export async function PATCH(request: NextRequest) {
   try {
-    const session = await getSession();
+    const session = await getSession('admin');
     
     if (!session?.userId) {
       return NextResponse.json({ error: '未授权' }, { status: 401 });

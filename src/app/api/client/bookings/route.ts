@@ -5,7 +5,7 @@ import { getSession } from '@/lib/server/session';
 // 获取客户的所有订单
 export async function GET(req: NextRequest) {
   try {
-    const session = await getSession();
+    const session = await getSession('client');
     
     if (!session || session.role !== 'CUSTOMER') {
       return NextResponse.json({ error: '未登录或权限不足' }, { status: 401 });
@@ -57,7 +57,7 @@ export async function GET(req: NextRequest) {
 // 创建新订单
 export async function POST(req: NextRequest) {
   try {
-    const session = await getSession();
+    const session = await getSession('client');
     
     if (!session || session.role !== 'CUSTOMER') {
       return NextResponse.json({ error: '未登录或权限不足' }, { status: 401 });

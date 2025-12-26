@@ -9,7 +9,7 @@ export async function GET(
 ) {
   try {
     const { id: storeId } = await context.params;
-    const session = await getSession();
+    const session = await getSession('admin');
     
     if (!session) {
       return NextResponse.json({ error: '未登录' }, { status: 401 });

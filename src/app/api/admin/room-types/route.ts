@@ -5,7 +5,7 @@ import { getSession } from '@/lib/server/session';
 // 获取房型列表（集团级别，与门店无关）
 export async function GET() {
   try {
-    const session = await getSession();
+    const session = await getSession('admin');
     if (!session) {
       return NextResponse.json({ error: '未登录' }, { status: 401 });
     }
@@ -43,7 +43,7 @@ export async function GET() {
 // 创建房型（集团级别）
 export async function POST(req: Request) {
   try {
-    const session = await getSession();
+    const session = await getSession('admin');
     if (!session) {
       return NextResponse.json({ error: '未登录' }, { status: 401 });
     }

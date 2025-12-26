@@ -11,7 +11,7 @@ type RouteContext = {
 // 取消订单
 export async function POST(req: NextRequest, context: RouteContext) {
   try {
-    const session = await getSession();
+    const session = await getSession('client');
     
     if (!session || session.role !== 'CUSTOMER') {
       return NextResponse.json({ error: '未登录或权限不足' }, { status: 401 });

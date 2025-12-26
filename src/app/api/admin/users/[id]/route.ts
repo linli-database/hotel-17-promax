@@ -9,7 +9,7 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await getSession();
+    const session = await getSession('admin');
     if (!session) {
       return NextResponse.json({ error: '未登录' }, { status: 401 });
     }
@@ -145,7 +145,7 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await getSession();
+    const session = await getSession('admin');
     if (!session) {
       return NextResponse.json({ error: '未登录' }, { status: 401 });
     }
