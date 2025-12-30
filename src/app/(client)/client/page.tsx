@@ -21,6 +21,22 @@ type RoomType = {
   availableCount: number;
 };
 
+// 预定义的设施列表
+const DEFAULT_AMENITIES = [
+  '空调',
+  'WiFi',
+  '电视',
+  '独立卫浴',
+  '迷你吧',
+  '保险箱',
+  '熨斗',
+  '咖啡机',
+  '浴缸',
+  '阳台',
+  '海景',
+  '城市景观',
+];
+
 // 星星评分组件
 function StarRating({ rating }: { rating: number }) {
   return (
@@ -54,6 +70,10 @@ export default function ClientHome() {
   // 筛选条件
   const [selectedRoomTypeName, setSelectedRoomTypeName] = useState<string>('');
   const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
+  const [filteredStores, setFilteredStores] = useState<Store[]>([]);
+  const [showFilteredResults, setShowFilteredResults] = useState(false);
+  const [filterLoading, setFilterLoading] = useState(false);
+  const [allRoomTypeNames, setAllRoomTypeNames] = useState<string[]>([]);
 
   // 获取当前用户
   useEffect(() => {
@@ -84,6 +104,22 @@ export default function ClientHome() {
       }
     };
     fetchStores();
+  }, []);
+
+  // 获取所有房型列表
+  useEffect(() => {
+    const fetchRoomTypes = async () => {
+      try {
+        const res = await fetch('/api/client/room-types-list');
+        if (res.ok) {
+          const data = await res.json();
+          setAllRoomTypeNames(data.roomTypes.map((rt: any) => rt.name) || []);
+        }
+      } catch (err) {
+        console.error('获取房型列表失败:', err);
+      }
+    };
+    fetchRoomTypes();
   }, []);
 
   // 获取指定门店的房型信息
@@ -171,13 +207,47 @@ export default function ClientHome() {
     setCheckOut(dayAfter.toISOString().split('T')[0]);
   }, []);
 
-  // 获取所有唯一的房型名称
-  const uniqueRoomTypeNames = Array.from(new Set(roomTypes.map((rt) => rt.name)));
+  // 应用高级筛选
+  const handleApplyFilter = async () => {
+    if (!checkIn || !checkOut) {
+      setError('请先选择入住和离店日期');
+      return;
+    }
 
-  // 获取所有唯一的设施
-  const allAmenities = Array.from(
-    new Set(roomTypes.flatMap((rt) => rt.amenities))
-  );
+    setFilterLoading(true);
+    try {
+      const res = await fetch('/api/client/filter-stores', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          checkIn,
+          checkOut,
+          roomTypeName: selectedRoomTypeName || null,
+          amenities: selectedAmenities.length > 0 ? selectedAmenities : null,
+        }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        setFilteredStores(data.stores || []);
+        setShowFilteredResults(true);
+        setError(null);
+      } else {
+        const data = await res.json();
+        setError(data.error || '筛选失败');
+      }
+    } catch (err) {
+      setError('筛选失败');
+    } finally {
+      setFilterLoading(false);
+    }
+  };
+
+  // 清除筛选结果
+  const handleClearFilter = () => {
+    setShowFilteredResults(false);
+    setFilteredStores([]);
+  };
 
   // 切换设施选择
   const toggleAmenity = (amenity: string) => {
@@ -207,6 +277,9 @@ export default function ClientHome() {
 
     return true;
   });
+
+  // 决定显示哪些门店
+  const displayStores = showFilteredResults ? filteredStores : stores;
 
   return (
     <div className="space-y-8">
@@ -261,7 +334,7 @@ export default function ClientHome() {
                 onChange={(e) => setSelectedRoomTypeName(e.target.value)}
               >
                 <option value="">全部类型</option>
-                {uniqueRoomTypeNames.map((name) => (
+                {allRoomTypeNames.map((name) => (
                   <option key={name} value={name}>
                     {name}
                   </option>
@@ -275,7 +348,7 @@ export default function ClientHome() {
                 <span className="label-text">房间设施（可多选）</span>
               </label>
               <div className="flex flex-wrap gap-2">
-                {allAmenities.map((amenity) => (
+                {DEFAULT_AMENITIES.map((amenity) => (
                   <label key={amenity} className="cursor-pointer">
                     <input
                       type="checkbox"
@@ -286,16 +359,34 @@ export default function ClientHome() {
                     <span className="label-text">{amenity}</span>
                   </label>
                 ))}
-                {allAmenities.length === 0 && (
-                  <span className="text-sm text-base-content/50">
-                    选择门店后显示可用设施
-                  </span>
-                )}
               </div>
             </div>
 
+            {/* 筛选按钮 */}
+            <div className="flex gap-2">
+              <button
+                className="btn btn-primary"
+                onClick={handleApplyFilter}
+                disabled={filterLoading}
+              >
+                {filterLoading ? (
+                  <span className="loading loading-spinner loading-sm"></span>
+                ) : (
+                  '确定筛选'
+                )}
+              </button>
+              {showFilteredResults && (
+                <button
+                  className="btn btn-outline"
+                  onClick={handleClearFilter}
+                >
+                  清除筛选
+                </button>
+              )}
+            </div>
+
             {/* 清空筛选按钮 */}
-            {(selectedRoomTypeName || selectedAmenities.length > 0) && (
+            {(selectedRoomTypeName || selectedAmenities.length > 0) && !showFilteredResults && (
               <button
                 className="btn btn-outline btn-sm"
                 onClick={() => {
@@ -303,7 +394,7 @@ export default function ClientHome() {
                   setSelectedAmenities([]);
                 }}
               >
-                清空筛选
+                清空条件
               </button>
             )}
           </div>
@@ -312,20 +403,37 @@ export default function ClientHome() {
 
       {/* 门店列表 */}
       <div>
-        <h2 className="text-2xl font-semibold mb-4">选择门店</h2>
-        {loading ? (
+        <h2 className="text-2xl font-semibold mb-4">
+          {showFilteredResults ? '筛选结果' : '选择门店'}
+        </h2>
+        {loading || filterLoading ? (
           <div className="flex justify-center">
             <span className="loading loading-spinner loading-lg"></span>
           </div>
+        ) : showFilteredResults && displayStores.length === 0 ? (
+          <div className="alert alert-warning">
+            <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+            <span>没有符合筛选条件的门店</span>
+          </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {stores.map((store) => (
+            {displayStores.map((store) => (
               <div
                 key={store.id}
                 className={`card bg-base-100 shadow-md hover:shadow-xl transition-shadow cursor-pointer ${
                   selectedStore?.id === store.id ? 'ring-2 ring-primary' : ''
                 }`}
-                onClick={() => handleStoreSelect(store)}
+                onClick={() => {
+                  if (showFilteredResults) {
+                    // 在筛选结果中点击门店，直接显示房型
+                    setSelectedStore(store);
+                    setRoomTypes((store as any).roomTypes || []);
+                  } else {
+                    handleStoreSelect(store);
+                  }
+                }}
               >
                 <div className="card-body">
                   <h3 className="card-title">{store.name}</h3>
@@ -355,9 +463,22 @@ export default function ClientHome() {
       {/* 房型列表 */}
       {selectedStore && (
         <div>
-          <h2 className="text-2xl font-semibold mb-4">
-            {selectedStore.name} - 可选房型
-          </h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-2xl font-semibold">
+              {selectedStore.name} - 可选房型
+            </h2>
+            {showFilteredResults && (
+              <button
+                className="btn btn-outline btn-sm"
+                onClick={() => {
+                  setSelectedStore(null);
+                  setRoomTypes([]);
+                }}
+              >
+                返回筛选结果
+              </button>
+            )}
+          </div>
           {error && (
             <div className="alert alert-warning mb-4">
               <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
@@ -366,7 +487,7 @@ export default function ClientHome() {
               <span>{error}</span>
             </div>
           )}
-          {loadingRoomTypes ? (
+          {loadingRoomTypes || filterLoading ? (
             <div className="flex justify-center">
               <span className="loading loading-spinner loading-lg"></span>
             </div>
@@ -375,7 +496,7 @@ export default function ClientHome() {
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="stroke-current shrink-0 w-6 h-6">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
               </svg>
-              <span>请选择入住和离店日期后查看可用房型</span>
+              <span>暂无可用房型</span>
             </div>
           ) : filteredRoomTypes.length === 0 ? (
             <div className="alert alert-warning">
