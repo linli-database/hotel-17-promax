@@ -57,6 +57,7 @@ export default function BookingsPage() {
   const [pending, startTransition] = useTransition();
   const [cancelReason, setCancelReason] = useState('');
   const [cancelingId, setCancelingId] = useState<string | null>(null);
+  const [statusFilter, setStatusFilter] = useState<string>('');
 
   useEffect(() => {
     loadBookings();
@@ -127,13 +128,28 @@ export default function BookingsPage() {
     return nights;
   };
 
+  // 根据状态筛选订单
+  const filteredBookings = statusFilter
+    ? bookings.filter((booking) => booking.status === statusFilter)
+    : bookings;
+
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold text-primary mb-2">我的订单</h1>
-        <p className="text-base-content/70">查看与管理您的预约</p>
-      </div>
-
+          <div className="flex items-center justify-between">
+            <p className="text-base-content/70">查看与管理您的预约</p>
+            <select
+              className="select select-bordered select-sm w-40"
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}>
+                <option value="">全部状态</option>
+                  {Object.entries(statusMap).map(([key, label]) => (
+                <option key={key} value={key}>{label}</option>
+              ))}
+            </select>
+          </div>
+      </div>    
       {loading ? (
         <div className="flex justify-center py-12">
           <span className="loading loading-spinner loading-lg"></span>
@@ -161,9 +177,18 @@ export default function BookingsPage() {
         </div>
       ) : null}
 
-      {!loading && bookings.length > 0 ? (
+      {!loading && bookings.length > 0 && filteredBookings.length === 0 ? (
+        <div className="alert alert-info">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="stroke-current shrink-0 w-6 h-6">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <span>没有符合筛选条件的订单</span>
+        </div>
+      ) : null}
+
+      {!loading && filteredBookings.length > 0 ? (
         <div className="space-y-4">
-          {bookings.map((booking) => (
+          {filteredBookings.map((booking) => (
             <div key={booking.id} className="card bg-base-100 shadow-lg hover:shadow-xl transition-shadow">
               <div className="card-body">
                 <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
