@@ -21,6 +21,7 @@ model Customer {
   phone        String?
   isActive     Boolean   @default(true)
   bookings     Booking[] @relation("BookingCustomer")
+  reviews      BookingReview[]
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
 }
@@ -57,6 +58,7 @@ model Store {
   assignedStaff     Staff[]            @relation("StaffAssignment")
   rooms             Room[]
   bookings          Booking[]
+  reviews           BookingReview[]
   createdAt         DateTime           @default(now())
   updatedAt         DateTime           @updatedAt
 }
@@ -116,6 +118,8 @@ model Booking {
   roomType           RoomType?      @relation(fields: [roomTypeId], references: [id])
   roomTypeId         String?
   bookingRooms       BookingRoom[]
+  isReviewed         Boolean        @default(false)
+  review             BookingReview?
   createdAt          DateTime       @default(now())
   updatedAt          DateTime       @updatedAt
 
@@ -134,6 +138,29 @@ model BookingRoom {
   @@unique([bookingId, roomId])
   @@index([roomId])
 }
+
+model BookingReview {
+  id        String   @id @default(uuid())
+  rating    Int      // 1-5 星
+  comment   String?  // 文字评价
+  images    String[] // 图片 URL（可选）
+
+  /* 必要外键：谁 + 哪单 */
+  customerId String  // 评价人
+  bookingId  String  @unique // 被评价的订单
+  storeId    String  // 评价所属门店
+
+  /* 关联 */
+  customer Customer @relation(fields: [customerId], references: [id])
+  booking  Booking  @relation(fields: [bookingId], references: [id])
+  store    Store    @relation(fields: [storeId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([customerId])
+}
+
 
 enum RoomOperationalStatus {
   AVAILABLE     // 空闲 - 可以预订

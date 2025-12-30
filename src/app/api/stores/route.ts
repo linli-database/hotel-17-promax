@@ -9,10 +9,32 @@ export async function GET(req: NextRequest) {
   if (!sessionUser || sessionUser.role === 'CUSTOMER') {
     const stores = await prisma.store.findMany({
       where: { isActive: true },
-      select: { id: true, name: true, address: true },
       orderBy: { id: 'asc' },
     });
-    return NextResponse.json({ stores });
+
+    // 获取每个门店的评分
+    const storesWithRating = await Promise.all(
+      stores.map(async (store) => {
+        const reviews = await prisma.bookingReview.findMany({
+          where: { storeId: store.id },
+          select: { rating: true },
+        });
+
+        const avgRating = reviews.length > 0
+          ? reviews.reduce((sum: number, r) => sum + r.rating, 0) / reviews.length
+          : 0;
+
+        return {
+          id: store.id,
+          name: store.name,
+          address: store.address,
+          avgRating: avgRating > 0 ? Number(avgRating.toFixed(1)) : null,
+          reviewCount: reviews.length,
+        };
+      })
+    );
+
+    return NextResponse.json({ stores: storesWithRating });
   }
 
   // 管理端访问：根据权限返回门店

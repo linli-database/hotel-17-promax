@@ -58,7 +58,8 @@ export const ModelName = {
   RoomType: 'RoomType',
   Room: 'Room',
   Booking: 'Booking',
-  BookingRoom: 'BookingRoom'
+  BookingRoom: 'BookingRoom',
+  BookingReview: 'BookingReview'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -178,6 +179,7 @@ export const BookingScalarFieldEnum = {
   createdByStaffId: 'createdByStaffId',
   storeId: 'storeId',
   roomTypeId: 'roomTypeId',
+  isReviewed: 'isReviewed',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -193,6 +195,21 @@ export const BookingRoomScalarFieldEnum = {
 } as const
 
 export type BookingRoomScalarFieldEnum = (typeof BookingRoomScalarFieldEnum)[keyof typeof BookingRoomScalarFieldEnum]
+
+
+export const BookingReviewScalarFieldEnum = {
+  id: 'id',
+  rating: 'rating',
+  comment: 'comment',
+  images: 'images',
+  customerId: 'customerId',
+  bookingId: 'bookingId',
+  storeId: 'storeId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type BookingReviewScalarFieldEnum = (typeof BookingReviewScalarFieldEnum)[keyof typeof BookingReviewScalarFieldEnum]
 
 
 export const SortOrder = {

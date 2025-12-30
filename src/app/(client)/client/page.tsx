@@ -7,6 +7,8 @@ type Store = {
   id: string;
   name: string;
   address: string | null;
+  avgRating: number | null;
+  reviewCount: number;
 };
 
 type RoomType = {
@@ -18,6 +20,24 @@ type RoomType = {
   amenities: string[];
   availableCount: number;
 };
+
+// 星星评分组件
+function StarRating({ rating }: { rating: number }) {
+  return (
+    <div className="flex items-center gap-1">
+      {[1, 2, 3, 4, 5].map((star) => (
+        <span
+          key={star}
+          className={`text-lg ${
+            star <= Math.round(rating) ? 'text-yellow-400' : 'text-gray-300'
+          }`}
+        >
+          ★
+        </span>
+      ))}
+    </div>
+  );
+}
 
 export default function ClientHome() {
   const router = useRouter();
@@ -310,6 +330,18 @@ export default function ClientHome() {
                 <div className="card-body">
                   <h3 className="card-title">{store.name}</h3>
                   <p className="text-sm text-base-content/70">{store.address || '暂无地址'}</p>
+                  
+                  {/* 评分显示 */}
+                  {store.avgRating !== null && store.avgRating > 0 ? (
+                    <div className="flex items-center gap-2 mt-2">
+                      <StarRating rating={store.avgRating} />
+                      <span className="text-sm font-semibold">{store.avgRating}</span>
+                      <span className="text-xs text-base-content/50">({store.reviewCount} 条评价)</span>
+                    </div>
+                  ) : (
+                    <div className="text-xs text-base-content/50 mt-2">暂无评价</div>
+                  )}
+                  
                   {selectedStore?.id === store.id && (
                     <div className="badge badge-primary">已选择</div>
                   )}

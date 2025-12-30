@@ -10,10 +10,11 @@ type Booking = {
   checkOut: string;
   totalPrice: string;
   cancelReason?: string | null;
-  store?: { name: string };
+  store?: { name: string; id: string };
   roomType?: { name: string };
   bookingRooms: { room: { roomNo: string } }[];
   createdAt: string;
+  isReviewed: boolean;
 };
 
 const statusMap: Record<BookingStatus, string> = {
@@ -58,6 +59,12 @@ export default function BookingsPage() {
   const [cancelReason, setCancelReason] = useState('');
   const [cancelingId, setCancelingId] = useState<string | null>(null);
   const [statusFilter, setStatusFilter] = useState<string>('');
+  
+  // 评价相关state
+  const [reviewingBooking, setReviewingBooking] = useState<Booking | null>(null);
+  const [rating, setRating] = useState(5);
+  const [comment, setComment] = useState('');
+  const [submittingReview, setSubmittingReview] = useState(false);
 
   useEffect(() => {
     loadBookings();
@@ -132,6 +139,40 @@ export default function BookingsPage() {
   const filteredBookings = statusFilter
     ? bookings.filter((booking) => booking.status === statusFilter)
     : bookings;
+
+  // 提交评价
+  const handleSubmitReview = async () => {
+    if (!reviewingBooking) return;
+    
+    setSubmittingReview(true);
+    try {
+      const res = await fetch('/api/client/bookings/review', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          bookingId: reviewingBooking.id,
+          storeId: reviewingBooking.store?.id,
+          rating,
+          comment: comment.trim() || null,
+        }),
+      });
+
+      if (res.ok) {
+        alert('评价成功！感谢您的反馈');
+        setReviewingBooking(null);
+        setRating(5);
+        setComment('');
+        loadBookings(); // 重新加载订单列表
+      } else {
+        const data = await res.json();
+        alert(data.error || '评价失败');
+      }
+    } catch (err) {
+      alert('评价失败');
+    } finally {
+      setSubmittingReview(false);
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -252,6 +293,17 @@ export default function BookingsPage() {
                         取消订单
                       </button>
                     )}
+                    {booking.status === 'CHECKED_OUT' && !booking.isReviewed && (
+                      <button
+                        className="btn btn-primary btn-sm"
+                        onClick={() => setReviewingBooking(booking)}
+                      >
+                        去评价
+                      </button>
+                    )}
+                    {booking.status === 'CHECKED_OUT' && booking.isReviewed && (
+                      <div className="badge badge-success">已评价</div>
+                    )}
                     <div className="text-xs text-base-content/50 text-right">
                       创建时间：{formatDate(booking.createdAt)}
                     </div>
@@ -262,6 +314,74 @@ export default function BookingsPage() {
           ))}
         </div>
       ) : null}
+
+      {/* 评价订单对话框 */}
+      {reviewingBooking && (
+        <div className="modal modal-open">
+          <div className="modal-box">
+            <h3 className="font-bold text-lg mb-4">评价您的住宿体验</h3>
+            <div className="space-y-4">
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">评分</span>
+                </label>
+                <div className="flex gap-2 items-center">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <button
+                      key={star}
+                      type="button"
+                      onClick={() => setRating(star)}
+                      className="text-3xl hover:scale-110 transition-transform"
+                    >
+                      {star <= rating ? (
+                        <span className="text-yellow-400">★</span>
+                      ) : (
+                        <span className="text-gray-300">☆</span>
+                      )}
+                    </button>
+                  ))}
+                  <span className="ml-2 text-lg font-semibold">{rating} 分</span>
+                </div>
+              </div>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">评价内容（可选）</span>
+                </label>
+                <textarea
+                  className="textarea textarea-bordered h-32"
+                  placeholder="分享您的入住体验..."
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                  maxLength={500}
+                ></textarea>
+                <label className="label">
+                  <span className="label-text-alt">{comment.length}/500</span>
+                </label>
+              </div>
+            </div>
+            <div className="modal-action">
+              <button
+                className="btn btn-ghost"
+                onClick={() => {
+                  setReviewingBooking(null);
+                  setRating(5);
+                  setComment('');
+                }}
+                disabled={submittingReview}
+              >
+                取消
+              </button>
+              <button
+                className="btn btn-primary"
+                onClick={handleSubmitReview}
+                disabled={submittingReview}
+              >
+                {submittingReview ? <span className="loading loading-spinner"></span> : '提交评价'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* 取消订单对话框 */}
       {cancelingId && (

@@ -207,6 +207,7 @@ export type CustomerWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Customer"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Customer"> | Date | string
   bookings?: Prisma.BookingListRelationFilter
+  reviews?: Prisma.BookingReviewListRelationFilter
 }
 
 export type CustomerOrderByWithRelationInput = {
@@ -219,6 +220,7 @@ export type CustomerOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   bookings?: Prisma.BookingOrderByRelationAggregateInput
+  reviews?: Prisma.BookingReviewOrderByRelationAggregateInput
 }
 
 export type CustomerWhereUniqueInput = Prisma.AtLeast<{
@@ -234,6 +236,7 @@ export type CustomerWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Customer"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Customer"> | Date | string
   bookings?: Prisma.BookingListRelationFilter
+  reviews?: Prisma.BookingReviewListRelationFilter
 }, "id" | "email">
 
 export type CustomerOrderByWithAggregationInput = {
@@ -274,6 +277,7 @@ export type CustomerCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   bookings?: Prisma.BookingCreateNestedManyWithoutCustomerInput
+  reviews?: Prisma.BookingReviewCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateInput = {
@@ -286,6 +290,7 @@ export type CustomerUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutCustomerInput
+  reviews?: Prisma.BookingReviewUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerUpdateInput = {
@@ -298,6 +303,7 @@ export type CustomerUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bookings?: Prisma.BookingUpdateManyWithoutCustomerNestedInput
+  reviews?: Prisma.BookingReviewUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateInput = {
@@ -310,6 +316,7 @@ export type CustomerUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutCustomerNestedInput
+  reviews?: Prisma.BookingReviewUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerCreateManyInput = {
@@ -383,6 +390,11 @@ export type CustomerNullableScalarRelationFilter = {
   isNot?: Prisma.CustomerWhereInput | null
 }
 
+export type CustomerScalarRelationFilter = {
+  is?: Prisma.CustomerWhereInput
+  isNot?: Prisma.CustomerWhereInput
+}
+
 export type StringFieldUpdateOperationsInput = {
   set?: string
 }
@@ -415,6 +427,20 @@ export type CustomerUpdateOneWithoutBookingsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CustomerUpdateToOneWithWhereWithoutBookingsInput, Prisma.CustomerUpdateWithoutBookingsInput>, Prisma.CustomerUncheckedUpdateWithoutBookingsInput>
 }
 
+export type CustomerCreateNestedOneWithoutReviewsInput = {
+  create?: Prisma.XOR<Prisma.CustomerCreateWithoutReviewsInput, Prisma.CustomerUncheckedCreateWithoutReviewsInput>
+  connectOrCreate?: Prisma.CustomerCreateOrConnectWithoutReviewsInput
+  connect?: Prisma.CustomerWhereUniqueInput
+}
+
+export type CustomerUpdateOneRequiredWithoutReviewsNestedInput = {
+  create?: Prisma.XOR<Prisma.CustomerCreateWithoutReviewsInput, Prisma.CustomerUncheckedCreateWithoutReviewsInput>
+  connectOrCreate?: Prisma.CustomerCreateOrConnectWithoutReviewsInput
+  upsert?: Prisma.CustomerUpsertWithoutReviewsInput
+  connect?: Prisma.CustomerWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CustomerUpdateToOneWithWhereWithoutReviewsInput, Prisma.CustomerUpdateWithoutReviewsInput>, Prisma.CustomerUncheckedUpdateWithoutReviewsInput>
+}
+
 export type CustomerCreateWithoutBookingsInput = {
   id?: string
   email: string
@@ -424,6 +450,7 @@ export type CustomerCreateWithoutBookingsInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  reviews?: Prisma.BookingReviewCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateWithoutBookingsInput = {
@@ -435,6 +462,7 @@ export type CustomerUncheckedCreateWithoutBookingsInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  reviews?: Prisma.BookingReviewUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerCreateOrConnectWithoutBookingsInput = {
@@ -462,6 +490,7 @@ export type CustomerUpdateWithoutBookingsInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  reviews?: Prisma.BookingReviewUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateWithoutBookingsInput = {
@@ -473,6 +502,71 @@ export type CustomerUncheckedUpdateWithoutBookingsInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  reviews?: Prisma.BookingReviewUncheckedUpdateManyWithoutCustomerNestedInput
+}
+
+export type CustomerCreateWithoutReviewsInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  name?: string | null
+  phone?: string | null
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  bookings?: Prisma.BookingCreateNestedManyWithoutCustomerInput
+}
+
+export type CustomerUncheckedCreateWithoutReviewsInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  name?: string | null
+  phone?: string | null
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutCustomerInput
+}
+
+export type CustomerCreateOrConnectWithoutReviewsInput = {
+  where: Prisma.CustomerWhereUniqueInput
+  create: Prisma.XOR<Prisma.CustomerCreateWithoutReviewsInput, Prisma.CustomerUncheckedCreateWithoutReviewsInput>
+}
+
+export type CustomerUpsertWithoutReviewsInput = {
+  update: Prisma.XOR<Prisma.CustomerUpdateWithoutReviewsInput, Prisma.CustomerUncheckedUpdateWithoutReviewsInput>
+  create: Prisma.XOR<Prisma.CustomerCreateWithoutReviewsInput, Prisma.CustomerUncheckedCreateWithoutReviewsInput>
+  where?: Prisma.CustomerWhereInput
+}
+
+export type CustomerUpdateToOneWithWhereWithoutReviewsInput = {
+  where?: Prisma.CustomerWhereInput
+  data: Prisma.XOR<Prisma.CustomerUpdateWithoutReviewsInput, Prisma.CustomerUncheckedUpdateWithoutReviewsInput>
+}
+
+export type CustomerUpdateWithoutReviewsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bookings?: Prisma.BookingUpdateManyWithoutCustomerNestedInput
+}
+
+export type CustomerUncheckedUpdateWithoutReviewsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 
@@ -482,10 +576,12 @@ export type CustomerUncheckedUpdateWithoutBookingsInput = {
 
 export type CustomerCountOutputType = {
   bookings: number
+  reviews: number
 }
 
 export type CustomerCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   bookings?: boolean | CustomerCountOutputTypeCountBookingsArgs
+  reviews?: boolean | CustomerCountOutputTypeCountReviewsArgs
 }
 
 /**
@@ -505,6 +601,13 @@ export type CustomerCountOutputTypeCountBookingsArgs<ExtArgs extends runtime.Typ
   where?: Prisma.BookingWhereInput
 }
 
+/**
+ * CustomerCountOutputType without action
+ */
+export type CustomerCountOutputTypeCountReviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.BookingReviewWhereInput
+}
+
 
 export type CustomerSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -516,6 +619,7 @@ export type CustomerSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   createdAt?: boolean
   updatedAt?: boolean
   bookings?: boolean | Prisma.Customer$bookingsArgs<ExtArgs>
+  reviews?: boolean | Prisma.Customer$reviewsArgs<ExtArgs>
   _count?: boolean | Prisma.CustomerCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["customer"]>
 
@@ -555,6 +659,7 @@ export type CustomerSelectScalar = {
 export type CustomerOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "passwordHash" | "name" | "phone" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["customer"]>
 export type CustomerInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   bookings?: boolean | Prisma.Customer$bookingsArgs<ExtArgs>
+  reviews?: boolean | Prisma.Customer$reviewsArgs<ExtArgs>
   _count?: boolean | Prisma.CustomerCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CustomerIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -564,6 +669,7 @@ export type $CustomerPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   name: "Customer"
   objects: {
     bookings: Prisma.$BookingPayload<ExtArgs>[]
+    reviews: Prisma.$BookingReviewPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -969,6 +1075,7 @@ readonly fields: CustomerFieldRefs;
 export interface Prisma__CustomerClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   bookings<T extends Prisma.Customer$bookingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Customer$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  reviews<T extends Prisma.Customer$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Customer$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookingReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1415,6 +1522,30 @@ export type Customer$bookingsArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.BookingScalarFieldEnum | Prisma.BookingScalarFieldEnum[]
+}
+
+/**
+ * Customer.reviews
+ */
+export type Customer$reviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the BookingReview
+   */
+  select?: Prisma.BookingReviewSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the BookingReview
+   */
+  omit?: Prisma.BookingReviewOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BookingReviewInclude<ExtArgs> | null
+  where?: Prisma.BookingReviewWhereInput
+  orderBy?: Prisma.BookingReviewOrderByWithRelationInput | Prisma.BookingReviewOrderByWithRelationInput[]
+  cursor?: Prisma.BookingReviewWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.BookingReviewScalarFieldEnum | Prisma.BookingReviewScalarFieldEnum[]
 }
 
 /**

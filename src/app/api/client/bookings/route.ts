@@ -15,15 +15,27 @@ export async function GET(req: NextRequest) {
       where: {
         customerId: session.userId,
       },
-      include: {
+      select: {
+        id: true,
+        status: true,
+        checkIn: true,
+        checkOut: true,
+        totalPrice: true,
+        cancelReason: true,
+        createdAt: true,
+        isReviewed: true,
         store: {
-          select: { name: true },
+          select: { id: true, name: true },
         },
         roomType: {
           select: { name: true },
         },
         bookingRooms: {
-          include: {
+          select: {
+            id: true,
+            bookingId: true,
+            roomId: true,
+            nightlyRate: true,
             room: {
               select: { roomNo: true },
             },
@@ -45,6 +57,7 @@ export async function GET(req: NextRequest) {
       roomType: booking.roomType,
       bookingRooms: booking.bookingRooms,
       createdAt: booking.createdAt.toISOString(),
+      isReviewed: booking.isReviewed,
     }));
 
     return NextResponse.json({ bookings: formattedBookings });

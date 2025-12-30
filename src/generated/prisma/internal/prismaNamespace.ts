@@ -391,7 +391,8 @@ export const ModelName = {
   RoomType: 'RoomType',
   Room: 'Room',
   Booking: 'Booking',
-  BookingRoom: 'BookingRoom'
+  BookingRoom: 'BookingRoom',
+  BookingReview: 'BookingReview'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -407,7 +408,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "customer" | "admin" | "staff" | "store" | "roomType" | "room" | "booking" | "bookingRoom"
+    modelProps: "customer" | "admin" | "staff" | "store" | "roomType" | "room" | "booking" | "bookingRoom" | "bookingReview"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1003,6 +1004,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    BookingReview: {
+      payload: Prisma.$BookingReviewPayload<ExtArgs>
+      fields: Prisma.BookingReviewFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.BookingReviewFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BookingReviewPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.BookingReviewFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BookingReviewPayload>
+        }
+        findFirst: {
+          args: Prisma.BookingReviewFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BookingReviewPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.BookingReviewFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BookingReviewPayload>
+        }
+        findMany: {
+          args: Prisma.BookingReviewFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BookingReviewPayload>[]
+        }
+        create: {
+          args: Prisma.BookingReviewCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BookingReviewPayload>
+        }
+        createMany: {
+          args: Prisma.BookingReviewCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.BookingReviewCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BookingReviewPayload>[]
+        }
+        delete: {
+          args: Prisma.BookingReviewDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BookingReviewPayload>
+        }
+        update: {
+          args: Prisma.BookingReviewUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BookingReviewPayload>
+        }
+        deleteMany: {
+          args: Prisma.BookingReviewDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.BookingReviewUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.BookingReviewUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BookingReviewPayload>[]
+        }
+        upsert: {
+          args: Prisma.BookingReviewUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BookingReviewPayload>
+        }
+        aggregate: {
+          args: Prisma.BookingReviewAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateBookingReview>
+        }
+        groupBy: {
+          args: Prisma.BookingReviewGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.BookingReviewGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.BookingReviewCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.BookingReviewCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1143,6 +1218,7 @@ export const BookingScalarFieldEnum = {
   createdByStaffId: 'createdByStaffId',
   storeId: 'storeId',
   roomTypeId: 'roomTypeId',
+  isReviewed: 'isReviewed',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -1158,6 +1234,21 @@ export const BookingRoomScalarFieldEnum = {
 } as const
 
 export type BookingRoomScalarFieldEnum = (typeof BookingRoomScalarFieldEnum)[keyof typeof BookingRoomScalarFieldEnum]
+
+
+export const BookingReviewScalarFieldEnum = {
+  id: 'id',
+  rating: 'rating',
+  comment: 'comment',
+  images: 'images',
+  customerId: 'customerId',
+  bookingId: 'bookingId',
+  storeId: 'storeId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type BookingReviewScalarFieldEnum = (typeof BookingReviewScalarFieldEnum)[keyof typeof BookingReviewScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1411,6 +1502,7 @@ export type GlobalOmitConfig = {
   room?: Prisma.RoomOmit
   booking?: Prisma.BookingOmit
   bookingRoom?: Prisma.BookingRoomOmit
+  bookingReview?: Prisma.BookingReviewOmit
 }
 
 /* Types for Logging */
