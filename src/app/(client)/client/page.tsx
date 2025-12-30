@@ -30,6 +30,10 @@ export default function ClientHome() {
   const [checkIn, setCheckIn] = useState('');
   const [checkOut, setCheckOut] = useState('');
   const [error, setError] = useState<string | null>(null);
+  
+  // 筛选条件
+  const [selectedRoomTypeName, setSelectedRoomTypeName] = useState<string>('');
+  const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
 
   // 获取当前用户
   useEffect(() => {
@@ -147,6 +151,43 @@ export default function ClientHome() {
     setCheckOut(dayAfter.toISOString().split('T')[0]);
   }, []);
 
+  // 获取所有唯一的房型名称
+  const uniqueRoomTypeNames = Array.from(new Set(roomTypes.map((rt) => rt.name)));
+
+  // 获取所有唯一的设施
+  const allAmenities = Array.from(
+    new Set(roomTypes.flatMap((rt) => rt.amenities))
+  );
+
+  // 切换设施选择
+  const toggleAmenity = (amenity: string) => {
+    setSelectedAmenities((prev) =>
+      prev.includes(amenity)
+        ? prev.filter((a) => a !== amenity)
+        : [...prev, amenity]
+    );
+  };
+
+  // 根据筛选条件过滤房型
+  const filteredRoomTypes = roomTypes.filter((roomType) => {
+    // 房型名称筛选
+    if (selectedRoomTypeName && roomType.name !== selectedRoomTypeName) {
+      return false;
+    }
+
+    // 设施筛选（选中的设施必须都包含）
+    if (selectedAmenities.length > 0) {
+      const hasAllAmenities = selectedAmenities.every((amenity) =>
+        roomType.amenities.includes(amenity)
+      );
+      if (!hasAllAmenities) {
+        return false;
+      }
+    }
+
+    return true;
+  });
+
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -183,6 +224,68 @@ export default function ClientHome() {
                 min={checkIn}
               />
             </div>
+          </div>
+
+          <br></br>
+          <h2 className="card-title">高级筛选</h2>
+          
+          <div className="space-y-4">
+            {/* 房间类型筛选 */}
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">房间类型</span>
+              </label>
+              <select
+                className="select select-bordered"
+                value={selectedRoomTypeName}
+                onChange={(e) => setSelectedRoomTypeName(e.target.value)}
+              >
+                <option value="">全部类型</option>
+                {uniqueRoomTypeNames.map((name) => (
+                  <option key={name} value={name}>
+                    {name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* 设施筛选 */}
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">房间设施（可多选）</span>
+              </label>
+              <div className="flex flex-wrap gap-2">
+                {allAmenities.map((amenity) => (
+                  <label key={amenity} className="cursor-pointer">
+                    <input
+                      type="checkbox"
+                      className="checkbox checkbox-primary checkbox-sm mr-2"
+                      checked={selectedAmenities.includes(amenity)}
+                      onChange={() => toggleAmenity(amenity)}
+                    />
+                    <span className="label-text">{amenity}</span>
+                  </label>
+                ))}
+                {allAmenities.length === 0 && (
+                  <span className="text-sm text-base-content/50">
+                    选择门店后显示可用设施
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {/* 清空筛选按钮 */}
+            {(selectedRoomTypeName || selectedAmenities.length > 0) && (
+              <button
+                className="btn btn-outline btn-sm"
+                onClick={() => {
+                  setSelectedRoomTypeName('');
+                  setSelectedAmenities([]);
+                }}
+              >
+                清空筛选
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -242,9 +345,16 @@ export default function ClientHome() {
               </svg>
               <span>请选择入住和离店日期后查看可用房型</span>
             </div>
+          ) : filteredRoomTypes.length === 0 ? (
+            <div className="alert alert-warning">
+              <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+              <span>没有符合筛选条件的房型，请调整筛选条件</span>
+            </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {roomTypes.map((roomType) => (
+              {filteredRoomTypes.map((roomType) => (
                 <div key={roomType.id} className="card bg-base-100 shadow-lg">
                   <div className="card-body">
                     <h3 className="card-title">{roomType.name}</h3>
