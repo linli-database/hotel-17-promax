@@ -143,7 +143,6 @@ model BookingReview {
   id        String   @id @default(uuid())
   rating    Int      // 1-5 星
   comment   String?  // 文字评价
-  images    String[] // 图片 URL（可选）
 
   /* 必要外键：谁 + 哪单 */
   customerId String  // 评价人
