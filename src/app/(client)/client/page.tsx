@@ -21,6 +21,23 @@ type RoomType = {
   availableCount: number;
 };
 
+type StoreReview = {
+  id: string;
+  rating: number;
+  comment: string | null;
+  createdAt: string;
+  customerName: string;
+  booking: {
+    checkIn: string;
+    checkOut: string;
+    roomType: {
+      id: string;
+      name: string;
+      basePrice: string;
+    } | null;
+  } | null;
+};
+
 // 预定义的设施列表
 const DEFAULT_AMENITIES = [
   '空调',
@@ -74,6 +91,13 @@ export default function ClientHome() {
   const [showFilteredResults, setShowFilteredResults] = useState(false);
   const [filterLoading, setFilterLoading] = useState(false);
   const [allRoomTypeNames, setAllRoomTypeNames] = useState<string[]>([]);
+
+  // 评论弹窗状态
+  const [reviewModalStore, setReviewModalStore] = useState<Store | null>(null);
+  const [storeReviews, setStoreReviews] = useState<StoreReview[]>([]);
+  const [reviewPage, setReviewPage] = useState(1);
+  const [reviewTotal, setReviewTotal] = useState(0);
+  const [reviewLoading, setReviewLoading] = useState(false);
 
   // 获取当前用户
   useEffect(() => {
@@ -247,6 +271,30 @@ export default function ClientHome() {
   const handleClearFilter = () => {
     setShowFilteredResults(false);
     setFilteredStores([]);
+  };
+
+  // 加载门店评论
+  const loadStoreReviews = async (store: Store, page = 1) => {
+    if (!store || !store.id) {
+      setError('门店ID缺失');
+      return;
+    }
+    setReviewLoading(true);
+    try {
+      const res = await fetch(
+        `/api/stores/${encodeURIComponent(store.id)}/reviews?page=${page}&pageSize=5`
+      );
+      if (res.ok) {
+        const data = await res.json();
+        setStoreReviews(data.reviews || []);
+        setReviewTotal(data.total || 0);
+        setReviewPage(data.page || 1);
+      }
+    } catch (err) {
+      console.error('加载评论失败', err);
+    } finally {
+      setReviewLoading(false);
+    }
   };
 
   // 切换设施选择
@@ -444,7 +492,20 @@ export default function ClientHome() {
                     <div className="flex items-center gap-2 mt-2">
                       <StarRating rating={store.avgRating} />
                       <span className="text-sm font-semibold">{store.avgRating}</span>
-                      <span className="text-xs text-base-content/50">({store.reviewCount} 条评价)</span>
+                      {store.reviewCount > 0 ? (
+                        <button
+                          className="text-xs text-primary underline underline-offset-4"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setReviewModalStore(store);
+                            loadStoreReviews(store, 1);
+                          }}
+                        >
+                          {store.reviewCount} 条评价（点击查看）
+                        </button>
+                      ) : (
+                        <span className="text-xs text-base-content/50">暂无评价</span>
+                      )}
                     </div>
                   ) : (
                     <div className="text-xs text-base-content/50 mt-2">暂无评价</div>
@@ -552,6 +613,86 @@ export default function ClientHome() {
               ))}
             </div>
           )}
+        </div>
+      )}
+
+      {/* 门店评论弹窗 */}
+      {reviewModalStore && (
+        <div className="modal modal-open">
+          <div className="modal-box max-w-3xl">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="font-bold text-lg">{reviewModalStore.name} 的评论</h3>
+              <button
+                className="btn btn-ghost btn-sm"
+                onClick={() => {
+                  setReviewModalStore(null);
+                  setStoreReviews([]);
+                }}
+              >
+                关闭
+              </button>
+            </div>
+
+            {reviewLoading ? (
+              <div className="flex justify-center py-6">
+                <span className="loading loading-spinner loading-lg"></span>
+              </div>
+            ) : storeReviews.length === 0 ? (
+              <div className="alert alert-info">
+                <span>暂无评论</span>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {storeReviews.map((rev) => (
+                  <div key={rev.id} className="border border-base-200 rounded-lg p-4">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <StarRating rating={rev.rating} />
+                        <span className="text-sm text-base-content/70">{rev.customerName}</span>
+                      </div>
+                      <span className="text-xs text-base-content/50">
+                        {new Date(rev.createdAt).toLocaleString('zh-CN')}
+                      </span>
+                    </div>
+                    {rev.booking && (
+                      <div className="text-xs text-base-content/60 mt-1 space-y-0.5">
+                        <div>入住：{rev.booking.checkIn.split('T')[0]} 至 {rev.booking.checkOut.split('T')[0]}</div>
+                        {rev.booking.roomType && (
+                          <div>房型：{rev.booking.roomType.name} (¥{rev.booking.roomType.basePrice}/晚)</div>
+                        )}
+                      </div>
+                    )}
+                    {rev.comment && (
+                      <p className="mt-2 text-sm text-base-content/80 whitespace-pre-wrap">{rev.comment}</p>
+                    )}
+                  </div>
+                ))}
+
+                {/* 分页 */}
+                {reviewTotal > 5 && (
+                  <div className="flex items-center justify-between pt-2">
+                    <button
+                      className="btn btn-sm"
+                      disabled={reviewPage <= 1 || reviewLoading}
+                      onClick={() => loadStoreReviews(reviewModalStore, reviewPage - 1)}
+                    >
+                      上一页
+                    </button>
+                    <div className="text-sm text-base-content/60">
+                      第 {reviewPage} / {reviewTotal > 0 ? Math.ceil(reviewTotal / 5) : 1} 页
+                    </div>
+                    <button
+                      className="btn btn-sm"
+                      disabled={reviewPage >= (reviewTotal > 0 ? Math.ceil(reviewTotal / 5) : 1) || reviewLoading}
+                      onClick={() => loadStoreReviews(reviewModalStore, reviewPage + 1)}
+                    >
+                      下一页
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
         </div>
       )}
     </div>

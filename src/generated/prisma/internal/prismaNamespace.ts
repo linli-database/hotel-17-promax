@@ -1240,7 +1240,6 @@ export const BookingReviewScalarFieldEnum = {
   id: 'id',
   rating: 'rating',
   comment: 'comment',
-  images: 'images',
   customerId: 'customerId',
   bookingId: 'bookingId',
   storeId: 'storeId',

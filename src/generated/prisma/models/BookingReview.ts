@@ -60,7 +60,6 @@ export type BookingReviewCountAggregateOutputType = {
   id: number
   rating: number
   comment: number
-  images: number
   customerId: number
   bookingId: number
   storeId: number
@@ -104,7 +103,6 @@ export type BookingReviewCountAggregateInputType = {
   id?: true
   rating?: true
   comment?: true
-  images?: true
   customerId?: true
   bookingId?: true
   storeId?: true
@@ -203,7 +201,6 @@ export type BookingReviewGroupByOutputType = {
   id: string
   rating: number
   comment: string | null
-  images: string[]
   customerId: string
   bookingId: string
   storeId: string
@@ -238,7 +235,6 @@ export type BookingReviewWhereInput = {
   id?: Prisma.StringFilter<"BookingReview"> | string
   rating?: Prisma.IntFilter<"BookingReview"> | number
   comment?: Prisma.StringNullableFilter<"BookingReview"> | string | null
-  images?: Prisma.StringNullableListFilter<"BookingReview">
   customerId?: Prisma.StringFilter<"BookingReview"> | string
   bookingId?: Prisma.StringFilter<"BookingReview"> | string
   storeId?: Prisma.StringFilter<"BookingReview"> | string
@@ -253,7 +249,6 @@ export type BookingReviewOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   rating?: Prisma.SortOrder
   comment?: Prisma.SortOrderInput | Prisma.SortOrder
-  images?: Prisma.SortOrder
   customerId?: Prisma.SortOrder
   bookingId?: Prisma.SortOrder
   storeId?: Prisma.SortOrder
@@ -272,7 +267,6 @@ export type BookingReviewWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.BookingReviewWhereInput | Prisma.BookingReviewWhereInput[]
   rating?: Prisma.IntFilter<"BookingReview"> | number
   comment?: Prisma.StringNullableFilter<"BookingReview"> | string | null
-  images?: Prisma.StringNullableListFilter<"BookingReview">
   customerId?: Prisma.StringFilter<"BookingReview"> | string
   storeId?: Prisma.StringFilter<"BookingReview"> | string
   createdAt?: Prisma.DateTimeFilter<"BookingReview"> | Date | string
@@ -286,7 +280,6 @@ export type BookingReviewOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   rating?: Prisma.SortOrder
   comment?: Prisma.SortOrderInput | Prisma.SortOrder
-  images?: Prisma.SortOrder
   customerId?: Prisma.SortOrder
   bookingId?: Prisma.SortOrder
   storeId?: Prisma.SortOrder
@@ -306,7 +299,6 @@ export type BookingReviewScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"BookingReview"> | string
   rating?: Prisma.IntWithAggregatesFilter<"BookingReview"> | number
   comment?: Prisma.StringNullableWithAggregatesFilter<"BookingReview"> | string | null
-  images?: Prisma.StringNullableListFilter<"BookingReview">
   customerId?: Prisma.StringWithAggregatesFilter<"BookingReview"> | string
   bookingId?: Prisma.StringWithAggregatesFilter<"BookingReview"> | string
   storeId?: Prisma.StringWithAggregatesFilter<"BookingReview"> | string
@@ -318,7 +310,6 @@ export type BookingReviewCreateInput = {
   id?: string
   rating: number
   comment?: string | null
-  images?: Prisma.BookingReviewCreateimagesInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   customer: Prisma.CustomerCreateNestedOneWithoutReviewsInput
@@ -330,7 +321,6 @@ export type BookingReviewUncheckedCreateInput = {
   id?: string
   rating: number
   comment?: string | null
-  images?: Prisma.BookingReviewCreateimagesInput | string[]
   customerId: string
   bookingId: string
   storeId: string
@@ -342,7 +332,6 @@ export type BookingReviewUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   rating?: Prisma.IntFieldUpdateOperationsInput | number
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  images?: Prisma.BookingReviewUpdateimagesInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   customer?: Prisma.CustomerUpdateOneRequiredWithoutReviewsNestedInput
@@ -354,7 +343,6 @@ export type BookingReviewUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   rating?: Prisma.IntFieldUpdateOperationsInput | number
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  images?: Prisma.BookingReviewUpdateimagesInput | string[]
   customerId?: Prisma.StringFieldUpdateOperationsInput | string
   bookingId?: Prisma.StringFieldUpdateOperationsInput | string
   storeId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -366,7 +354,6 @@ export type BookingReviewCreateManyInput = {
   id?: string
   rating: number
   comment?: string | null
-  images?: Prisma.BookingReviewCreateimagesInput | string[]
   customerId: string
   bookingId: string
   storeId: string
@@ -378,7 +365,6 @@ export type BookingReviewUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   rating?: Prisma.IntFieldUpdateOperationsInput | number
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  images?: Prisma.BookingReviewUpdateimagesInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -387,7 +373,6 @@ export type BookingReviewUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   rating?: Prisma.IntFieldUpdateOperationsInput | number
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  images?: Prisma.BookingReviewUpdateimagesInput | string[]
   customerId?: Prisma.StringFieldUpdateOperationsInput | string
   bookingId?: Prisma.StringFieldUpdateOperationsInput | string
   storeId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -414,7 +399,6 @@ export type BookingReviewCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   rating?: Prisma.SortOrder
   comment?: Prisma.SortOrder
-  images?: Prisma.SortOrder
   customerId?: Prisma.SortOrder
   bookingId?: Prisma.SortOrder
   storeId?: Prisma.SortOrder
@@ -568,20 +552,10 @@ export type BookingReviewUncheckedUpdateOneWithoutBookingNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.BookingReviewUpdateToOneWithWhereWithoutBookingInput, Prisma.BookingReviewUpdateWithoutBookingInput>, Prisma.BookingReviewUncheckedUpdateWithoutBookingInput>
 }
 
-export type BookingReviewCreateimagesInput = {
-  set: string[]
-}
-
-export type BookingReviewUpdateimagesInput = {
-  set?: string[]
-  push?: string | string[]
-}
-
 export type BookingReviewCreateWithoutCustomerInput = {
   id?: string
   rating: number
   comment?: string | null
-  images?: Prisma.BookingReviewCreateimagesInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   booking: Prisma.BookingCreateNestedOneWithoutReviewInput
@@ -592,7 +566,6 @@ export type BookingReviewUncheckedCreateWithoutCustomerInput = {
   id?: string
   rating: number
   comment?: string | null
-  images?: Prisma.BookingReviewCreateimagesInput | string[]
   bookingId: string
   storeId: string
   createdAt?: Date | string
@@ -632,7 +605,6 @@ export type BookingReviewScalarWhereInput = {
   id?: Prisma.StringFilter<"BookingReview"> | string
   rating?: Prisma.IntFilter<"BookingReview"> | number
   comment?: Prisma.StringNullableFilter<"BookingReview"> | string | null
-  images?: Prisma.StringNullableListFilter<"BookingReview">
   customerId?: Prisma.StringFilter<"BookingReview"> | string
   bookingId?: Prisma.StringFilter<"BookingReview"> | string
   storeId?: Prisma.StringFilter<"BookingReview"> | string
@@ -644,7 +616,6 @@ export type BookingReviewCreateWithoutStoreInput = {
   id?: string
   rating: number
   comment?: string | null
-  images?: Prisma.BookingReviewCreateimagesInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   customer: Prisma.CustomerCreateNestedOneWithoutReviewsInput
@@ -655,7 +626,6 @@ export type BookingReviewUncheckedCreateWithoutStoreInput = {
   id?: string
   rating: number
   comment?: string | null
-  images?: Prisma.BookingReviewCreateimagesInput | string[]
   customerId: string
   bookingId: string
   createdAt?: Date | string
@@ -692,7 +662,6 @@ export type BookingReviewCreateWithoutBookingInput = {
   id?: string
   rating: number
   comment?: string | null
-  images?: Prisma.BookingReviewCreateimagesInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   customer: Prisma.CustomerCreateNestedOneWithoutReviewsInput
@@ -703,7 +672,6 @@ export type BookingReviewUncheckedCreateWithoutBookingInput = {
   id?: string
   rating: number
   comment?: string | null
-  images?: Prisma.BookingReviewCreateimagesInput | string[]
   customerId: string
   storeId: string
   createdAt?: Date | string
@@ -730,7 +698,6 @@ export type BookingReviewUpdateWithoutBookingInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   rating?: Prisma.IntFieldUpdateOperationsInput | number
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  images?: Prisma.BookingReviewUpdateimagesInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   customer?: Prisma.CustomerUpdateOneRequiredWithoutReviewsNestedInput
@@ -741,7 +708,6 @@ export type BookingReviewUncheckedUpdateWithoutBookingInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   rating?: Prisma.IntFieldUpdateOperationsInput | number
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  images?: Prisma.BookingReviewUpdateimagesInput | string[]
   customerId?: Prisma.StringFieldUpdateOperationsInput | string
   storeId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -752,7 +718,6 @@ export type BookingReviewCreateManyCustomerInput = {
   id?: string
   rating: number
   comment?: string | null
-  images?: Prisma.BookingReviewCreateimagesInput | string[]
   bookingId: string
   storeId: string
   createdAt?: Date | string
@@ -763,7 +728,6 @@ export type BookingReviewUpdateWithoutCustomerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   rating?: Prisma.IntFieldUpdateOperationsInput | number
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  images?: Prisma.BookingReviewUpdateimagesInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   booking?: Prisma.BookingUpdateOneRequiredWithoutReviewNestedInput
@@ -774,7 +738,6 @@ export type BookingReviewUncheckedUpdateWithoutCustomerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   rating?: Prisma.IntFieldUpdateOperationsInput | number
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  images?: Prisma.BookingReviewUpdateimagesInput | string[]
   bookingId?: Prisma.StringFieldUpdateOperationsInput | string
   storeId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -785,7 +748,6 @@ export type BookingReviewUncheckedUpdateManyWithoutCustomerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   rating?: Prisma.IntFieldUpdateOperationsInput | number
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  images?: Prisma.BookingReviewUpdateimagesInput | string[]
   bookingId?: Prisma.StringFieldUpdateOperationsInput | string
   storeId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -796,7 +758,6 @@ export type BookingReviewCreateManyStoreInput = {
   id?: string
   rating: number
   comment?: string | null
-  images?: Prisma.BookingReviewCreateimagesInput | string[]
   customerId: string
   bookingId: string
   createdAt?: Date | string
@@ -807,7 +768,6 @@ export type BookingReviewUpdateWithoutStoreInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   rating?: Prisma.IntFieldUpdateOperationsInput | number
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  images?: Prisma.BookingReviewUpdateimagesInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   customer?: Prisma.CustomerUpdateOneRequiredWithoutReviewsNestedInput
@@ -818,7 +778,6 @@ export type BookingReviewUncheckedUpdateWithoutStoreInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   rating?: Prisma.IntFieldUpdateOperationsInput | number
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  images?: Prisma.BookingReviewUpdateimagesInput | string[]
   customerId?: Prisma.StringFieldUpdateOperationsInput | string
   bookingId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -829,7 +788,6 @@ export type BookingReviewUncheckedUpdateManyWithoutStoreInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   rating?: Prisma.IntFieldUpdateOperationsInput | number
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  images?: Prisma.BookingReviewUpdateimagesInput | string[]
   customerId?: Prisma.StringFieldUpdateOperationsInput | string
   bookingId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -842,7 +800,6 @@ export type BookingReviewSelect<ExtArgs extends runtime.Types.Extensions.Interna
   id?: boolean
   rating?: boolean
   comment?: boolean
-  images?: boolean
   customerId?: boolean
   bookingId?: boolean
   storeId?: boolean
@@ -857,7 +814,6 @@ export type BookingReviewSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   id?: boolean
   rating?: boolean
   comment?: boolean
-  images?: boolean
   customerId?: boolean
   bookingId?: boolean
   storeId?: boolean
@@ -872,7 +828,6 @@ export type BookingReviewSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   id?: boolean
   rating?: boolean
   comment?: boolean
-  images?: boolean
   customerId?: boolean
   bookingId?: boolean
   storeId?: boolean
@@ -887,7 +842,6 @@ export type BookingReviewSelectScalar = {
   id?: boolean
   rating?: boolean
   comment?: boolean
-  images?: boolean
   customerId?: boolean
   bookingId?: boolean
   storeId?: boolean
@@ -895,7 +849,7 @@ export type BookingReviewSelectScalar = {
   updatedAt?: boolean
 }
 
-export type BookingReviewOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "rating" | "comment" | "images" | "customerId" | "bookingId" | "storeId" | "createdAt" | "updatedAt", ExtArgs["result"]["bookingReview"]>
+export type BookingReviewOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "rating" | "comment" | "customerId" | "bookingId" | "storeId" | "createdAt" | "updatedAt", ExtArgs["result"]["bookingReview"]>
 export type BookingReviewInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   booking?: boolean | Prisma.BookingDefaultArgs<ExtArgs>
@@ -926,7 +880,6 @@ export type $BookingReviewPayload<ExtArgs extends runtime.Types.Extensions.Inter
     id: string
     rating: number
     comment: string | null
-    images: string[]
     /**
      * 必要外键：谁 + 哪单
      */
@@ -1364,7 +1317,6 @@ export interface BookingReviewFieldRefs {
   readonly id: Prisma.FieldRef<"BookingReview", 'String'>
   readonly rating: Prisma.FieldRef<"BookingReview", 'Int'>
   readonly comment: Prisma.FieldRef<"BookingReview", 'String'>
-  readonly images: Prisma.FieldRef<"BookingReview", 'String[]'>
   readonly customerId: Prisma.FieldRef<"BookingReview", 'String'>
   readonly bookingId: Prisma.FieldRef<"BookingReview", 'String'>
   readonly storeId: Prisma.FieldRef<"BookingReview", 'String'>
