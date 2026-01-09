@@ -92,7 +92,7 @@ export default function ClientLayout({ children }: { children: ReactNode }) {
               {/* 桌面端用户菜单 */}
               <div className="dropdown dropdown-end hidden lg:block">
                 <label tabIndex={0} className="btn btn-ghost btn-circle avatar placeholder">
-                  <div className="bg-primary text-primary-content rounded-full w-10">
+                  <div className="bg-primary text-primary-content rounded-full w-10 h-10 flex items-center justify-center leading-none">
                     <span className="text-xl">{user.name?.[0] || user.email[0].toUpperCase()}</span>
                   </div>
                 </label>
@@ -147,7 +147,7 @@ export default function ClientLayout({ children }: { children: ReactNode }) {
       <div className="lg:hidden fixed bottom-0 left-0 right-0 h-20"></div> {/* 为底部导航预留空间 */}
       <BottomNav />
       
-      <footer className="footer footer-center p-10 bg-base-100 text-base-content mt-12 hidden lg:block">
+      {/* <footer className="footer footer-center p-10 bg-base-100 text-base-content mt-12 hidden lg:block">
         <aside>
           <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
@@ -158,7 +158,7 @@ export default function ClientLayout({ children }: { children: ReactNode }) {
           <p>为您提供优质的住宿体验</p>
           <p>Copyright © 2025 - All rights reserved</p>
         </aside>
-      </footer>
+      </footer> */}
     </div>
   );
 }

@@ -331,11 +331,6 @@ export default function ClientHome() {
 
   return (
     <div className="space-y-8">
-      <div className="text-center">
-        <h1 className="text-3xl font-bold text-primary mb-2">欢迎来到酒店预约系统</h1>
-        <p className="text-base-content/70">选择您喜欢的门店和房型，开始您的旅程</p>
-      </div>
-
       {/* 日期选择 */}
       <div className="card bg-base-100 shadow-lg">
         <div className="card-body">
@@ -488,24 +483,22 @@ export default function ClientHome() {
                   <p className="text-sm text-base-content/70">{store.address || '暂无地址'}</p>
                   
                   {/* 评分显示 */}
-                  {store.avgRating !== null && store.avgRating > 0 ? (
+                  {store.reviewCount > 0 ? (
                     <div className="flex items-center gap-2 mt-2">
-                      <StarRating rating={store.avgRating} />
-                      <span className="text-sm font-semibold">{store.avgRating}</span>
-                      {store.reviewCount > 0 ? (
-                        <button
-                          className="text-xs text-primary underline underline-offset-4"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setReviewModalStore(store);
-                            loadStoreReviews(store, 1);
-                          }}
-                        >
-                          {store.reviewCount} 条评价（点击查看）
-                        </button>
-                      ) : (
-                        <span className="text-xs text-base-content/50">暂无评价</span>
-                      )}
+                      <StarRating rating={store.avgRating ?? 0} />
+                      <span className="text-sm font-semibold">
+                        {store.avgRating ?? '暂无评分'}
+                      </span>
+                      <button
+                        className="text-xs text-primary underline underline-offset-4"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setReviewModalStore(store);
+                          loadStoreReviews(store, 1);
+                        }}
+                      >
+                        {store.reviewCount} 条评价（点击查看）
+                      </button>
                     </div>
                   ) : (
                     <div className="text-xs text-base-content/50 mt-2">暂无评价</div>

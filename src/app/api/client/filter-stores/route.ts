@@ -94,7 +94,7 @@ export async function POST(req: NextRequest) {
             id: store.id,
             name: store.name,
             address: store.address,
-            avgRating: avgRating > 0 ? Number(avgRating.toFixed(1)) : null,
+            avgRating: reviews.length > 0 ? Number(avgRating.toFixed(1)) : null,
             reviewCount: reviews.length,
             roomTypes: roomTypesWithCount,
           };
