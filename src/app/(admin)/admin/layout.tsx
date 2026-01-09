@@ -170,7 +170,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
             <div className="dropdown dropdown-end">
               <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                 <div className="avatar placeholder">
-                  <div className="bg-primary text-primary-content rounded-full w-8">
+                  <div className="bg-primary text-primary-content rounded-full w-8 h-8 flex items-center justify-center leading-none">
                     <span className="text-sm font-medium">{user.name?.[0] || user.email[0].toUpperCase()}</span>
                   </div>
                 </div>

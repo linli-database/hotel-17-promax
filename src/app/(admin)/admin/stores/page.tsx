@@ -261,7 +261,7 @@ export default function StoresManagementPage() {
                       <td>
                         <div className="flex items-center gap-3">
                           <div className={`avatar placeholder ${store.isActive ? 'online' : 'offline'}`}>
-                            <div className="bg-emerald-500/20 text-emerald-600 rounded-lg w-10 h-10">
+                            <div className="bg-emerald-500/20 text-emerald-600 rounded-lg w-10 h-10 flex items-center justify-center leading-none">
                               <span className="text-lg">{store.name.charAt(0)}</span>
                             </div>
                           </div>
